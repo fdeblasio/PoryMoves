@@ -841,7 +841,7 @@ namespace moveParser.data
                                 {
                                     TMMoves.Add(MoveData[movename]);
                                 }
-                                catch (Exception ex)
+                                catch (Exception)
                                 {
                                     MessageBox.Show("There's no move data in db/moveNames.json for " + movename + ". Skipping move.", "Missing Data", MessageBoxButtons.OK);
                                 }

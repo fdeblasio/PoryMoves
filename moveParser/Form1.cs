@@ -33,14 +33,6 @@ namespace moveParser
         protected Dictionary<string, GenerationData> GenData;
         protected Dictionary<string, Move> MoveData;
 
-        enum MoveCombination
-        {
-            LatestPlus,
-            UseLatest,
-            Combine,
-            CombineMax,
-        }
-
         public Form1()
         {
             InitializeComponent();
@@ -50,22 +42,12 @@ namespace moveParser
             LoadGenerationData();
             if (cmbGeneration.Items.Count > 0)
                 cmbGeneration.SelectedIndex = 0;
-            LoadExportModes();
 #if DEBUG
             cmbGeneration.Visible = true;
             btnLoadFromSerebii.Visible = true;
 #endif
 
             MoveData = MovesData.GetMoveDataFromFile(dbpath + "/moveNames.json");
-        }
-
-        protected void LoadExportModes()
-        {
-            cmbLvl_Combine.Items.Insert((int)MoveCombination.LatestPlus, "Latest + Removed");
-            cmbLvl_Combine.Items.Insert((int)MoveCombination.UseLatest, "Use Latest Moveset");
-            cmbLvl_Combine.Items.Insert((int)MoveCombination.Combine, "Combine Movesets (Avg)");
-            cmbLvl_Combine.Items.Insert((int)MoveCombination.CombineMax, "Combine Movesets (Max)");
-            cmbLvl_Combine.SelectedIndex = 0;
         }
 
         protected void LoadGenerationData()
@@ -81,7 +63,6 @@ namespace moveParser
             cListLevelUp.Items.Clear();
             cListTMMoves.Items.Clear();
             cListEggMoves.Items.Clear();
-            cListTutorMoves.Items.Clear();
             int count = 0;
             foreach (KeyValuePair<string, GenerationData> item in GenData)
             {
@@ -89,7 +70,6 @@ namespace moveParser
                 cListLevelUp.Items.Add(item.Key);
                 cListTMMoves.Items.Add(item.Key);
                 cListEggMoves.Items.Add(item.Key);
-                cListTutorMoves.Items.Add(item.Key);
                 switch (item.Value.lvlUpColumn)
                 {
                     case "SV":
@@ -98,12 +78,10 @@ namespace moveParser
                         cListLevelUp.SetItemChecked(count, true);
                         cListTMMoves.SetItemChecked(count, true);
                         cListEggMoves.SetItemChecked(count, true);
-                        cListTutorMoves.SetItemChecked(count, true);
                         break;
                     case "RSE":
                         cListTMMoves.SetItemChecked(count, true);
                         cListEggMoves.SetItemChecked(count, true);
-                        cListTutorMoves.SetItemChecked(count, true);
                         break;
                 }
 
@@ -298,9 +276,6 @@ namespace moveParser
 
                 btnEgg_All.Enabled = value;
                 btnExportEgg.Enabled = value;
-
-                btnExportTutor.Enabled = value;
-                btnTutor_All.Enabled = value;
             });
         }
 
@@ -318,7 +293,6 @@ namespace moveParser
             {
                 cListLevelUp.Enabled = value;
                 cListTMMoves.Enabled = value;
-                cListTutorMoves.Enabled = value;
                 cListEggMoves.Enabled = value;
             });
         }
@@ -328,15 +302,10 @@ namespace moveParser
             this.Invoke((MethodInvoker)delegate
             {
                 chkLvl_PreEvo.Enabled = value;
-                cmbLvl_Combine.Enabled = value;
 
                 chkTM_IncludeEgg.Enabled = value;
                 chkTM_IncludeLvl.Enabled = value;
                 chkTM_IncludeTutor.Enabled = value;
-
-                chkTutor_IncludeLvl.Enabled = value;
-                chkTutor_IncludeEgg.Enabled = value;
-                chkTutor_IncludeTM.Enabled = value;
 
                 chkEgg_IncludeLvl.Enabled = value;
                 chkEgg_IncludeTM.Enabled = value;
@@ -365,12 +334,6 @@ namespace moveParser
         }
         private void bwrkExportLvl_DoWork(object sender, DoWorkEventArgs e)
         {
-            MoveCombination mode = MoveCombination.UseLatest;
-            this.Invoke((MethodInvoker)delegate
-            {
-                mode = (MoveCombination)this.cmbLvl_Combine.SelectedIndex;
-            });
-
             UpdateLoadingMessage("Grouping movesets...");
             string namesFile = dbpath + "/monNames.json";
             List<MonName> nameList = PokemonData.GetMonNamesFromFile(namesFile);
@@ -405,19 +368,6 @@ namespace moveParser
                 {
                     GenerationData gen = GenData[item];
                     MonData mon = new MonData();
-                    try
-                    {
-                        mon = allGensData[item][name.DefName];
-                        if (mode == MoveCombination.UseLatest
-                            && allGensData[item][name.DefName].TotalMoveCount() != 0
-                            && gen.gameId != 19) // Exclude PLA movesets from "Latest Moveset Only" config
-                        {
-                            stopReading = true;
-                        }
-                    }
-                    catch (KeyNotFoundException)
-                    {
-                    }
 
                     foreach (LevelUpMove move in mon.LevelMoves)
                     {
@@ -433,15 +383,8 @@ namespace moveParser
                         }
                         else
                         {
-                            if (mode == MoveCombination.LatestPlus)
-                            {
-                                if (AddMove(evoMoves, lvl1Moves, OtherLvlMoves, move.Move))
-                                    OtherLvlMoves.Add(move.Move, new List<Tuple<int, int>> { new Tuple<int, int>(gen.genNumber, move.Level) });
-                            }
-                            else if (!OtherLvlMoves.ContainsKey(move.Move))
+                            if (AddMove(evoMoves, lvl1Moves, OtherLvlMoves, move.Move))
                                 OtherLvlMoves.Add(move.Move, new List<Tuple<int, int>> { new Tuple<int, int>(gen.genNumber, move.Level) });
-                            else
-                                OtherLvlMoves[move.Move].Add(new Tuple<int, int>(gen.genNumber, move.Level));
                         }
                     }
                     foreach(string pem in mon.PreEvoMoves)
@@ -476,29 +419,15 @@ namespace moveParser
                 {
                     foreach (KeyValuePair<string, List<Tuple<int, int>>> item in OtherLvlMoves)
                     {
-                        if (mode == MoveCombination.CombineMax)
+                        int weightedSum = 0;
+                        int sum = 0;
+
+                        foreach (Tuple<int, int> l in item.Value)
                         {
-                            int max = 0;
-
-                            foreach (Tuple<int, int> l in item.Value)
-                            {
-                                max = Math.Max(max, l.Item2);
-                            }
-                            monToAdd.LevelMoves.Add(new LevelUpMove(Math.Max(max, 2), item.Key));
+                            weightedSum += l.Item1 * l.Item2;
+                            sum += l.Item1;
                         }
-                        else
-                        {
-
-                            int weightedSum = 0;
-                            int sum = 0;
-
-                            foreach (Tuple<int, int> l in item.Value)
-                            {
-                                weightedSum += l.Item1 * l.Item2;
-                                sum += l.Item1;
-                            }
-                            monToAdd.LevelMoves.Add(new LevelUpMove(Math.Max((int)(weightedSum / sum), 2), item.Key));
-                        }
+                        monToAdd.LevelMoves.Add(new LevelUpMove(Math.Max((int)(weightedSum / sum), 2), item.Key));
                     }
                 }
                 monToAdd.LevelMoves = monToAdd.LevelMoves.OrderBy(o => o.Level).ToList();
@@ -851,226 +780,6 @@ namespace moveParser
             }
         }
 
-        private void btnTutor_All_Click(object sender, EventArgs e)
-        {
-            if (btnTutor_All.Text.Equals("Select All"))
-            {
-                for (int i = 0; i < cListTutorMoves.Items.Count; ++i)
-                    cListTutorMoves.SetItemChecked(i, true);
-                btnTutor_All.Text = "Deselect All";
-            }
-            else
-            {
-                for (int i = 0; i < cListTutorMoves.Items.Count; ++i)
-                    cListTutorMoves.SetItemChecked(i, false);
-                btnTutor_All.Text = "Select All";
-            }
-        }
-
-        private void bwrkExportTutor_DoWork(object sender, DoWorkEventArgs e)
-        {
-            UpdateLoadingMessage("Grouping movesets...");
-            string namesFile = dbpath + "/monNames.json";
-            List<MonName> nameList = PokemonData.GetMonNamesFromFile(namesFile);
-
-            Dictionary<string, List<string>> lvlMoves = new Dictionary<string, List<string>>();
-
-            customGenData.Clear();
-
-            int i = 0;
-            int namecount = nameList.Count;
-            foreach (MonName name in nameList)
-            {
-                MonData monToAdd = new MonData();
-                monToAdd.TutorMoves = new List<string>();
-                lvlMoves.Add(name.DefName, new List<string>());
-
-                foreach (string item in cListTutorMoves.CheckedItems)
-                {
-                    GenerationData gen = GenData[item];
-                    MonData mon;
-                    try
-                    {
-                        mon = allGensData[item][name.DefName];
-                    }
-                    catch (KeyNotFoundException)
-                    {
-                        mon = new MonData();
-                    }
-                    foreach (string move in mon.TutorMoves)
-                        monToAdd.TutorMoves.Add(move);
-                    if (chkTutor_IncludeLvl.Checked)
-                    {
-                        foreach (LevelUpMove move in mon.LevelMoves)
-                            lvlMoves[name.DefName].Add(move.Move);
-                    }
-                    if (chkTutor_IncludeEgg.Checked)
-                    {
-                        foreach (string move in mon.EggMoves)
-                            monToAdd.EggMoves.Add(move);
-                    }
-                    if (chkTutor_IncludeTM.Checked)
-                    {
-                        foreach (string move in mon.TMMoves)
-                            monToAdd.TMMoves.Add(move);
-                    }
-
-
-                }
-                monToAdd.TutorMoves = monToAdd.TutorMoves.GroupBy(elem => elem).Select(group => group.First()).ToList();
-
-                customGenData.Add(name.DefName, monToAdd);
-
-                i++;
-                int percent = i * 100 / namecount;
-                bwrkExportTutor.ReportProgress(percent);
-            }
-
-            // load specified tutor list
-            List<string> tutorMovesTemp = new List<string>();
-            if (Directory.Exists("input") && File.Exists("input/tutor.txt"))
-                tutorMovesTemp = File.ReadAllLines("input/tutor.txt").ToList();
-            List<string> tutorMoves = new List<string>();
-            
-            string writeText = "";
-            foreach (string str in tutorMovesTemp)
-            {
-                writeText += str + "\n";
-                if (!str.Trim().Equals("") && !str.Trim().StartsWith("//"))
-                    tutorMoves.Add(str);
-            }
-
-            List<string> tmMovesTemp = new List<string>();
-            if (Directory.Exists("input") && File.Exists("input/tm.txt"))
-                tmMovesTemp = File.ReadAllLines("input/tm.txt").ToList();
-            List<string> tmMoves = new List<string>();
-
-            foreach (string str in tmMovesTemp)
-            {
-                if (!str.Trim().Equals("") && !str.Trim().StartsWith("//"))
-                    tmMoves.Add(str);
-            }
-#if DEBUG
-            File.WriteAllText("../../input/tutor.txt", writeText);
-#endif
-
-            // build importable tutor list
-            string tutors = "// IMPORTANT: DO NOT PASTE THIS FILE INTO YOUR REPO!\n// Instead, paste the following list of defines into include/constants/party_menu.h\n\n";
-            for (int j = 0; j < tutorMoves.Count; j++)
-            {
-                string move = tutorMoves[j];
-                tutors += $"#define TUTOR_{move,-22} {j,3}\n";
-            }
-            tutors += $"#define TUTOR_MOVE_COUNT             {tutorMoves.Count,3}";
-            File.WriteAllText("output/party_menu_tutor_list.h", tutors);
-
-            string sets = "static const u16 sNoneTeachableLearnset[] = {\n    MOVE_UNAVAILABLE,\n};\n";
-
-            i = 1;
-            string currentFamily = "";
-            // iterate over mons
-            foreach (MonName entry in nameList)
-            {
-                if (chkVanillaMode.Checked)
-                {
-                    switch (entry.DefName)
-                    {
-                        case "DEOXYS_NORMAL":
-                            entry.DefName = "DEOXYS";
-                            entry.VarName = "Deoxys";
-                            break;
-                    }
-                }
-                MonData data = customGenData[entry.DefName];
-
-                if (currentFamily != entry.FamilyName)
-                {
-                    currentFamily = entry.FamilyName;
-                    sets += $"\n#if P_FAMILY_{currentFamily}";
-                }
-
-                // begin learnset
-                if (!entry.usesBaseFormLearnset)
-                {
-                    List<string> teachableLearnsets = new List<string>();
-
-                    sets += $"\nstatic const u16 s{entry.VarName}TeachableLearnset[] = {{\n";
-
-                    foreach (string move in lvlMoves[entry.DefName])
-                        if (!teachableLearnsets.Contains(move) && !FrankDexit(move))
-                            teachableLearnsets.Add(move);
-
-                    foreach (string move in data.TMMoves)
-                        if (!teachableLearnsets.Contains(move) && !FrankDexit(move))
-                            teachableLearnsets.Add(move);
-
-                    foreach (string move in data.EggMoves)
-                        if (!teachableLearnsets.Contains(move) && !FrankDexit(move))
-                            teachableLearnsets.Add(move);
-
-                    foreach (string move in data.TutorMoves)
-                        if (!teachableLearnsets.Contains(move) && !FrankDexit(move))
-                            teachableLearnsets.Add(move);
-
-                    foreach (string tutorMove in tutorMoves)
-                    {
-                        // Adds Tutor move if it's Mew.
-                        if (!teachableLearnsets.Contains(tutorMove) && !FrankDexit(tutorMove) && CanMewLearnMove(entry.NatDexNum, tutorMove))
-                            teachableLearnsets.Add(tutorMove);
-                    }
-
-                    if (chkTutor_IncludeTM.Checked)
-                    {
-                        // Include universal TM moves
-                        foreach (string tmMove in tmMoves)
-                        {
-                            string move = "MOVE_" + tmMove;
-
-                            // Adds TM if it's Mew
-                            if (!teachableLearnsets.Contains(move) && CanMewLearnMove(entry.NatDexNum, move))
-                                teachableLearnsets.Add(move);
-                        }
-                    }
-
-                    // Order alphabetically
-                    teachableLearnsets = teachableLearnsets.OrderBy(x => x).ToList();
-
-                    foreach (string move in teachableLearnsets)
-                    {
-                        //Gender-unknown and Nincada's family shouldn't learn Attract.)
-                        if (!((entry.isGenderless || entry.NatDexNum == 290 || entry.NatDexNum == 291) && move.Equals("MOVE_ATTRACT")) && !IsMoveUniversal(move))
-                            sets += $"    {move},\n";
-                    }
-                    sets += "    MOVE_UNAVAILABLE,\n};\n";
-                }
-
-                int percent = i * 100 / namecount;
-                bwrkExportTutor.ReportProgress(percent);
-                // Set the text.
-                UpdateLoadingMessage(i.ToString() + " out of " + namecount + " Tutor movesets exported.");
-                i++;
-            }
-
-            sets = replaceOldDefines(sets);
-
-            // write to file
-            File.WriteAllText("output/teachable_learnsets.h", sets);
-
-            bwrkExportTutor.ReportProgress(0);
-            // Set the text.
-            UpdateLoadingMessage(namecount + " Tutor movesets exported.");
-
-            MessageBox.Show("Teachable moves exported to \"output/teachable_learnsets.h\"", "Success!", MessageBoxButtons.OK);
-
-            SetEnableForAllElements(true);
-        }
-
-        private void btnExportTutor_Click(object sender, EventArgs e)
-        {
-            SetEnableForAllElements(false);
-            bwrkExportTutor.RunWorkerAsync();
-        }
-
         private void btnExportEgg_Click(object sender, EventArgs e)
         {
             SetEnableForAllElements(false);
@@ -1247,13 +956,6 @@ namespace moveParser
             chkTM_IncludeTutor.Checked = true;
         }
 
-        private void cmbTutor_ExportMode_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            chkTutor_IncludeEgg.Checked = true;
-            chkTutor_IncludeLvl.Checked = true;
-            chkTutor_IncludeTM.Checked = true;
-        }
-
         private bool CanMewLearnMove(int natDexNum, string move)
         {
             if (natDexNum != 151)
@@ -1331,11 +1033,6 @@ namespace moveParser
                 return true;
             else
                 return false;
-        }
-
-        private void cmbLvl_Combine_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
