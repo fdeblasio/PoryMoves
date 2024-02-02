@@ -103,8 +103,8 @@ In Generation 8+, moves learned by previous evolutions but not by future evoluti
 
 #### Use Latest Moveset vs Combine Movesets
 The option "Use Latest Moveset" will export the latest moveset available of each Pokémon. For example, if Generation 1-9 are selected, Arctozolt will get the moveset from SwSh, which was the latest game it was available in.
-The option "Combine Movesets(Avg)" will combine all movesets selected into a single one, averaging their levels. This averaging doesn't include evolution, pre-evo or level 1 moves, which are added at the beginning of the list. This was always active for versions 1.0.0-1.4.0.
-The option "Combine Movesets(Max)" will also combine all movesets selected into a single one, with each move added on their highest level among the selected generations. This also doesn't include evolution, pre-evo or level 1 moves, which are added at the beginning of the list.
+The option "Combine Movesets (Avg)" will combine all movesets selected into a single one, averaging their levels. This averaging doesn't include evolution, pre-evo or level 1 moves, which are added at the beginning of the list. This was always active for versions 1.0.0-1.4.0.
+The option "Combine Movesets (Max)" will also combine all movesets selected into a single one, with each move added on their highest level among the selected generations. This also doesn't include evolution, pre-evo or level 1 moves, which are added at the beginning of the list.
 
 #### Align moves to name
 
@@ -164,18 +164,12 @@ PoryMoves generates a file that says
 
 . This needs to be done manually, following [these instructions from Lunos](https://www.pokecommunity.com/showpost.php?p=10140674&postcount=60).
 
-
-# Donations
-
-If you got some use out of this feature, please consider donating. We are currently not taking any donations, so please donate to some of our favorite charities.
-
-- [Direct Relief](https://www.charitynavigator.org/ein/951831116)
-- [Doctors Without Borders, USA](https://www.charitynavigator.org/ein/133433452)
-- [The Climate Reality Project](https://www.charitynavigator.org/ein/870745629)
-
-
 # Contributors
 
+
+## [AsparagusEduardo](https://github.com/AsparagusEduardo)
+
+- Provided the original code for PoryMoves
 
 ## [MandL27](https://github.com/MandL27)
 
