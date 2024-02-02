@@ -1133,7 +1133,7 @@ namespace moveParser
                 if (entry.CanHatchFromEgg && data.EggMoves.Count > 0)
                 {
                     // begin learnset
-                    sets += $"    egg_moves({entry.DefName},\n";
+                    sets += $"#if P_FAMILY_{entry.DefName}\n    egg_moves({entry.DefName},\n";
                     // hacky workaround for first move being on the same line
                     int eggm = 1;
                     foreach (string move in data.EggMoves)
@@ -1144,7 +1144,7 @@ namespace moveParser
                         sets += ",\n";
                         eggm++;
                     }
-                    sets += "\n";
+                    sets += $"#endif //P_FAMILY_{entry.DefName}\n\n";
                 }
 
                 int percent = i * 100 / namecount;

@@ -29,6 +29,7 @@ namespace moveParser.data
         public string SpeciesName;
         public bool IsBaseForm;
         public bool CanHatchFromEgg;
+        public bool IsFamilyName;
         public string FormName;
         public string VarName;
         public string DefName;
