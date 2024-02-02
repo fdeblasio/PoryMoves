@@ -17,24 +17,6 @@
     "serebiiMoveTutorTitleAlt": null,
     "serebiiLocationsName": null
   },
-  "LA": {
-    "gameId": 19,
-    "genNumber": 8,
-    "genNumberRoman": "VIII",
-    "isLatestGen": false,
-    "dbFilename": "la",
-    "gameFullName": "Pokémon Legends: Arceus",
-    "gameAvailableName": "Legends: Arceus",
-    "gameNameAlt1": null,
-    "lvlUpColumn": "LA",
-    "moveTutorColumn": 0,
-    "maxDexNum": 905,
-    "serebiiDexURL": "-swsh",
-    "serebiiLevelUpTitle": null,
-    "serebiiMoveTutorTitle": null,
-    "serebiiMoveTutorTitleAlt": null,
-    "serebiiLocationsName": null
-  },
   "BDSP": {
     "gameId": 18,
     "genNumber": 8,
@@ -70,24 +52,6 @@
     "serebiiMoveTutorTitle": "Move Tutor Attacks",
     "serebiiMoveTutorTitleAlt": "Isle of Armor Move Tutor Attacks",
     "serebiiLocationsName": "Sword"
-  },
-  "LGPE": {
-    "gameId": 16,
-    "genNumber": 7,
-    "genNumberRoman": "VII",
-    "isLatestGen": false,
-    "dbFilename": "lgpe",
-    "gameFullName": "Pokémon: Let's Go, Pikachu! and Let's Go, Eevee!",
-    "gameAvailableName": "Let's Go Pikachu/Let's Go Eevee",
-    "gameNameAlt1": null,
-    "lvlUpColumn": "LGPE",
-    "moveTutorColumn": 2,
-    "maxDexNum": 809,
-    "serebiiDexURL": null,
-    "serebiiLevelUpTitle": null,
-    "serebiiMoveTutorTitle": null,
-    "serebiiMoveTutorTitleAlt": null,
-    "serebiiLocationsName": null
   },
   "USUM": {
     "gameId": 15,

@@ -83,6 +83,7 @@ namespace moveParser
             cListTMMoves.Items.Clear();
             cListEggMoves.Items.Clear();
             cListTutorMoves.Items.Clear();
+            int count = 0;
             foreach (KeyValuePair<string, GenerationData> item in GenData)
             {
                 cmbGeneration.Items.Add(item.Key);
@@ -90,10 +91,23 @@ namespace moveParser
                 cListTMMoves.Items.Add(item.Key);
                 cListEggMoves.Items.Add(item.Key);
                 cListTutorMoves.Items.Add(item.Key);
+                switch (item.Value.lvlUpColumn)
+                {
+                    case "SV":
+                    case "SwSh":
+                    case "USUM":
+                    case "RSE":
+                        cListLevelUp.SetItemChecked(count, true);
+                        cListTMMoves.SetItemChecked(count, true);
+                        cListEggMoves.SetItemChecked(count, true);
+                        cListTutorMoves.SetItemChecked(count, true);
+                        break;
+                }
 
                 Dictionary<string, MonData> gen = PokemonData.GetMonDataFromFile(dbpath + "/gen/" + item.Value.dbFilename + ".json");
-
                 allGensData.Add(item.Key, gen);
+
+                count++;
             }
             //cListLevelUp.SetItemChecked(0, true);
         }
@@ -521,11 +535,7 @@ namespace moveParser
                 Directory.CreateDirectory("output");
 
             // file header
-            string sets = "";
-            if (!chkVanillaMode.Checked)
-                sets += "#define LEVEL_UP_MOVE(lvl, moveLearned) {.move = moveLearned, .level = lvl}\n";
-            else
-                sets += "#define LEVEL_UP_MOVE(lvl, move) ((lvl << 9) | move)\n";
+            string sets = "#define LEVEL_UP_MOVE(lvl, moveLearned) {.move = moveLearned, .level = lvl}\n";
             sets += "#define LEVEL_UP_END {.move = LEVEL_UP_MOVE_END, .level = 0}\n";
 
             // iterate over mons
@@ -553,10 +563,7 @@ namespace moveParser
                 // begin learnset
                 if (!name.usesBaseFormLearnset)
                 {
-                    if (!chkVanillaMode.Checked)
-                        sets += $"\nstatic const struct LevelUpMove s{name.VarName}LevelUpLearnset[] = {{\n";
-                    else
-                        sets += $"\nstatic const u16 s{name.VarName}LevelUpLearnset[] = {{\n";
+                    sets += $"\nstatic const struct LevelUpMove s{name.VarName}LevelUpLearnset[] = {{\n";
 
                     if (mon.LevelMoves.Count == 0)
                         sets += "    LEVEL_UP_MOVE( 1, MOVE_POUND),\n";
@@ -574,8 +581,7 @@ namespace moveParser
                 UpdateLoadingMessage(i.ToString() + " out of " + namecount + " Level Up movesets exported.");
                 i++;
             }
-            if (!chkVanillaMode.Checked)
-                sets = replaceOldDefines(sets);
+            sets = replaceOldDefines(sets);
 
             // write to file
             File.WriteAllText("output/level_up_learnsets.h", sets);
@@ -1035,8 +1041,7 @@ namespace moveParser
                 i++;
             }
 
-            if (!chkVanillaMode.Checked)
-                sets = replaceOldDefines(sets);
+            sets = replaceOldDefines(sets);
 
             // write to file
             File.WriteAllText("output/teachable_learnsets.h", sets);
@@ -1178,9 +1183,7 @@ namespace moveParser
             }
 
             sets += "    EGG_MOVES_TERMINATOR\n};\n";
-
-            if (!chkVanillaMode.Checked)
-                sets = replaceOldDefines(sets);
+            sets = replaceOldDefines(sets);
 
             // write to file
             File.WriteAllText("output/egg_moves.h", sets);
