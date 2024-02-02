@@ -29,10 +29,11 @@ namespace moveParser.data
         public string SpeciesName;
         public bool IsBaseForm;
         public bool CanHatchFromEgg;
-        public bool IsFamilyName;
         public string FormName;
         public string VarName;
         public string DefName;
+        public string FamilyName;
+        public bool FamilyEnd;
         public int? minGameId;
         public string SerebiiFormName;
         public string SerebiiFormNameAlt;

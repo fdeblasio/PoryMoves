@@ -517,8 +517,9 @@ namespace moveParser
             string sets = "#define LEVEL_UP_MOVE(lvl, moveLearned) {.move = moveLearned, .level = lvl}\n";
             sets += "#define LEVEL_UP_END {.move = LEVEL_UP_MOVE_END, .level = 0}\n\nstatic const struct LevelUpMove sNoneLevelUpLearnset[] = {\n    LEVEL_UP_MOVE(1, MOVE_POUND),\n    LEVEL_UP_END\n};\n";
 
-            // iterate over mons
             i = 1;
+            string currentFamily = "";
+            // iterate over mons
             foreach (MonName name in nameList)
             {
                 MonData mon = new MonData();
@@ -539,6 +540,13 @@ namespace moveParser
                             break;
                     }
                 }
+
+                if (currentFamily != name.FamilyName)
+                {
+                    currentFamily = name.FamilyName;
+                    sets += $"\n#if P_FAMILY_{currentFamily}";
+                }
+
                 // begin learnset
                 if (!name.usesBaseFormLearnset)
                 {
@@ -553,6 +561,8 @@ namespace moveParser
                     }
                     sets += "    LEVEL_UP_END\n};\n";
                 }
+                if (name.FamilyEnd)
+                    sets += $"#endif //P_FAMILY_{name.FamilyName}\n";
 
                 int percent = i * 100 / namecount;
                 bwrkExportLvl.ReportProgress(percent);
@@ -683,6 +693,7 @@ namespace moveParser
             string sets = "static const u16 sNoneTeachableLearnset[] = {\n    MOVE_UNAVAILABLE,\n};\n";
 
             i = 1;
+            string currentFamily = "";
             // iterate over mons
             foreach (MonName entry in nameList)
             {
@@ -697,6 +708,13 @@ namespace moveParser
                     }
                 }
                 MonData data = customGenData[entry.DefName];
+
+                if (currentFamily != entry.FamilyName)
+                {
+                    currentFamily = entry.FamilyName;
+                    sets += $"\n#if P_FAMILY_{currentFamily}";
+                }
+
                 // begin learnset
                 if (!entry.usesBaseFormLearnset)
                 {
@@ -750,6 +768,8 @@ namespace moveParser
                             sets += $"    {move},\n";
                     }
                     sets += "    MOVE_UNAVAILABLE,\n};\n";
+                    if (entry.FamilyEnd)
+                        sets += $"#endif //P_FAMILY_{entry.FamilyName}\n";
                 }
 
                 int percent = i * 100 / namecount;
@@ -945,9 +965,10 @@ namespace moveParser
             File.WriteAllText("output/party_menu_tutor_list.h", tutors);
 
             string sets = "static const u16 sNoneTeachableLearnset[] = {\n    MOVE_UNAVAILABLE,\n};\n";
-            // iterate over mons
-            i = 1;
 
+            i = 1;
+            string currentFamily = "";
+            // iterate over mons
             foreach (MonName entry in nameList)
             {
                 if (chkVanillaMode.Checked)
@@ -961,6 +982,13 @@ namespace moveParser
                     }
                 }
                 MonData data = customGenData[entry.DefName];
+
+                if (currentFamily != entry.FamilyName)
+                {
+                    currentFamily = entry.FamilyName;
+                    sets += $"\n#if P_FAMILY_{currentFamily}";
+                }
+
                 // begin learnset
                 if (!entry.usesBaseFormLearnset)
                 {
@@ -1117,6 +1145,7 @@ namespace moveParser
 
             // iterate over mons
             i = 1;
+            string currentFamily = "";
             foreach (MonName entry in nameList)
             {
                 if (chkVanillaMode.Checked)
@@ -1132,8 +1161,13 @@ namespace moveParser
                 MonData data = customGenData[entry.DefName];
                 if (entry.CanHatchFromEgg && data.EggMoves.Count > 0)
                 {
+                    if (currentFamily != entry.FamilyName)
+                    {
+                        currentFamily = entry.FamilyName;
+                        sets += $"#if P_FAMILY_{currentFamily}\n";
+                    }
                     // begin learnset
-                    sets += $"#if P_FAMILY_{entry.DefName}\n    egg_moves({entry.DefName},\n";
+                    sets += $"    egg_moves({entry.DefName},\n";
                     // hacky workaround for first move being on the same line
                     int eggm = 1;
                     foreach (string move in data.EggMoves)
@@ -1144,7 +1178,7 @@ namespace moveParser
                         sets += ",\n";
                         eggm++;
                     }
-                    sets += $"#endif //P_FAMILY_{entry.DefName}\n\n";
+                    sets += $"#endif //P_FAMILY_{entry.FamilyName}\n\n";
                 }
 
                 int percent = i * 100 / namecount;
