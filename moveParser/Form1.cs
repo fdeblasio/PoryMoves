@@ -338,7 +338,6 @@ namespace moveParser
                 chkTutor_IncludeEgg.Enabled = value;
                 chkTutor_IncludeTM.Enabled = value;
 
-                chkEgg_Extended.Enabled = value;
                 chkEgg_IncludeLvl.Enabled = value;
                 chkEgg_IncludeTM.Enabled = value;
                 chkEgg_IncludeTutor.Enabled = value;
@@ -1108,10 +1107,10 @@ namespace moveParser
                 int percent = i * 100 / namecount;
                 bwrkExportEgg.ReportProgress(percent);
             }
-            bool oldStyle = chkEgg_Extended.Checked;
 
             // file header
-            string sets = "#define EGG_MOVES_SPECIES_OFFSET 20000\n" +
+            string sets = "#include \"constants/moves.h\"\n\n" +
+                            "#define EGG_MOVES_SPECIES_OFFSET 20000\n" +
                             "#define EGG_MOVES_TERMINATOR 0xFFFF\n" +
                             "#define egg_moves(species, moves...) (SPECIES_##species + EGG_MOVES_SPECIES_OFFSET), moves\n\n" +
                             "const u16 gEggMoves[] = {\n";
@@ -1134,22 +1133,12 @@ namespace moveParser
                 if (entry.CanHatchFromEgg && data.EggMoves.Count > 0)
                 {
                     // begin learnset
-                    if (oldStyle)
-                        sets += $"    egg_moves({entry.DefName},\n";
-                    else
-                        sets += $"\tegg_moves({entry.DefName},\n";
+                    sets += $"    egg_moves({entry.DefName},\n";
                     // hacky workaround for first move being on the same line
                     int eggm = 1;
                     foreach (string move in data.EggMoves)
                     {
-                        if (oldStyle)
-                        {
-                            sets += $"              {move}";
-                        }
-                        else
-                        {
-                            sets += $"\t\t{move}";
-                        }
+                        sets += $"        {move}";
                         if (eggm == data.EggMoves.Count)
                             sets += ")";
                         sets += ",\n";

@@ -50,7 +50,6 @@
             this.btnLvl_All = new System.Windows.Forms.Button();
             this.cListLevelUp = new System.Windows.Forms.CheckedListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.chkEgg_Extended = new System.Windows.Forms.CheckBox();
             this.btnEgg_All = new System.Windows.Forms.Button();
             this.chkEgg_IncludeTutor = new System.Windows.Forms.CheckBox();
             this.chkEgg_IncludeTM = new System.Windows.Forms.CheckBox();
@@ -312,7 +311,6 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.chkEgg_Extended);
             this.groupBox2.Controls.Add(this.btnEgg_All);
             this.groupBox2.Controls.Add(this.chkEgg_IncludeTutor);
             this.groupBox2.Controls.Add(this.chkEgg_IncludeTM);
@@ -328,18 +326,6 @@
             this.groupBox2.TabIndex = 17;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Egg Moves";
-            // 
-            // chkEgg_Extended
-            // 
-            this.chkEgg_Extended.AutoSize = true;
-            this.chkEgg_Extended.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkEgg_Extended.Location = new System.Drawing.Point(5, 309);
-            this.chkEgg_Extended.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.chkEgg_Extended.Name = "chkEgg_Extended";
-            this.chkEgg_Extended.Size = new System.Drawing.Size(161, 21);
-            this.chkEgg_Extended.TabIndex = 20;
-            this.chkEgg_Extended.Text = "Align moves to name";
-            this.chkEgg_Extended.UseVisualStyleBackColor = true;
             // 
             // btnEgg_All
             // 
@@ -662,7 +648,6 @@
         private System.Windows.Forms.Button btnTutor_All;
         private System.ComponentModel.BackgroundWorker bwrkExportTutor;
         private System.ComponentModel.BackgroundWorker bwrkExportEgg;
-        private System.Windows.Forms.CheckBox chkEgg_Extended;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.CheckBox chkVanillaMode;
         private System.Windows.Forms.Button btnOpenOutputFolder;
@@ -673,4 +658,3 @@
         private System.Windows.Forms.ComboBox cmbLvl_Combine;
     }
 }
-
