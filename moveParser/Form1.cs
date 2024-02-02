@@ -183,8 +183,6 @@ namespace moveParser
 
                 GenerationData generation = GenData[(string)e.Argument];
 
-
-
                 int namecount = 0;
 
                 foreach (MonName monName in nameList)
@@ -581,6 +579,7 @@ namespace moveParser
                 UpdateLoadingMessage(i.ToString() + " out of " + namecount + " Level Up movesets exported.");
                 i++;
             }
+
             sets = replaceOldDefines(sets);
 
             // write to file
@@ -778,6 +777,8 @@ namespace moveParser
                 UpdateLoadingMessage(i.ToString() + " out of " + namecount + " TM movesets exported.");
                 i++;
             }
+
+            sets = replaceOldDefines(sets);
 
             // write to file
             File.WriteAllText("output/teachable_learnsets.h", sets);

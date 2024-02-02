@@ -33,7 +33,6 @@ namespace moveParser.data
         public string VarName;
         public string DefName;
         public int? minGameId;
-        public int? maxGameId;
         public string SerebiiFormName;
         public string SerebiiFormNameAlt;
         public string SerebiiURL;
@@ -44,7 +43,6 @@ namespace moveParser.data
         public string PokemonDBFormName;
 
         public bool usesBaseFormLearnset;
-        public bool ignoresNearUniversalTMs;
         public bool isGenderless;
 
         public MonName(int NatDexNum, string SpeciesName, bool IsBaseForm, string FormName, string VarName, string DefName)
@@ -113,8 +111,6 @@ namespace moveParser.data
         public static bool ShouldSkipMon(MonName name, GenerationData gen)
         {
             if (name.minGameId != null && gen.gameId < name.minGameId)
-                return true;
-            else if (name.maxGameId != null && gen.gameId > name.maxGameId)
                 return true;
             else if (gen.maxDexNum < name.NatDexNum)
                 return true;
