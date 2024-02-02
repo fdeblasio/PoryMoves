@@ -67,7 +67,6 @@ namespace moveParser.data
 
             dict = JsonConvert.DeserializeObject<Dictionary<string, MonData>>(text);
 
-
             return dict;
         }
 
@@ -79,7 +78,6 @@ namespace moveParser.data
             string text = File.ReadAllText(filedir);
 
             list = JsonConvert.DeserializeObject<List<MonName>>(text);
-
 
             return list;
         }
@@ -432,7 +430,6 @@ namespace moveParser.data
             hap.HtmlNodeCollection columns;
             columns = htmlDoc.DocumentNode.SelectNodes("//table[@class='dextable']");
 
-            int idSeccionLevelUp = 0;
             if (columns != null)
             {
 

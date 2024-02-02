@@ -33,13 +33,12 @@ namespace moveParser
         protected Dictionary<string, GenerationData> GenData;
         protected Dictionary<string, Move> MoveData;
 
-        //Make one that gets latest moveset and then adds moves from prior gens that aren't in it (maybe can use pre-evo logic)
         enum MoveCombination
         {
+            LatestPlus,
             UseLatest,
             Combine,
             CombineMax,
-            NotInGen3,
         }
 
         public Form1()
@@ -62,10 +61,10 @@ namespace moveParser
 
         protected void LoadExportModes()
         {
+            cmbLvl_Combine.Items.Insert((int)MoveCombination.LatestPlus, "Latest + Removed");
             cmbLvl_Combine.Items.Insert((int)MoveCombination.UseLatest, "Use Latest Moveset");
             cmbLvl_Combine.Items.Insert((int)MoveCombination.Combine, "Combine Movesets (Avg)");
             cmbLvl_Combine.Items.Insert((int)MoveCombination.CombineMax, "Combine Movesets (Max)");
-            cmbLvl_Combine.Items.Insert((int)MoveCombination.NotInGen3, "Not in Gen3");
             cmbLvl_Combine.SelectedIndex = 0;
         }
 
@@ -96,8 +95,12 @@ namespace moveParser
                     case "SV":
                     case "SwSh":
                     case "USUM":
-                    case "RSE":
                         cListLevelUp.SetItemChecked(count, true);
+                        cListTMMoves.SetItemChecked(count, true);
+                        cListEggMoves.SetItemChecked(count, true);
+                        cListTutorMoves.SetItemChecked(count, true);
+                        break;
+                    case "RSE":
                         cListTMMoves.SetItemChecked(count, true);
                         cListEggMoves.SetItemChecked(count, true);
                         cListTutorMoves.SetItemChecked(count, true);
@@ -406,7 +409,7 @@ namespace moveParser
                     try
                     {
                         mon = allGensData[item][name.DefName];
-                        if (mode == (int)MoveCombination.UseLatest
+                        if (mode == MoveCombination.UseLatest
                             && allGensData[item][name.DefName].TotalMoveCount() != 0
                             && gen.gameId != 19) // Exclude PLA movesets from "Latest Moveset Only" config
                         {
@@ -419,34 +422,24 @@ namespace moveParser
 
                     foreach (LevelUpMove move in mon.LevelMoves)
                     {
-                        if (mode == MoveCombination.NotInGen3)
-                        {
-                            if (item.Equals("RSE") || item.Equals("FRLG"))
-                            {
-                                Dictionary<string, List<Tuple<int, int>>> temp = new Dictionary<string, List<Tuple<int, int>>>();
-                                evoMoves = evoMoves.Where(x => !x.Move.Contains(move.Move)).ToList();
-                                lvl1Moves = lvl1Moves.Where(x => !x.Move.Contains(move.Move)).ToList();
-                                foreach (KeyValuePair<string, List<Tuple<int, int>>> lvlmove in OtherLvlMoves)
-                                {
-                                    if (!lvlmove.Key.Equals(move.Move))
-                                        temp.Add(lvlmove.Key, lvlmove.Value);
-                                }
-                                OtherLvlMoves = temp;
-
-                                continue;
-                            }
-                        }
                         if (move.Level == 0)
                         {
-                            evoMoves.Add(move);
+                            if (AddMove(evoMoves, lvl1Moves, OtherLvlMoves, move.Move))
+                                evoMoves.Add(move);
                         }
                         else if (move.Level == 1)
                         {
-                            lvl1Moves.Add(move);
+                            if (AddMove(evoMoves, lvl1Moves, OtherLvlMoves, move.Move))
+                                lvl1Moves.Add(move);
                         }
                         else
                         {
-                            if (!OtherLvlMoves.ContainsKey(move.Move))
+                            if (mode == MoveCombination.LatestPlus)
+                            {
+                                if (AddMove(evoMoves, lvl1Moves, OtherLvlMoves, move.Move))
+                                    OtherLvlMoves.Add(move.Move, new List<Tuple<int, int>> { new Tuple<int, int>(gen.genNumber, move.Level) });
+                            }
+                            else if (!OtherLvlMoves.ContainsKey(move.Move))
                                 OtherLvlMoves.Add(move.Move, new List<Tuple<int, int>> { new Tuple<int, int>(gen.genNumber, move.Level) });
                             else
                                 OtherLvlMoves[move.Move].Add(new Tuple<int, int>(gen.genNumber, move.Level));
@@ -471,7 +464,7 @@ namespace moveParser
                 {
                     foreach (string move in preEvoMoves)
                     {
-                        if (!evoMoves.Select(x => x.Move).Contains(move) && !lvl1Moves.Select(x => x.Move).Contains(move))
+                        if (AddMove(evoMoves, lvl1Moves, OtherLvlMoves, move))
                             monToAdd.LevelMoves.Add(new LevelUpMove(1, move));
                     }
                 }
@@ -479,19 +472,8 @@ namespace moveParser
                 foreach (LevelUpMove move in lvl1Moves)
                     monToAdd.LevelMoves.Add(move);
 
-                if (name.SpeciesName.Equals("Smeargle"))
-                {
-                    monToAdd.LevelMoves.Add(new LevelUpMove(11, "MOVE_SKETCH"));
-                    monToAdd.LevelMoves.Add(new LevelUpMove(21, "MOVE_SKETCH"));
-                    monToAdd.LevelMoves.Add(new LevelUpMove(31, "MOVE_SKETCH"));
-                    monToAdd.LevelMoves.Add(new LevelUpMove(41, "MOVE_SKETCH"));
-                    monToAdd.LevelMoves.Add(new LevelUpMove(51, "MOVE_SKETCH"));
-                    monToAdd.LevelMoves.Add(new LevelUpMove(61, "MOVE_SKETCH"));
-                    monToAdd.LevelMoves.Add(new LevelUpMove(71, "MOVE_SKETCH"));
-                    monToAdd.LevelMoves.Add(new LevelUpMove(81, "MOVE_SKETCH"));
-                    monToAdd.LevelMoves.Add(new LevelUpMove(91, "MOVE_SKETCH"));
-                }
-                else
+                //monToAdd.LevelMoves.Add(new LevelUpMove(21, "MOVE_SKETCH"));
+                if (!name.SpeciesName.Equals("Smeargle"))
                 {
                     foreach (KeyValuePair<string, List<Tuple<int, int>>> item in OtherLvlMoves)
                     {
@@ -534,7 +516,7 @@ namespace moveParser
 
             // file header
             string sets = "#define LEVEL_UP_MOVE(lvl, moveLearned) {.move = moveLearned, .level = lvl}\n";
-            sets += "#define LEVEL_UP_END {.move = LEVEL_UP_MOVE_END, .level = 0}\n";
+            sets += "#define LEVEL_UP_END {.move = LEVEL_UP_MOVE_END, .level = 0}\n\nstatic const struct LevelUpMove sNoneLevelUpLearnset[] = {\n    LEVEL_UP_MOVE(1, MOVE_POUND),\n    LEVEL_UP_END\n};\n";
 
             // iterate over mons
             i = 1;
@@ -1301,6 +1283,31 @@ namespace moveParser
                 default:
                     return false;
             }
+        }
+
+        private bool FrankDexit(string move)
+        {
+            switch(move)
+            {
+                case "MOVE_LUCKY_CHANT":
+                case "MOVE_NATURAL_GIFT":
+                case "MOVE_SYNCHRONOISE":
+                case "MOVE_WRING_OUT":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        private bool AddMove(List<LevelUpMove> evoMoves, List<LevelUpMove> lvl1Moves, Dictionary<string, List<Tuple<int, int>>> OtherLvlMoves, string move)
+        {
+            if(!evoMoves.Select(x => x.Move).Contains(move) 
+            && !lvl1Moves.Select(x => x.Move).Contains(move)
+            && !OtherLvlMoves.ContainsKey(move)
+            && !FrankDexit(move))
+                return true;
+            else
+                return false;
         }
 
         private void cmbLvl_Combine_SelectedIndexChanged(object sender, EventArgs e)
