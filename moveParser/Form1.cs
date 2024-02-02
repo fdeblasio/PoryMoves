@@ -706,19 +706,19 @@ namespace moveParser
                     sets += $"\nstatic const u16 s{entry.VarName}TeachableLearnset[] = {{\n";
 
                     foreach (string move in lvlMoves[entry.DefName])
-                        if (!teachableLearnsets.Contains(move))
+                        if (!teachableLearnsets.Contains(move) && !FrankDexit(move))
                             teachableLearnsets.Add(move);
 
                     foreach (string move in data.TMMoves)
-                        if (!teachableLearnsets.Contains(move))
+                        if (!teachableLearnsets.Contains(move) && !FrankDexit(move))
                             teachableLearnsets.Add(move);
 
                     foreach (string move in data.EggMoves)
-                        if (!teachableLearnsets.Contains(move))
+                        if (!teachableLearnsets.Contains(move) && !FrankDexit(move))
                             teachableLearnsets.Add(move);
 
                     foreach (string move in data.TutorMoves)
-                        if (!teachableLearnsets.Contains(move))
+                        if (!teachableLearnsets.Contains(move) && !FrankDexit(move))
                             teachableLearnsets.Add(move);
 
                     // Include universal TM moves
@@ -736,7 +736,7 @@ namespace moveParser
                         foreach (string tutorMove in tutorMoves)
                         {
                             // Adds Tutor move if it's Mew.
-                            if (!teachableLearnsets.Contains(tutorMove) && CanMewLearnMove(entry.NatDexNum, tutorMove))
+                            if (!teachableLearnsets.Contains(tutorMove) && !FrankDexit(tutorMove) && CanMewLearnMove(entry.NatDexNum, tutorMove))
                                 teachableLearnsets.Add(tutorMove);
                         }
                     }
@@ -970,25 +970,25 @@ namespace moveParser
                     sets += $"\nstatic const u16 s{entry.VarName}TeachableLearnset[] = {{\n";
 
                     foreach (string move in lvlMoves[entry.DefName])
-                        if (!teachableLearnsets.Contains(move))
+                        if (!teachableLearnsets.Contains(move) && !FrankDexit(move))
                             teachableLearnsets.Add(move);
 
                     foreach (string move in data.TMMoves)
-                        if (!teachableLearnsets.Contains(move))
+                        if (!teachableLearnsets.Contains(move) && !FrankDexit(move))
                             teachableLearnsets.Add(move);
 
                     foreach (string move in data.EggMoves)
-                        if (!teachableLearnsets.Contains(move))
+                        if (!teachableLearnsets.Contains(move) && !FrankDexit(move))
                             teachableLearnsets.Add(move);
 
                     foreach (string move in data.TutorMoves)
-                        if (!teachableLearnsets.Contains(move))
+                        if (!teachableLearnsets.Contains(move) && !FrankDexit(move))
                             teachableLearnsets.Add(move);
 
                     foreach (string tutorMove in tutorMoves)
                     {
                         // Adds Tutor move if it's Mew.
-                        if (!teachableLearnsets.Contains(tutorMove) && CanMewLearnMove(entry.NatDexNum, tutorMove))
+                        if (!teachableLearnsets.Contains(tutorMove) && !FrankDexit(tutorMove) && CanMewLearnMove(entry.NatDexNum, tutorMove))
                             teachableLearnsets.Add(tutorMove);
                     }
 
