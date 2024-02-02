@@ -50,7 +50,6 @@
             this.cmbLvl_Combine = new System.Windows.Forms.ComboBox();
             this.chkLvl_PreEvo = new System.Windows.Forms.CheckBox();
             this.btnLvl_All = new System.Windows.Forms.Button();
-            this.chkLvl_LevelUpEnd = new System.Windows.Forms.CheckBox();
             this.cListLevelUp = new System.Windows.Forms.CheckedListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.chkEgg_Extended = new System.Windows.Forms.CheckBox();
@@ -272,7 +271,6 @@
             this.groupBox1.Controls.Add(this.cmbLvl_Combine);
             this.groupBox1.Controls.Add(this.chkLvl_PreEvo);
             this.groupBox1.Controls.Add(this.btnLvl_All);
-            this.groupBox1.Controls.Add(this.chkLvl_LevelUpEnd);
             this.groupBox1.Controls.Add(this.cListLevelUp);
             this.groupBox1.Controls.Add(this.btnWriteLvlLearnsets);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -320,18 +318,6 @@
             this.btnLvl_All.Text = "Select All";
             this.btnLvl_All.UseVisualStyleBackColor = true;
             this.btnLvl_All.Click += new System.EventHandler(this.btnLvl_All_Click);
-            // 
-            // chkLvl_LevelUpEnd
-            // 
-            this.chkLvl_LevelUpEnd.AutoSize = true;
-            this.chkLvl_LevelUpEnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkLvl_LevelUpEnd.Location = new System.Drawing.Point(13, 288);
-            this.chkLvl_LevelUpEnd.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.chkLvl_LevelUpEnd.Name = "chkLvl_LevelUpEnd";
-            this.chkLvl_LevelUpEnd.Size = new System.Drawing.Size(166, 21);
-            this.chkLvl_LevelUpEnd.TabIndex = 17;
-            this.chkLvl_LevelUpEnd.Text = "Add LEVEL_UP_END";
-            this.chkLvl_LevelUpEnd.UseVisualStyleBackColor = true;
             // 
             // cListLevelUp
             // 
@@ -701,7 +687,6 @@
         private System.Windows.Forms.CheckBox chkTM_IncludeTutor;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckedListBox cListLevelUp;
-        private System.Windows.Forms.CheckBox chkLvl_LevelUpEnd;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox chkEgg_IncludeTutor;
         private System.Windows.Forms.CheckBox chkEgg_IncludeTM;

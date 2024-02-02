@@ -43,8 +43,6 @@ namespace moveParser
 
         enum ExportModes
         {
-            Vanilla,
-            SBirdRefactor,
             RHH_1_0_0,
         }
 
@@ -74,13 +72,9 @@ namespace moveParser
             cmbLvl_Combine.Items.Insert((int)MoveCombination.NotInGen3, "Not in Gen3");
             cmbLvl_Combine.SelectedIndex = 0;
 
-            cmbTM_ExportMode.Items.Insert((int)ExportModes.Vanilla, "Vanilla Mode");
-            cmbTM_ExportMode.Items.Insert((int)ExportModes.SBirdRefactor, "SBird's TM Refactor");
             cmbTM_ExportMode.Items.Insert((int)ExportModes.RHH_1_0_0, "RHH 1.0.0");
             cmbTM_ExportMode.SelectedIndex = 0;
 
-            cmbTutor_ExportMode.Items.Insert(((int)ExportModes.Vanilla), "Vanilla Mode");
-            cmbTutor_ExportMode.Items.Insert(((int)ExportModes.SBirdRefactor), "SBird's Tutor Refactor");
             cmbTutor_ExportMode.Items.Insert(((int)ExportModes.RHH_1_0_0), "RHH 1.0.0");
             cmbTutor_ExportMode.SelectedIndex = 0;
         }
@@ -328,7 +322,6 @@ namespace moveParser
         {
             this.Invoke((MethodInvoker)delegate
             {
-                chkLvl_LevelUpEnd.Enabled = value;
                 chkLvl_PreEvo.Enabled = value;
                 cmbLvl_Combine.Enabled = value;
 
@@ -545,8 +538,7 @@ namespace moveParser
                 sets += "#define LEVEL_UP_MOVE(lvl, moveLearned) {.move = moveLearned, .level = lvl}\n";
             else
                 sets += "#define LEVEL_UP_MOVE(lvl, move) ((lvl << 9) | move)\n";
-            if (chkLvl_LevelUpEnd.Checked)
-                sets += "#define LEVEL_UP_END (0xffff)\n";
+            sets += "#define LEVEL_UP_END {.move = LEVEL_UP_MOVE_END, .level = 0}\n";
 
             // iterate over mons
             i = 1;
@@ -615,7 +607,7 @@ namespace moveParser
 
         private void bwrkExportTM_DoWork(object sender, DoWorkEventArgs e)
         {
-            ExportModes mode = ExportModes.Vanilla;
+            ExportModes mode = ExportModes.RHH_1_0_0;
             this.Invoke((MethodInvoker)delegate
             {
                 mode = (ExportModes)this.cmbTM_ExportMode.SelectedIndex;
@@ -704,55 +696,23 @@ namespace moveParser
             File.WriteAllText("../../input/tm.txt", writeText);
 #endif
 
-            // sanity check: old style TM list must be 64 entries or less
-            if (tmMoves.Count > 64 && mode == ExportModes.Vanilla)
-            {
-                MessageBox.Show("Old-style TM learnsets only support up to 64 TMs/HMs.\nConsider using the new format here:\nhttps://github.com/LOuroboros/pokeemerald/commit/6f69765770a52c1a7d6608a117112b78a2afcc22",
-                                "FATAL", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if (tmMoves.Count > 255 && mode == ExportModes.SBirdRefactor)
-            {
-                MessageBox.Show("New-style TM learnsets only support up to 255 TMs/HMs. Consider reducing your TM amount.",
-                                "FATAL", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
             // build importable TM list
-            string tms = "// IMPORTANT: DO NOT PASTE THIS FILE INTO YOUR REPO!\n// Instead, paste the following array into src/data/party_menu.h\n\nconst u16 sTMHMMoves[TMHM_COUNT] =\n{\n";
+            string tms = "#ifndef GUARD_CONSTANTS_TMS_HMS_H\n#define GUARD_CONSTANTS_TMS_HMS_H\n\n#define FOREACH_TM(F)";
             foreach (string move in tmMoves)
             {
-                tms += $"    MOVE{move.Substring(move.IndexOf('_'))},\n";
+                tms += $" \\\n    F({move.Substring(move.IndexOf('_') + 1)})";
             }
-            tms += "};\n";
+            //seperate out HMs
+            tms += "\n\n#define FOREACH_HM(F) \\\n\n#define FOREACH_TMHM(F) \\\n    FOREACH_TM(F) \\\n    FOREACH_HM(F)\n\n#endif\n";
 
             if (!Directory.Exists("output"))
                 Directory.CreateDirectory("output");
 
-            File.WriteAllText("output/party_menu_tm_list.h", tms);
+            File.WriteAllText("output/tms_hms.h", tms);
+            MessageBox.Show("TM list exported to \"output/tms_hms.h\"", "Success!", MessageBoxButtons.OK);
 
             // file header
             string sets = "";
-            if (tmMoves.Count > 0)
-            {
-                if (mode == ExportModes.Vanilla)
-                {
-                    sets = $"#define TMHM_LEARNSET(moves) {{(u32)(moves), ((u64)(moves) >> 32)}}\n" +
-                        $"#define TMHM(tmhm) ((u64)1 << (ITEM_##tmhm - ITEM_{tmMoves[0]}))\n\n" +
-                        "// This table determines which TMs and HMs a species is capable of learning.\n" +
-                        "// Each entry is a 64-bit bit array spread across two 32-bit values, with\n" +
-                        "// each bit corresponding to a TM or HM.\n" +
-                        "const u32 gTMHMLearnsets[][2] =\n{\n" +
-                        $"    [SPECIES_NONE]        = TMHM_LEARNSET(0),\n";
-                }
-                else if (mode == ExportModes.SBirdRefactor)
-                {
-                    sets = $"#define TMHM(tmhm) ((u8) ((ITEM_##tmhm) - ITEM_{tmMoves[0]}))\n\nstatic const u8 sNoneTMHMLearnset[] =\n{{\n    0xFF,\n}};\n";
-                }
-                else if (mode == ExportModes.RHH_1_0_0)
-                {
-                    //Do nothing.
-                }
-            }
 
             i = 1;
             // iterate over mons
@@ -770,57 +730,7 @@ namespace moveParser
                 }
                 MonData data = customGenData[entry.DefName];
                 // begin learnset
-                if (mode == ExportModes.Vanilla)
-                {
-                    sets += $"\n    {$"[SPECIES_{entry.DefName}]",-22}= TMHM_LEARNSET(";
-                    // hacky workaround for first move being on the same line
-                    bool first = true;
-                    foreach (string tmMove in tmMoves)
-                    {
-                        string move = $"MOVE{tmMove.Substring(tmMove.IndexOf('_'))}";
-                        if (CanMewLearnMove(entry.NatDexNum, tmMove) // Mew can learn all TMs
-                            || data.TMMoves.Contains(move)
-                            || lvlMoves[entry.DefName].Contains(move)
-                            || data.EggMoves.Contains(move)
-                            || data.TutorMoves.Contains(move)
-                            || (!entry.ignoresNearUniversalTMs && tmMove.Contains("*") && !(tmMove.Contains("ATTRACT") && (entry.NatDexNum == 290 || entry.isGenderless))) //Gender-unknown and Nincada family shouldn't learn Attract.
-                            ) 
-                        {
-                            if (first)
-                            {
-                                sets += $"TMHM({tmMove.Replace("*", "")})";
-                                first = false;
-                            }
-                            else
-                            {
-                                sets += $"\n                                        | TMHM({tmMove})";
-                            }
-                        }
-                    }
-                    sets += "),\n";
-                }
-                else if (mode == ExportModes.SBirdRefactor)
-                {
-                    if (!entry.usesBaseFormLearnset)
-                    {
-                        sets += $"\nstatic const u8 s{entry.VarName}TMHMLearnset[] =\n{{\n";
-                        foreach (string tmMove in tmMoves)
-                        {
-                            string move = $"MOVE{tmMove.Substring(tmMove.IndexOf('_'))}";
-                            if (CanMewLearnMove(entry.NatDexNum, move)
-                                || data.TMMoves.Contains(move)
-                                || lvlMoves[entry.DefName].Contains(move)
-                                || data.EggMoves.Contains(move)
-                                || data.TutorMoves.Contains(move)
-                                || (!entry.ignoresNearUniversalTMs && tmMove.Contains("*") && !(tmMove.Contains("ATTRACT") && (entry.NatDexNum == 290 || entry.isGenderless)))) //Gender-unknown and Nincada shouldn't learn Attract.
-                            {
-                                sets += $"    TMHM({tmMove.Replace("*", "")}),\n";
-                            }
-                        }
-                        sets += "    0xFF,\n};\n";
-                    }
-                }
-                else if (mode == ExportModes.RHH_1_0_0)
+                if (mode == ExportModes.RHH_1_0_0)
                 {
                     if (!entry.usesBaseFormLearnset)
                     {
@@ -884,60 +794,14 @@ namespace moveParser
                 i++;
             }
 
-            string pointers = "";
-            if (mode == ExportModes.Vanilla)
-                sets += "\n};\n";
-            else if (mode == ExportModes.SBirdRefactor)
-            {
-                sets += "const u8 *const gTMHMLearnsets[] =\n{\n";
-                foreach (MonName name in nameList)
-                {
-                    if (!name.usesBaseFormLearnset)
-                        sets += $"    [SPECIES_{name.DefName}] = s{name.VarName}TMHMLearnset,\n";
-                    else
-                        sets += $"    [SPECIES_{name.DefName}] = s{nameList[name.NatDexNum - 1].VarName}TMHMLearnset,\n";
-                }
-                sets += "};";
-            }
-            else if (mode == ExportModes.RHH_1_0_0)
-            {
-                pointers += "const u16 *const gTeachableLearnsets[NUM_SPECIES] =\n{\n";
-                foreach (MonName name in nameList)
-                {
-                    if (!name.usesBaseFormLearnset)
-                        pointers += $"    [SPECIES_{name.DefName}] = s{name.VarName}TeachableLearnset,\n";
-                    else
-                        pointers += $"    [SPECIES_{name.DefName}] = s{nameList[name.NatDexNum - 1].VarName}TeachableLearnset,\n";
-                }
-                pointers += "};\n";
-            }
-            if (!chkVanillaMode.Checked)
-            {
-                sets = replaceOldDefines(sets);
-                pointers = replaceOldDefines(pointers);
-            }
-
             // write to file
-            if (mode == ExportModes.RHH_1_0_0)
-            {
-                File.WriteAllText("output/teachable_learnsets.h", sets);
-                File.WriteAllText("output/teachable_learnset_pointers.h", pointers);
-            }
-            else
-                File.WriteAllText("output/tmhm_learnsets.h", sets);
+            File.WriteAllText("output/teachable_learnsets.h", sets);
 
             bwrkExportTM.ReportProgress(0);
             // Set the text.
             UpdateLoadingMessage(namecount + " TM movesets exported.");
 
-            if (mode == ExportModes.RHH_1_0_0)
-            {
-                MessageBox.Show("Teachable moves exported to \"output/teachable_learnsets.h\" and \"output/teachable_learnset_pointers.h\"", "Success!", MessageBoxButtons.OK);
-            }
-            else
-            {
-                MessageBox.Show("TM moves exported to \"output/tmhm_learnsets.h\"", "Success!", MessageBoxButtons.OK);
-            }
+            MessageBox.Show("Teachable moves exported to \"output/teachable_learnsets.h\"", "Success!", MessageBoxButtons.OK);
             SetEnableForAllElements(true);
         }
 
@@ -1018,7 +882,7 @@ namespace moveParser
 
         private void bwrkExportTutor_DoWork(object sender, DoWorkEventArgs e)
         {
-            ExportModes mode = ExportModes.Vanilla;
+            ExportModes mode = ExportModes.RHH_1_0_0;
             this.Invoke((MethodInvoker)delegate
             {
                 mode = (ExportModes)this.cmbTutor_ExportMode.SelectedIndex;
@@ -1109,20 +973,6 @@ namespace moveParser
             File.WriteAllText("../../input/tutor.txt", writeText);
 #endif
 
-
-            // sanity check: old style tutor list must be 32 entries or less
-            if (tutorMoves.Count > 32 && mode == ExportModes.Vanilla)
-            {
-                MessageBox.Show("Old-style tutor learnsets only support up to 32 moves.",
-                                "FATAL", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            else if (tutorMoves.Count > 255 && mode == ExportModes.SBirdRefactor)
-            {
-                MessageBox.Show("New-style tutor learnsets only support up to 255 tutor moves. Consider reducing your tutor amount.",
-                                "FATAL", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
             // build importable tutor list
             string tutors = "// IMPORTANT: DO NOT PASTE THIS FILE INTO YOUR REPO!\n// Instead, paste the following list of defines into include/constants/party_menu.h\n\n";
             for (int j = 0; j < tutorMoves.Count; j++)
@@ -1134,25 +984,6 @@ namespace moveParser
             File.WriteAllText("output/party_menu_tutor_list.h", tutors);
 
             string sets = "";
-            // file header
-            if (mode == ExportModes.Vanilla || mode == ExportModes.SBirdRefactor)
-            {
-                sets = "const u16 gTutorMoves[TUTOR_MOVE_COUNT] =\n{\n";
-                foreach (string move in tutorMoves)
-                {
-                    sets += $"    [TUTOR_{move}] = MOVE_{move.Substring(5)},\n";
-                }
-            }
-            
-            if (mode == ExportModes.Vanilla)
-            {
-                // TODO: double check how the hell old style works	
-                sets += "};\n\n#define TUTOR(move) (1u << (TUTOR_##move))\n\nstatic const u32 sTutorLearnsets[TUTOR_MOVE_COUNT] =\n{\n    [SPECIES_NONE]             = (0),\n\n";
-            }
-            else if (mode == ExportModes.SBirdRefactor)
-            {
-                sets += "};\n\n#define TUTOR(move) ((u8) (TUTOR_##move))\n\nstatic const u8 sNoneTutorLearnset[TUTOR_MOVE_COUNT] =\n{\n    0xFF,\n};\n\n";
-            }
             // iterate over mons
             i = 1;
 
@@ -1170,54 +1001,7 @@ namespace moveParser
                 }
                 MonData data = customGenData[entry.DefName];
                 // begin learnset
-                if (mode == ExportModes.Vanilla)
-                {
-                    sets += $"\n    {$"[SPECIES_{entry.DefName}]",-27}= (";
-                    // hacky workaround for first move being on the same line
-                    bool first = true;
-                    foreach (string tutorMove in tutorMoves)
-                    {
-                        string move = $"MOVE{tutorMove.Substring(tutorMove.IndexOf('_'))}";
-                        if (CanMewLearnMove(entry.NatDexNum, move)
-                            || data.TMMoves.Contains(move)
-                            || lvlMoves[entry.DefName].Contains(move)
-                            || data.EggMoves.Contains(move)
-                            || data.TutorMoves.Contains(move))
-                        {
-                            if (first)
-                            {
-                                sets += $"TUTOR({tutorMove})";
-                                first = false;
-                            }
-                            else
-                            {
-                                sets += $"\n                                | TUTOR({tutorMove})";
-                            }
-                        }
-                    }
-                    sets += "),\n";
-                }
-                else if (mode == ExportModes.SBirdRefactor)
-                {
-                    if (!entry.usesBaseFormLearnset)
-                    {
-                        sets += $"\nstatic const u8 s{entry.VarName}TutorLearnset[] =\n{{\n";
-                        foreach (string tutorMove in tutorMoves)
-                        {
-                            string move = $"MOVE{tutorMove.Substring(tutorMove.IndexOf('_'))}";
-                            if (CanMewLearnMove(entry.NatDexNum, move)
-                                || data.TMMoves.Contains(move)
-                                || lvlMoves[entry.DefName].Contains(move)
-                                || data.EggMoves.Contains(move)
-                                || data.TutorMoves.Contains(move))
-                            {
-                                sets += $"    TUTOR({tutorMove}),\n";
-                            }
-                        }
-                        sets += "    0xFF,\n};\n";
-                    }
-                }
-                else if (mode == ExportModes.RHH_1_0_0)
+                if (mode == ExportModes.RHH_1_0_0)
                 {
                     if (!entry.usesBaseFormLearnset)
                     {
@@ -1281,53 +1065,17 @@ namespace moveParser
                 i++;
             }
 
-            string pointers = "";
-            if (mode == ExportModes.Vanilla)
-                sets += "\n};\n";
-            else if (mode == ExportModes.SBirdRefactor)
-            {
-                sets += "const u8 *const sTutorLearnsets[] =\n{\n    [SPECIES_NONE] = sNoneTutorLearnset,\n";
-                foreach (MonName name in nameList)
-                {
-                    if (!name.usesBaseFormLearnset)
-                        sets += $"    [SPECIES_{name.DefName}] = s{name.VarName}TutorLearnset,\n";
-                    else
-                        sets += $"    [SPECIES_{name.DefName}] = s{nameList[name.NatDexNum - 1].VarName}TutorLearnset,\n";
-                }
-                sets += "};\n";
-            }
-            else if (mode == ExportModes.RHH_1_0_0)
-            {
-                pointers += "const u16 *const gTeachableLearnsets[NUM_SPECIES] =\n{\n";
-                foreach (MonName name in nameList)
-                {
-                    if (!name.usesBaseFormLearnset)
-                        pointers += $"    [SPECIES_{name.DefName}] = s{name.VarName}TeachableLearnset,\n";
-                    else
-                        pointers += $"    [SPECIES_{name.DefName}] = s{nameList[name.NatDexNum - 1].VarName}TeachableLearnset,\n";
-                }
-                pointers += "};\n";
-            }
             if (!chkVanillaMode.Checked)
                 sets = replaceOldDefines(sets);
 
             // write to file
-            if (mode == ExportModes.RHH_1_0_0)
-            {
-                File.WriteAllText("output/teachable_learnsets.h", sets);
-                File.WriteAllText("output/teachable_learnset_pointers.h", pointers);
-            }
-            else
-                File.WriteAllText("output/tutor_learnsets.h", sets);
+            File.WriteAllText("output/teachable_learnsets.h", sets);
 
             bwrkExportTutor.ReportProgress(0);
             // Set the text.
             UpdateLoadingMessage(namecount + " Tutor movesets exported.");
 
-            if (mode == ExportModes.RHH_1_0_0)
-                MessageBox.Show("Teachable moves exported to \"output/teachable_learnsets.h\" and \"output/teachable_learnset_pointers.h\"", "Success!", MessageBoxButtons.OK);
-            else
-                MessageBox.Show("Tutor moves exported to \"output/tutor_learnsets.h\"", "Success!", MessageBoxButtons.OK);
+            MessageBox.Show("Teachable moves exported to \"output/teachable_learnsets.h\"", "Success!", MessageBoxButtons.OK);
 
             SetEnableForAllElements(true);
         }

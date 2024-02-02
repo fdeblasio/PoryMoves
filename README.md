@@ -131,10 +131,10 @@ Once the selected games have been chosen for each Move type, click the Export bu
 
 For TM/HM/TR moves and Tutor Moves, there are three different modes of exporting.
 
+- **RHH 1.0.0**: The developer is using pokeemerald-expansion.
 - **Vanilla Mode**: The developer is using pokeemerald, and has not made any changes to the formatting or method by which `src/data/pokemon/tmhm_learnsets.h` is read. If you are not sure which option to use, use this one.
 - **SBird’s TM Refactor**: The developer has merged [Sbird’s TM Refactor](https://github.com/LOuroboros/pokeemerald/tree/sbirds_tmhm_system) into pokeemerald.
 - **SBird’s Tutor Refactor**: The developer has merged [Sbird’s Tutor Refactor](https://github.com/AsparagusEduardo/pokeemerald/commit/42eb0f8dc225062ccb9b08980b568152e82a2757) into pokeemerald.
-- **RHH 1.0.0**: The developer is using pokeemerald-expansion.
 
 
 ## Stacking Exports
