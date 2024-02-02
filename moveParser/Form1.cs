@@ -33,17 +33,13 @@ namespace moveParser
         protected Dictionary<string, GenerationData> GenData;
         protected Dictionary<string, Move> MoveData;
 
+        //Make one that gets latest moveset and then adds moves from prior gens that aren't in it (maybe can use pre-evo logic)
         enum MoveCombination
         {
             UseLatest,
             Combine,
             CombineMax,
             NotInGen3,
-        }
-
-        enum ExportModes
-        {
-            RHH_1_0_0,
         }
 
         public Form1()
@@ -686,7 +682,7 @@ namespace moveParser
             string tms = "#ifndef GUARD_CONSTANTS_TMS_HMS_H\n#define GUARD_CONSTANTS_TMS_HMS_H\n\n#define FOREACH_TM(F)";
             foreach (string move in tmMoves)
             {
-                tms += $" \\\n    F({move.Substring(move.IndexOf('_') + 1)})";
+                tms += $" \\\n    F({move})";
             }
             //seperate out HMs
             tms += "\n\n#define FOREACH_HM(F) \\\n\n#define FOREACH_TMHM(F) \\\n    FOREACH_TM(F) \\\n    FOREACH_HM(F)\n\n#endif\n";
@@ -698,7 +694,7 @@ namespace moveParser
             MessageBox.Show("TM list exported to \"output/tms_hms.h\"", "Success!", MessageBoxButtons.OK);
 
             // file header
-            string sets = "";
+            string sets = "static const u16 sNoneTeachableLearnset[] = {\n    MOVE_UNAVAILABLE,\n};\n";
 
             i = 1;
             // iterate over mons
@@ -741,7 +737,7 @@ namespace moveParser
                     // Include universal TM moves
                     foreach (string tmMove in tmMoves)
                     {
-                        string move = "MOVE_" + Regex.Replace(tmMove.Replace("*", ""), @"[T|H][M|R]\d{1,3}_", "");
+                        string move = "MOVE_" + tmMove;
 
                         // Adds TM if it's Mew.
                         if (!teachableLearnsets.Contains(move) && entry.NatDexNum == 151)
@@ -764,7 +760,7 @@ namespace moveParser
                     foreach (string move in teachableLearnsets)
                     {
                         //Gender-unknown and Nincada's family shouldn't learn Attract.)
-                        if (!((entry.isGenderless || entry.NatDexNum == 290 || entry.NatDexNum == 291) && move.Equals("MOVE_ATTRACT")))
+                        if (!((entry.isGenderless || entry.NatDexNum == 290 || entry.NatDexNum == 291) && move.Equals("MOVE_ATTRACT")) && !IsMoveUniversal(move))
                             sets += $"    {move},\n";
                     }
                     sets += "    MOVE_UNAVAILABLE,\n};\n";
@@ -960,7 +956,7 @@ namespace moveParser
             tutors += $"#define TUTOR_MOVE_COUNT             {tutorMoves.Count,3}";
             File.WriteAllText("output/party_menu_tutor_list.h", tutors);
 
-            string sets = "";
+            string sets = "static const u16 sNoneTeachableLearnset[] = {\n    MOVE_UNAVAILABLE,\n};\n";
             // iterate over mons
             i = 1;
 
@@ -1012,7 +1008,7 @@ namespace moveParser
                         // Include universal TM moves
                         foreach (string tmMove in tmMoves)
                         {
-                            string move = "MOVE_" + Regex.Replace(tmMove.Replace("*", ""), @"[T|H][M|R]\d{1,3}_", "");
+                            string move = "MOVE_" + tmMove;
 
                             // Adds TM if it's Mew
                             if (!teachableLearnsets.Contains(move) && CanMewLearnMove(entry.NatDexNum, move))
@@ -1026,7 +1022,7 @@ namespace moveParser
                     foreach (string move in teachableLearnsets)
                     {
                         //Gender-unknown and Nincada's family shouldn't learn Attract.)
-                        if (!((entry.isGenderless || entry.NatDexNum == 290 || entry.NatDexNum == 291) && move.Equals("MOVE_ATTRACT")))
+                        if (!((entry.isGenderless || entry.NatDexNum == 290 || entry.NatDexNum == 291) && move.Equals("MOVE_ATTRACT")) && !IsMoveUniversal(move))
                             sets += $"    {move},\n";
                     }
                     sets += "    MOVE_UNAVAILABLE,\n};\n";
@@ -1237,11 +1233,15 @@ namespace moveParser
 
         private void cmbTM_ExportMode_SelectedIndexChanged(object sender, EventArgs e)
         {
+            chkTM_IncludeEgg.Checked = true;
+            chkTM_IncludeLvl.Checked = true;
             chkTM_IncludeTutor.Checked = true;
         }
 
         private void cmbTutor_ExportMode_SelectedIndexChanged(object sender, EventArgs e)
         {
+            chkTutor_IncludeEgg.Checked = true;
+            chkTutor_IncludeLvl.Checked = true;
             chkTutor_IncludeTM.Checked = true;
         }
 
@@ -1277,6 +1277,26 @@ namespace moveParser
                 }
             }
             return true;
+        }
+
+        private bool IsMoveUniversal(string move)
+        {
+            switch(move)
+            {
+                case "MOVE_BIDE":
+                case "MOVE_FRUSTRATION":
+                case "MOVE_HIDDEN_POWER":
+                case "MOVE_MIMIC":
+                case "MOVE_NATURAL_GIFT":
+                case "MOVE_RAGE":
+                case "MOVE_RETURN":
+                case "MOVE_SECRET_POWER":
+                case "MOVE_SUBSTITUTE":
+                case "MOVE_TERA_BLAST":
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         private void cmbLvl_Combine_SelectedIndexChanged(object sender, EventArgs e)

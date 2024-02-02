@@ -151,6 +151,7 @@
             this.cListTMMoves.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cListTMMoves.FormattingEnabled = true;
             this.cListTMMoves.Items.AddRange(new object[] {
+            "SV",
             "SWSH",
             "USUM"});
             this.cListTMMoves.Location = new System.Drawing.Point(5, 25);
@@ -206,6 +207,7 @@
             // chkTM_IncludeEgg
             // 
             this.chkTM_IncludeEgg.AutoSize = true;
+            this.chkTM_IncludeEgg.Checked = true;
             this.chkTM_IncludeEgg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkTM_IncludeEgg.Location = new System.Drawing.Point(7, 363);
             this.chkTM_IncludeEgg.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -230,6 +232,7 @@
             // chkTM_IncludeLvl
             // 
             this.chkTM_IncludeLvl.AutoSize = true;
+            this.chkTM_IncludeLvl.Checked = true;
             this.chkTM_IncludeLvl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkTM_IncludeLvl.Location = new System.Drawing.Point(7, 337);
             this.chkTM_IncludeLvl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -271,6 +274,7 @@
             // chkLvl_PreEvo
             // 
             this.chkLvl_PreEvo.AutoSize = true;
+            this.chkLvl_PreEvo.Checked = true;
             this.chkLvl_PreEvo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkLvl_PreEvo.Location = new System.Drawing.Point(13, 313);
             this.chkLvl_PreEvo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -458,6 +462,7 @@
             // chkTutor_IncludeEgg
             // 
             this.chkTutor_IncludeEgg.AutoSize = true;
+            this.chkTutor_IncludeEgg.Checked = true;
             this.chkTutor_IncludeEgg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkTutor_IncludeEgg.Location = new System.Drawing.Point(5, 362);
             this.chkTutor_IncludeEgg.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -482,6 +487,7 @@
             // chkTutor_IncludeLvl
             // 
             this.chkTutor_IncludeLvl.AutoSize = true;
+            this.chkTutor_IncludeLvl.Checked = true;
             this.chkTutor_IncludeLvl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkTutor_IncludeLvl.Location = new System.Drawing.Point(5, 336);
             this.chkTutor_IncludeLvl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
