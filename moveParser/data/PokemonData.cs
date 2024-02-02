@@ -434,8 +434,6 @@ namespace moveParser.data
 
             if (columns != null)
             {
-
-                int tabNum = 1;
                 foreach (hap.HtmlNode nodo1 in columns)
                 {
                     int nroSeccion = 0;

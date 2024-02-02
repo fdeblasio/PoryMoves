@@ -208,7 +208,7 @@ namespace moveParser
 
                     backgroundWorker1.ReportProgress(i * 100 / namecount);
                     // Set the text.
-                    UpdateLoadingMessage(i.ToString() + " out of " + namecount + " loaded. (Skipped " + (nameList.Count - namecount) + ")");
+                    UpdateLoadingMessage(i.ToString() + "/" + namecount + " loaded. (Skipped " + (nameList.Count - namecount) + ")");
                 }
                 if (!Directory.Exists(dbpath))
                     Directory.CreateDirectory(dbpath);
@@ -305,11 +305,9 @@ namespace moveParser
 
                 chkTM_IncludeEgg.Enabled = value;
                 chkTM_IncludeLvl.Enabled = value;
-                chkTM_IncludeTutor.Enabled = value;
 
                 chkEgg_IncludeLvl.Enabled = value;
-                chkEgg_IncludeTM.Enabled = value;
-                chkEgg_IncludeTutor.Enabled = value;
+                chkEgg_IncludeTeach.Enabled = value;
 
                 chkVanillaMode.Enabled = value;
                 chkGeneral_MewExclusiveTutor.Enabled = value;
@@ -496,7 +494,7 @@ namespace moveParser
                 int percent = i * 100 / namecount;
                 bwrkExportLvl.ReportProgress(percent);
                 // Set the text.
-                UpdateLoadingMessage(i.ToString() + " out of " + namecount + " Level Up movesets exported.");
+                UpdateLoadingMessage(i.ToString() + "/" + namecount + " level up movesets exported.");
                 i++;
             }
 
@@ -506,8 +504,6 @@ namespace moveParser
             File.WriteAllText("output/level_up_learnsets.h", sets);
 
             bwrkExportLvl.ReportProgress(0);
-            // Set the text.
-            UpdateLoadingMessage(namecount + " Level Up movesets exported.");
 
             MessageBox.Show("Level Up moves exported to \"output/level_up_learnsets.h\"", "Success!", MessageBoxButtons.OK);
             SetEnableForAllElements(true);
@@ -550,6 +546,8 @@ namespace moveParser
                     }
                     foreach (string move in mon.TMMoves)
                         monToAdd.TMMoves.Add(move);
+                    foreach (string move in mon.TutorMoves)
+                        monToAdd.TutorMoves.Add(move);
                     if (chkTM_IncludeLvl.Checked)
                     {
                         foreach (LevelUpMove move in mon.LevelMoves)
@@ -560,13 +558,6 @@ namespace moveParser
                         foreach (string move in mon.EggMoves)
                             monToAdd.EggMoves.Add(move);
                     }
-                    if (chkTM_IncludeTutor.Checked)
-                    {
-                        foreach (string move in mon.TutorMoves)
-                            monToAdd.TutorMoves.Add(move);
-                    }
-
-
                 }
                 monToAdd.TMMoves = monToAdd.TMMoves.GroupBy(elem => elem).Select(group => group.First()).ToList();
 
@@ -677,14 +668,11 @@ namespace moveParser
                             teachableLearnsets.Add(move);
                     }
 
-                    if (chkTM_IncludeTutor.Checked)
+                    foreach (string tutorMove in tutorMoves)
                     {
-                        foreach (string tutorMove in tutorMoves)
-                        {
-                            // Adds Tutor move if it's Mew.
-                            if (!teachableLearnsets.Contains(tutorMove) && !FrankDexit(tutorMove) && CanMewLearnMove(entry.NatDexNum, tutorMove))
-                                teachableLearnsets.Add(tutorMove);
-                        }
+                        // Adds Tutor move if it's Mew.
+                        if (!teachableLearnsets.Contains(tutorMove) && !FrankDexit(tutorMove) && CanMewLearnMove(entry.NatDexNum, tutorMove))
+                            teachableLearnsets.Add(tutorMove);
                     }
 
                     // Order alphabetically
@@ -704,7 +692,7 @@ namespace moveParser
                 int percent = i * 100 / namecount;
                 bwrkExportTM.ReportProgress(percent);
                 // Set the text.
-                UpdateLoadingMessage(i.ToString() + " out of " + namecount + " TM movesets exported.");
+                UpdateLoadingMessage(i.ToString() + "/" + namecount + " teachable movesets exported.");
                 i++;
             }
 
@@ -714,8 +702,6 @@ namespace moveParser
             File.WriteAllText("output/teachable_learnsets.h", sets);
 
             bwrkExportTM.ReportProgress(0);
-            // Set the text.
-            UpdateLoadingMessage(namecount + " TM movesets exported.");
 
             MessageBox.Show("Teachable moves exported to \"output/teachable_learnsets.h\"", "Success!", MessageBoxButtons.OK);
             SetEnableForAllElements(true);
@@ -823,14 +809,11 @@ namespace moveParser
                         foreach (LevelUpMove move in mon.LevelMoves)
                             monToAdd.EggMoves.Add(move.Move);
                     }
-                    if (chkEgg_IncludeTutor.Checked)
-                    {
-                        foreach (string move in mon.TutorMoves)
-                            monToAdd.EggMoves.Add(move);
-                    }
-                    if (chkEgg_IncludeTM.Checked)
+                    if (chkEgg_IncludeTeach.Checked)
                     {
                         foreach (string move in mon.TMMoves)
+                            monToAdd.EggMoves.Add(move);
+                        foreach (string move in mon.TutorMoves)
                             monToAdd.EggMoves.Add(move);
                     }
 
@@ -893,7 +876,7 @@ namespace moveParser
                 int percent = i * 100 / namecount;
                 bwrkExportEgg.ReportProgress(percent);
                 // Set the text.
-                UpdateLoadingMessage(i.ToString() + " out of " + namecount + " Egg movesets exported.");
+                UpdateLoadingMessage(i.ToString() + "/" + namecount + " Egg movesets exported.");
                 i++;
             }
 
@@ -904,8 +887,6 @@ namespace moveParser
             File.WriteAllText("output/egg_moves.h", sets);
 
             bwrkExportEgg.ReportProgress(0);
-            // Set the text.
-            UpdateLoadingMessage(namecount + " Egg movesets exported.");
 
             MessageBox.Show("Egg moves exported to \"output/egg_moves.h\"", "Success!", MessageBoxButtons.OK);
             SetEnableForAllElements(true);
@@ -953,7 +934,6 @@ namespace moveParser
         {
             chkTM_IncludeEgg.Checked = true;
             chkTM_IncludeLvl.Checked = true;
-            chkTM_IncludeTutor.Checked = true;
         }
 
         private bool CanMewLearnMove(int natDexNum, string move)
