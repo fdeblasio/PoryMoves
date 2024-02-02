@@ -71,12 +71,6 @@ namespace moveParser
             cmbLvl_Combine.Items.Insert((int)MoveCombination.CombineMax, "Combine Movesets (Max)");
             cmbLvl_Combine.Items.Insert((int)MoveCombination.NotInGen3, "Not in Gen3");
             cmbLvl_Combine.SelectedIndex = 0;
-
-            cmbTM_ExportMode.Items.Insert((int)ExportModes.RHH_1_0_0, "RHH 1.0.0");
-            cmbTM_ExportMode.SelectedIndex = 0;
-
-            cmbTutor_ExportMode.Items.Insert(((int)ExportModes.RHH_1_0_0), "RHH 1.0.0");
-            cmbTutor_ExportMode.SelectedIndex = 0;
         }
 
         protected void LoadGenerationData()
@@ -328,12 +322,10 @@ namespace moveParser
                 chkTM_IncludeEgg.Enabled = value;
                 chkTM_IncludeLvl.Enabled = value;
                 chkTM_IncludeTutor.Enabled = value;
-                cmbTM_ExportMode.Enabled = value;
 
                 chkTutor_IncludeLvl.Enabled = value;
                 chkTutor_IncludeEgg.Enabled = value;
                 chkTutor_IncludeTM.Enabled = value;
-                cmbTutor_ExportMode.Enabled = value;
 
                 chkEgg_Extended.Enabled = value;
                 chkEgg_IncludeLvl.Enabled = value;
@@ -607,12 +599,6 @@ namespace moveParser
 
         private void bwrkExportTM_DoWork(object sender, DoWorkEventArgs e)
         {
-            ExportModes mode = ExportModes.RHH_1_0_0;
-            this.Invoke((MethodInvoker)delegate
-            {
-                mode = (ExportModes)this.cmbTM_ExportMode.SelectedIndex;
-            });
-
             UpdateLoadingMessage("Grouping movesets...");
             string namesFile = dbpath + "/monNames.json";
             List<MonName> nameList = PokemonData.GetMonNamesFromFile(namesFile);
@@ -730,61 +716,58 @@ namespace moveParser
                 }
                 MonData data = customGenData[entry.DefName];
                 // begin learnset
-                if (mode == ExportModes.RHH_1_0_0)
+                if (!entry.usesBaseFormLearnset)
                 {
-                    if (!entry.usesBaseFormLearnset)
+                    List<string> teachableLearnsets = new List<string>();
+
+                    sets += $"\nstatic const u16 s{entry.VarName}TeachableLearnset[] = {{\n";
+
+                    foreach (string move in lvlMoves[entry.DefName])
+                        if (!teachableLearnsets.Contains(move))
+                            teachableLearnsets.Add(move);
+
+                    foreach (string move in data.TMMoves)
+                        if (!teachableLearnsets.Contains(move))
+                            teachableLearnsets.Add(move);
+
+                    foreach (string move in data.EggMoves)
+                        if (!teachableLearnsets.Contains(move))
+                            teachableLearnsets.Add(move);
+
+                    foreach (string move in data.TutorMoves)
+                        if (!teachableLearnsets.Contains(move))
+                            teachableLearnsets.Add(move);
+
+                    // Include universal TM moves
+                    foreach (string tmMove in tmMoves)
                     {
-                        List<string> teachableLearnsets = new List<string>();
+                        string move = "MOVE_" + Regex.Replace(tmMove.Replace("*", ""), @"[T|H][M|R]\d{1,3}_", "");
 
-                        sets += $"\nstatic const u16 s{entry.VarName}TeachableLearnset[] = {{\n";
-
-                        foreach (string move in lvlMoves[entry.DefName])
-                            if (!teachableLearnsets.Contains(move))
-                                teachableLearnsets.Add(move);
-
-                        foreach (string move in data.TMMoves)
-                            if (!teachableLearnsets.Contains(move))
-                                teachableLearnsets.Add(move);
-
-                        foreach (string move in data.EggMoves)
-                            if (!teachableLearnsets.Contains(move))
-                                teachableLearnsets.Add(move);
-
-                        foreach (string move in data.TutorMoves)
-                            if (!teachableLearnsets.Contains(move))
-                                teachableLearnsets.Add(move);
-
-                        // Include universal TM moves
-                        foreach (string tmMove in tmMoves)
-                        {
-                            string move = "MOVE_" + Regex.Replace(tmMove.Replace("*", ""), @"[T|H][M|R]\d{1,3}_", "");
-
-                            // Adds TM if it's Mew or if it's a near universal TMs and can support it.
-                            if (!teachableLearnsets.Contains(move) && (!entry.ignoresNearUniversalTMs && tmMove.StartsWith("*") || entry.NatDexNum == 151))
-                                teachableLearnsets.Add(move);
-                        }
-
-                        if (chkTM_IncludeTutor.Checked)
-                        {
-                            foreach (string tutorMove in tutorMoves)
-                            {
-                                // Adds Tutor move if it's Mew.
-                                if (!teachableLearnsets.Contains(tutorMove) && CanMewLearnMove(entry.NatDexNum, tutorMove))
-                                    teachableLearnsets.Add(tutorMove);
-                            }
-                        }
-
-                        // Order alphabetically
-                        teachableLearnsets = teachableLearnsets.OrderBy(x => x).ToList();
-
-                        foreach (string move in teachableLearnsets)
-                        {
-                            //Gender-unknown and Nincada's family shouldn't learn Attract.)
-                            if (!((entry.isGenderless || entry.NatDexNum == 290 || entry.NatDexNum == 291) && move.Equals("MOVE_ATTRACT")))
-                                sets += $"    {move},\n";
-                        }
-                        sets += "    MOVE_UNAVAILABLE,\n};\n";
+                        // Adds TM if it's Mew.
+                        if (!teachableLearnsets.Contains(move) && entry.NatDexNum == 151)
+                            teachableLearnsets.Add(move);
                     }
+
+                    if (chkTM_IncludeTutor.Checked)
+                    {
+                        foreach (string tutorMove in tutorMoves)
+                        {
+                            // Adds Tutor move if it's Mew.
+                            if (!teachableLearnsets.Contains(tutorMove) && CanMewLearnMove(entry.NatDexNum, tutorMove))
+                                teachableLearnsets.Add(tutorMove);
+                        }
+                    }
+
+                    // Order alphabetically
+                    teachableLearnsets = teachableLearnsets.OrderBy(x => x).ToList();
+
+                    foreach (string move in teachableLearnsets)
+                    {
+                        //Gender-unknown and Nincada's family shouldn't learn Attract.)
+                        if (!((entry.isGenderless || entry.NatDexNum == 290 || entry.NatDexNum == 291) && move.Equals("MOVE_ATTRACT")))
+                            sets += $"    {move},\n";
+                    }
+                    sets += "    MOVE_UNAVAILABLE,\n};\n";
                 }
 
                 int percent = i * 100 / namecount;
@@ -882,12 +865,6 @@ namespace moveParser
 
         private void bwrkExportTutor_DoWork(object sender, DoWorkEventArgs e)
         {
-            ExportModes mode = ExportModes.RHH_1_0_0;
-            this.Invoke((MethodInvoker)delegate
-            {
-                mode = (ExportModes)this.cmbTutor_ExportMode.SelectedIndex;
-            });
-
             UpdateLoadingMessage("Grouping movesets...");
             string namesFile = dbpath + "/monNames.json";
             List<MonName> nameList = PokemonData.GetMonNamesFromFile(namesFile);
@@ -1001,61 +978,58 @@ namespace moveParser
                 }
                 MonData data = customGenData[entry.DefName];
                 // begin learnset
-                if (mode == ExportModes.RHH_1_0_0)
+                if (!entry.usesBaseFormLearnset)
                 {
-                    if (!entry.usesBaseFormLearnset)
+                    List<string> teachableLearnsets = new List<string>();
+
+                    sets += $"\nstatic const u16 s{entry.VarName}TeachableLearnset[] = {{\n";
+
+                    foreach (string move in lvlMoves[entry.DefName])
+                        if (!teachableLearnsets.Contains(move))
+                            teachableLearnsets.Add(move);
+
+                    foreach (string move in data.TMMoves)
+                        if (!teachableLearnsets.Contains(move))
+                            teachableLearnsets.Add(move);
+
+                    foreach (string move in data.EggMoves)
+                        if (!teachableLearnsets.Contains(move))
+                            teachableLearnsets.Add(move);
+
+                    foreach (string move in data.TutorMoves)
+                        if (!teachableLearnsets.Contains(move))
+                            teachableLearnsets.Add(move);
+
+                    foreach (string tutorMove in tutorMoves)
                     {
-                        List<string> teachableLearnsets = new List<string>();
-
-                        sets += $"\nstatic const u16 s{entry.VarName}TeachableLearnset[] = {{\n";
-
-                        foreach (string move in lvlMoves[entry.DefName])
-                            if (!teachableLearnsets.Contains(move))
-                                teachableLearnsets.Add(move);
-
-                        foreach (string move in data.TMMoves)
-                            if (!teachableLearnsets.Contains(move))
-                                teachableLearnsets.Add(move);
-
-                        foreach (string move in data.EggMoves)
-                            if (!teachableLearnsets.Contains(move))
-                                teachableLearnsets.Add(move);
-
-                        foreach (string move in data.TutorMoves)
-                            if (!teachableLearnsets.Contains(move))
-                                teachableLearnsets.Add(move);
-
-                        foreach (string tutorMove in tutorMoves)
-                        {
-                            // Adds Tutor move if it's Mew.
-                            if (!teachableLearnsets.Contains(tutorMove) && CanMewLearnMove(entry.NatDexNum, tutorMove))
-                                teachableLearnsets.Add(tutorMove);
-                        }
-
-                        if (chkTutor_IncludeTM.Checked)
-                        {
-                            // Include universal TM moves
-                            foreach (string tmMove in tmMoves)
-                            {
-                                string move = "MOVE_" + Regex.Replace(tmMove.Replace("*", ""), @"[T|H][M|R]\d{1,3}_", "");
-
-                                // Adds TM if it's Mew or if it's a near universal TMs and can support it.
-                                if (!teachableLearnsets.Contains(move) && (!entry.ignoresNearUniversalTMs && tmMove.StartsWith("*") || CanMewLearnMove(entry.NatDexNum, move)))
-                                    teachableLearnsets.Add(move);
-                            }
-                        }
-
-                        // Order alphabetically
-                        teachableLearnsets = teachableLearnsets.OrderBy(x => x).ToList();
-
-                        foreach (string move in teachableLearnsets)
-                        {
-                            //Gender-unknown and Nincada's family shouldn't learn Attract.)
-                            if (!((entry.isGenderless || entry.NatDexNum == 290 || entry.NatDexNum == 291) && move.Equals("MOVE_ATTRACT")))
-                                sets += $"    {move},\n";
-                        }
-                        sets += "    MOVE_UNAVAILABLE,\n};\n";
+                        // Adds Tutor move if it's Mew.
+                        if (!teachableLearnsets.Contains(tutorMove) && CanMewLearnMove(entry.NatDexNum, tutorMove))
+                            teachableLearnsets.Add(tutorMove);
                     }
+
+                    if (chkTutor_IncludeTM.Checked)
+                    {
+                        // Include universal TM moves
+                        foreach (string tmMove in tmMoves)
+                        {
+                            string move = "MOVE_" + Regex.Replace(tmMove.Replace("*", ""), @"[T|H][M|R]\d{1,3}_", "");
+
+                            // Adds TM if it's Mew
+                            if (!teachableLearnsets.Contains(move) && CanMewLearnMove(entry.NatDexNum, move))
+                                teachableLearnsets.Add(move);
+                        }
+                    }
+
+                    // Order alphabetically
+                    teachableLearnsets = teachableLearnsets.OrderBy(x => x).ToList();
+
+                    foreach (string move in teachableLearnsets)
+                    {
+                        //Gender-unknown and Nincada's family shouldn't learn Attract.)
+                        if (!((entry.isGenderless || entry.NatDexNum == 290 || entry.NatDexNum == 291) && move.Equals("MOVE_ATTRACT")))
+                            sets += $"    {move},\n";
+                    }
+                    sets += "    MOVE_UNAVAILABLE,\n};\n";
                 }
 
                 int percent = i * 100 / namecount;
@@ -1263,18 +1237,12 @@ namespace moveParser
 
         private void cmbTM_ExportMode_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbTM_ExportMode.SelectedIndex == (int)ExportModes.RHH_1_0_0)
-            {
-                chkTM_IncludeTutor.Checked = true;
-            }
+            chkTM_IncludeTutor.Checked = true;
         }
 
         private void cmbTutor_ExportMode_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbTutor_ExportMode.SelectedIndex == (int)ExportModes.RHH_1_0_0)
-            {
-                chkTutor_IncludeTM.Checked = true;
-            }
+            chkTutor_IncludeTM.Checked = true;
         }
 
         private bool CanMewLearnMove(int natDexNum, string move)
@@ -1285,9 +1253,6 @@ namespace moveParser
             {
                 switch(move)
                 {
-                    case "MOVE_BLAST_BURN":
-                    case "MOVE_FRENZY_PLANT":
-                    case "MOVE_HYDRO_CANNON":
                     case "MOVE_DRACO_METEOR":
                     case "MOVE_GRASS_PLEDGE":
                     case "MOVE_FIRE_PLEDGE":
