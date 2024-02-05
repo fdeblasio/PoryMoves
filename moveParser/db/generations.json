@@ -196,5 +196,8 @@
     "serebiiMoveTutorTitle": null,
     "serebiiMoveTutorTitleAlt": null,
     "serebiiLocationsName": null
+  },
+  "FD": {
+    "dbFilename": "fd"
   }
 }

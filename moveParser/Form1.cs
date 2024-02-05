@@ -74,16 +74,17 @@ namespace moveParser
                 cListLevelUp.Items.Add(item.Key);
                 cListTMMoves.Items.Add(item.Key);
                 cListEggMoves.Items.Add(item.Key);
-                switch (item.Value.lvlUpColumn)
+                switch (item.Key)
                 {
                     case "SV":
-                    case "SwSh":
+                    case "SWSH":
                     case "USUM":
                         cListLevelUp.SetItemChecked(count, true);
                         cListTMMoves.SetItemChecked(count, true);
                         cListEggMoves.SetItemChecked(count, true);
                         break;
                     case "RSE":
+                    case "FD":
                         cListTMMoves.SetItemChecked(count, true);
                         cListEggMoves.SetItemChecked(count, true);
                         break;
@@ -1042,9 +1043,20 @@ namespace moveParser
             }
         }
 
+        private bool AddMove(List<LevelUpMove> evoMoves, List<LevelUpMove> lvl1Moves, Dictionary<string, List<Tuple<int, int>>> OtherLvlMoves, string move)
+        {
+            if(!evoMoves.Select(x => x.Move).Contains(move) 
+            && !lvl1Moves.Select(x => x.Move).Contains(move)
+            && !OtherLvlMoves.ContainsKey(move)
+            && !FrankDexit(move))
+                return true;
+            else
+                return false;
+        }
+
         private string getFormName(string formName)
         {
-            switch(formName)
+            switch (formName)
             {
                 case "Perrserker":
                 case "Sirfetch'd":
@@ -1066,17 +1078,6 @@ namespace moveParser
                 default:
                     return formName.Split()[0].ToUpper();
             }
-        }
-
-        private bool AddMove(List<LevelUpMove> evoMoves, List<LevelUpMove> lvl1Moves, Dictionary<string, List<Tuple<int, int>>> OtherLvlMoves, string move)
-        {
-            if(!evoMoves.Select(x => x.Move).Contains(move) 
-            && !lvl1Moves.Select(x => x.Move).Contains(move)
-            && !OtherLvlMoves.ContainsKey(move)
-            && !FrankDexit(move))
-                return true;
-            else
-                return false;
         }
     }
 }
