@@ -33,6 +33,8 @@ namespace moveParser
         protected Dictionary<string, GenerationData> GenData;
         protected Dictionary<string, Move> MoveData;
 
+        List<string> validForms = ["ALOLAN", "GALARIAN", "HISUIAN", "PALDEAN"];
+
         public Form1()
         {
             InitializeComponent();
@@ -446,6 +448,7 @@ namespace moveParser
 
             i = 1;
             string currentFamily = "";
+            string currentForm = "";
             // iterate over mons
             foreach (MonName name in nameList)
             {
@@ -474,6 +477,13 @@ namespace moveParser
                     sets += $"\n#if P_FAMILY_{currentFamily}";
                 }
 
+                if (currentForm != getFormName(name.FormName))
+                {
+                    currentForm = getFormName(name.FormName);
+                    if (validForms.Contains(currentForm))
+                        sets += $"\n#if P_{currentForm}_FORMS";
+                }
+
                 // begin learnset
                 if (!name.usesBaseFormLearnset)
                 {
@@ -488,8 +498,10 @@ namespace moveParser
                     }
                     sets += "    LEVEL_UP_END\n};\n";
                 }
+                if (name.FormEnd)
+                    sets += $"#endif //P_{currentForm}_FORMS\n";
                 if (name.FamilyEnd)
-                    sets += $"#endif //P_FAMILY_{name.FamilyName}\n";
+                    sets += $"#endif //P_FAMILY_{currentFamily}\n";
 
                 int percent = i * 100 / namecount;
                 bwrkExportLvl.ReportProgress(percent);
@@ -614,6 +626,7 @@ namespace moveParser
 
             i = 1;
             string currentFamily = "";
+            string currentForm = "";
             // iterate over mons
             foreach (MonName entry in nameList)
             {
@@ -633,6 +646,13 @@ namespace moveParser
                 {
                     currentFamily = entry.FamilyName;
                     sets += $"\n#if P_FAMILY_{currentFamily}";
+                }
+
+                if (currentForm != getFormName(entry.FormName))
+                {
+                    currentForm = getFormName(entry.FormName);
+                    if (validForms.Contains(currentForm))
+                        sets += $"\n#if P_{currentForm}_FORMS";
                 }
 
                 // begin learnset
@@ -685,8 +705,10 @@ namespace moveParser
                             sets += $"    {move},\n";
                     }
                     sets += "    MOVE_UNAVAILABLE,\n};\n";
+                    if (entry.FormEnd)
+                    sets += $"#endif //P_{currentForm}_FORMS\n";
                     if (entry.FamilyEnd)
-                        sets += $"#endif //P_FAMILY_{entry.FamilyName}\n";
+                        sets += $"#endif //P_FAMILY_{currentFamily}\n";
                 }
 
                 int percent = i * 100 / namecount;
@@ -1001,6 +1023,32 @@ namespace moveParser
                     return true;
                 default:
                     return false;
+            }
+        }
+
+        private string getFormName(string formName)
+        {
+            switch(formName)
+            {
+                case "Perrserker":
+                case "Sirfetch'd":
+                case "Mr. Rime":
+                case "Corsola":
+                case "Obstagoon":
+                case "Runerigus":
+                    return "GALARIAN";
+                case "Overqwil":
+                case "Sneasler":
+                case "White-Striped Form":
+                case "Basculegion":
+                    return "HISUIAN";
+                case "Clodsire":
+                case "Combat Breed":
+                case "Blaze Breed":
+                case "Aqua Breed":
+                    return "PALDEAN";
+                default:
+                    return formName.Split()[0].ToUpper();
             }
         }
 
