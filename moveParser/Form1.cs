@@ -34,8 +34,8 @@ namespace moveParser
         protected Dictionary<string, Move> MoveData;
 
         List<string> validForms = ["ALOLAN", "GALARIAN", "HISUIAN", "PALDEAN"];
-        List<string> crossEvoStart = ["Espeon", "Leafeon", "Dipplin"];
-        List<string> crossEvoEnd = ["Umbreon", "Glaceon", "Hydrapple"];
+        List<string> crossEvoStart = ["Espeon", "Leafeon", "Ursaluna", "Dipplin"];
+        List<string> crossEvoEnd = ["Umbreon", "Glaceon", "UrsalunaBloodmoon", "Hydrapple"];
 
         public Form1()
         {
@@ -84,6 +84,7 @@ namespace moveParser
                         cListEggMoves.SetItemChecked(count, true);
                         break;
                     case "RSE":
+                    case "BDSP":
                     case "FD":
                         cListTMMoves.SetItemChecked(count, true);
                         cListEggMoves.SetItemChecked(count, true);
@@ -189,7 +190,22 @@ namespace moveParser
                         if (existingMonData != null && existingMonData.ContainsKey(current))
                             currentData = existingMonData[current];
 
-                        mon = PokemonData.DownloadMonData_PokemonDB(monName, generation, MoveData, currentData);
+                        switch(current)
+                        {
+                            case "TAUROS":
+                            case "TAUROS_PALDEAN_COMBAT_BREED":
+                            case "TAUROS_PALDEAN_BLAZE_BREED":
+                            case "TAUROS_PALDEAN_AQUA_BREED":
+                            case "SCYTHER":
+                            case "SCIZOR":
+                            case "KLEAVOR":
+                                mon = PokemonData.DownloadMonData_Bulbapedia(monName, generation, MoveData);
+                                break;
+                            default:
+                                mon = PokemonData.DownloadMonData_PokemonDB(monName, generation, MoveData, currentData);
+                                break;
+                        }
+                        //mon = PokemonData.DownloadMonData_PokemonDB(monName, generation, MoveData, currentData);
                         /*
                         if (generation.genNumber > 7)
                             mon = PokemonData.DownloadMonData_Serebii(item, generation, MoveData);
@@ -487,7 +503,7 @@ namespace moveParser
                         sets += $"\n#if P_{currentForm}_FORMS";
                 }
 
-                if (name.CrossEvo != null && !crossEvoEnd.Contains(name.SpeciesName))
+                if (name.CrossEvo != null && !crossEvoEnd.Contains(name.VarName))
                     sets += $"\n#if P_GEN_{name.CrossEvo}_CROSS_EVOS";
 
                 // begin learnset
@@ -504,7 +520,7 @@ namespace moveParser
                     }
                     sets += "    LEVEL_UP_END\n};\n";
                 }
-                if (name.CrossEvo != null && !crossEvoStart.Contains(name.SpeciesName) && name.SpeciesName != "Porygon2")
+                if (name.CrossEvo != null && !crossEvoStart.Contains(name.VarName) && name.SpeciesName != "Porygon2")
                     sets += $"#endif //P_GEN_{name.CrossEvo}_CROSS_EVOS\n";
                 if (name.SpeciesName == "Porygon-Z")
                     sets += $"#endif //P_GEN_2_CROSS_EVOS\n";
@@ -627,9 +643,7 @@ namespace moveParser
 
             if (!Directory.Exists("output"))
                 Directory.CreateDirectory("output");
-
             File.WriteAllText("output/tms_hms.h", tms);
-            MessageBox.Show("TM list exported to \"output/tms_hms.h\"", "Success!", MessageBoxButtons.OK);
 
             // file header
             string sets = "static const u16 sNoneTeachableLearnset[] = {\n    MOVE_UNAVAILABLE,\n};\n";
@@ -665,7 +679,7 @@ namespace moveParser
                         sets += $"\n#if P_{currentForm}_FORMS";
                 }
 
-                if (name.CrossEvo != null && !crossEvoEnd.Contains(name.SpeciesName))
+                if (name.CrossEvo != null && !crossEvoEnd.Contains(name.VarName))
                     sets += $"\n#if P_GEN_{name.CrossEvo}_CROSS_EVOS";
 
                 // begin learnset
@@ -673,6 +687,8 @@ namespace moveParser
                 {
                     List<string> teachableLearnsets = new List<string>();
 
+                    if (name.SpeciesName == "Mew")
+                        sets += "\n// Instead of reading this array for Mew, it checks for exceptions in CanLearnTeachableMove instead.";
                     sets += $"\nstatic const u16 s{name.VarName}TeachableLearnset[] = {{\n";
 
                     foreach (string move in lvlMoves[name.DefName])
@@ -718,7 +734,7 @@ namespace moveParser
                             sets += $"    {move},\n";
                     }
                     sets += "    MOVE_UNAVAILABLE,\n};\n";
-                    if (name.CrossEvo != null && !crossEvoStart.Contains(name.SpeciesName) && name.SpeciesName != "Porygon2")
+                    if (name.CrossEvo != null && !crossEvoStart.Contains(name.VarName) && name.SpeciesName != "Porygon2")
                         sets += $"#endif //P_GEN_{name.CrossEvo}_CROSS_EVOS\n";
                     if (name.SpeciesName == "Porygon-Z")
                         sets += $"#endif //P_GEN_2_CROSS_EVOS\n";
@@ -742,7 +758,7 @@ namespace moveParser
 
             bwrkExportTM.ReportProgress(0);
 
-            MessageBox.Show("Teachable moves exported to \"output/teachable_learnsets.h\"", "Success!", MessageBoxButtons.OK);
+            MessageBox.Show("Teachable moves exported to \"output/teachable_learnsets.h\"\nTM list exported to \"output/tms_hms.h\"", "Success!", MessageBoxButtons.OK);
             SetEnableForAllElements(true);
         }
 
@@ -983,10 +999,6 @@ namespace moveParser
             {
                 switch(move)
                 {
-                    case "MOVE_DRACO_METEOR":
-                    case "MOVE_GRASS_PLEDGE":
-                    case "MOVE_FIRE_PLEDGE":
-                    case "MOVE_WATER_PLEDGE":
                     case "MOVE_RELIC_SONG":
                     case "MOVE_SECRET_SWORD":
                     case "MOVE_DRAGON_ASCENT":
@@ -1002,7 +1014,6 @@ namespace moveParser
                     case "MOVE_SAPPY_SEED":
                     case "MOVE_FREEZY_FROST":
                     case "MOVE_SPARKLY_SWIRL":
-                    case "MOVE_STEEL_BEAM":
                         return false;
                 }
             }
@@ -1061,7 +1072,7 @@ namespace moveParser
                 case "Perrserker":
                 case "Sirfetch'd":
                 case "Mr. Rime":
-                case "Corsola":
+                case "Cursola":
                 case "Obstagoon":
                 case "Runerigus":
                     return "GALARIAN";
@@ -1071,9 +1082,6 @@ namespace moveParser
                 case "Basculegion":
                     return "HISUIAN";
                 case "Clodsire":
-                case "Combat Breed":
-                case "Blaze Breed":
-                case "Aqua Breed":
                     return "PALDEAN";
                 default:
                     return formName.Split()[0].ToUpper();
