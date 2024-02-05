@@ -637,44 +637,44 @@ namespace moveParser
             string currentFamily = "";
             string currentForm = "";
             // iterate over mons
-            foreach (MonName entry in nameList)
+            foreach (MonName name in nameList)
             {
                 if (chkVanillaMode.Checked)
                 {
-                    switch (entry.DefName)
+                    switch (name.DefName)
                     {
                         case "DEOXYS_NORMAL":
-                            entry.DefName = "DEOXYS";
-                            entry.VarName = "Deoxys";
+                            name.DefName = "DEOXYS";
+                            name.VarName = "Deoxys";
                             break;
                     }
                 }
-                MonData data = customGenData[entry.DefName];
+                MonData data = customGenData[name.DefName];
 
-                if (currentFamily != entry.FamilyName)
+                if (currentFamily != name.FamilyName)
                 {
-                    currentFamily = entry.FamilyName;
+                    currentFamily = name.FamilyName;
                     sets += $"\n#if P_FAMILY_{currentFamily}";
                 }
 
-                if (currentForm != getFormName(entry.FormName))
+                if (currentForm != getFormName(name.FormName))
                 {
-                    currentForm = getFormName(entry.FormName);
+                    currentForm = getFormName(name.FormName);
                     if (validForms.Contains(currentForm))
                         sets += $"\n#if P_{currentForm}_FORMS";
                 }
 
-                if (entry.CrossEvo != null && !crossEvoEnd.Contains(entry.SpeciesName))
-                    sets += $"\n#if P_GEN_{entry.CrossEvo}_CROSS_EVOS";
+                if (name.CrossEvo != null && !crossEvoEnd.Contains(name.SpeciesName))
+                    sets += $"\n#if P_GEN_{name.CrossEvo}_CROSS_EVOS";
 
                 // begin learnset
-                if (!entry.usesBaseFormLearnset)
+                if (!name.usesBaseFormLearnset)
                 {
                     List<string> teachableLearnsets = new List<string>();
 
-                    sets += $"\nstatic const u16 s{entry.VarName}TeachableLearnset[] = {{\n";
+                    sets += $"\nstatic const u16 s{name.VarName}TeachableLearnset[] = {{\n";
 
-                    foreach (string move in lvlMoves[entry.DefName])
+                    foreach (string move in lvlMoves[name.DefName])
                         if (!teachableLearnsets.Contains(move) && !FrankDexit(move))
                             teachableLearnsets.Add(move);
 
@@ -696,14 +696,14 @@ namespace moveParser
                         string move = "MOVE_" + tmMove;
 
                         // Adds TM if it's Mew.
-                        if (!teachableLearnsets.Contains(move) && entry.NatDexNum == 151)
+                        if (!teachableLearnsets.Contains(move) && name.NatDexNum == 151)
                             teachableLearnsets.Add(move);
                     }
 
                     foreach (string tutorMove in tutorMoves)
                     {
                         // Adds Tutor move if it's Mew.
-                        if (!teachableLearnsets.Contains(tutorMove) && !FrankDexit(tutorMove) && CanMewLearnMove(entry.NatDexNum, tutorMove))
+                        if (!teachableLearnsets.Contains(tutorMove) && !FrankDexit(tutorMove) && CanMewLearnMove(name.NatDexNum, tutorMove))
                             teachableLearnsets.Add(tutorMove);
                     }
 
@@ -713,17 +713,17 @@ namespace moveParser
                     foreach (string move in teachableLearnsets)
                     {
                         //Gender-unknown and Nincada's family shouldn't learn Attract.)
-                        if (!((entry.isGenderless || entry.NatDexNum == 290 || entry.NatDexNum == 291) && move.Equals("MOVE_ATTRACT")) && !IsMoveUniversal(move))
+                        if (!((name.isGenderless || name.NatDexNum == 290 || name.NatDexNum == 291) && move.Equals("MOVE_ATTRACT")) && !IsMoveUniversal(move))
                             sets += $"    {move},\n";
                     }
                     sets += "    MOVE_UNAVAILABLE,\n};\n";
-                    if (entry.CrossEvo != null && !crossEvoStart.Contains(entry.SpeciesName) && entry.SpeciesName != "Porygon2")
-                        sets += $"#endif //P_GEN_{entry.CrossEvo}_CROSS_EVOS\n";
-                    if (entry.SpeciesName == "Porygon-Z")
+                    if (name.CrossEvo != null && !crossEvoStart.Contains(name.SpeciesName) && name.SpeciesName != "Porygon2")
+                        sets += $"#endif //P_GEN_{name.CrossEvo}_CROSS_EVOS\n";
+                    if (name.SpeciesName == "Porygon-Z")
                         sets += $"#endif //P_GEN_2_CROSS_EVOS\n";
-                    if (entry.FormEnd)
+                    if (name.FormEnd)
                         sets += $"#endif //P_{currentForm}_FORMS\n";
-                    if (entry.FamilyEnd)
+                    if (name.FamilyEnd)
                         sets += $"#endif //P_FAMILY_{currentFamily}\n";
                 }
 
@@ -876,28 +876,28 @@ namespace moveParser
             // iterate over mons
             i = 1;
             string currentFamily = "";
-            foreach (MonName entry in nameList)
+            foreach (MonName name in nameList)
             {
                 if (chkVanillaMode.Checked)
                 {
-                    switch (entry.DefName)
+                    switch (name.DefName)
                     {
                         case "DEOXYS_NORMAL":
-                            entry.DefName = "DEOXYS";
-                            entry.VarName = "Deoxys";
+                            name.DefName = "DEOXYS";
+                            name.VarName = "Deoxys";
                             break;
                     }
                 }
-                MonData data = customGenData[entry.DefName];
-                if (entry.CanHatchFromEgg && data.EggMoves.Count > 0)
+                MonData data = customGenData[name.DefName];
+                if (name.CanHatchFromEgg && data.EggMoves.Count > 0)
                 {
-                    if (currentFamily != entry.FamilyName)
+                    if (currentFamily != name.FamilyName)
                     {
-                        currentFamily = entry.FamilyName;
+                        currentFamily = name.FamilyName;
                         sets += $"#if P_FAMILY_{currentFamily}\n";
                     }
                     // begin learnset
-                    sets += $"    egg_moves({entry.DefName},\n";
+                    sets += $"    egg_moves({name.DefName},\n";
                     // hacky workaround for first move being on the same line
                     int eggm = 1;
                     foreach (string move in data.EggMoves)
@@ -908,7 +908,7 @@ namespace moveParser
                         sets += ",\n";
                         eggm++;
                     }
-                    sets += $"#endif //P_FAMILY_{entry.FamilyName}\n\n";
+                    sets += $"#endif //P_FAMILY_{name.FamilyName}\n\n";
                 }
 
                 int percent = i * 100 / namecount;
