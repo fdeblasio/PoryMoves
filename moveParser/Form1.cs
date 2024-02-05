@@ -34,6 +34,8 @@ namespace moveParser
         protected Dictionary<string, Move> MoveData;
 
         List<string> validForms = ["ALOLAN", "GALARIAN", "HISUIAN", "PALDEAN"];
+        List<string> crossEvoStart = ["Espeon", "Leafeon", "Dipplin"];
+        List<string> crossEvoEnd = ["Umbreon", "Glaceon", "Hydrapple"];
 
         public Form1()
         {
@@ -484,6 +486,9 @@ namespace moveParser
                         sets += $"\n#if P_{currentForm}_FORMS";
                 }
 
+                if (name.CrossEvo != null && !crossEvoEnd.Contains(name.SpeciesName))
+                    sets += $"\n#if P_GEN_{name.CrossEvo}_CROSS_EVOS";
+
                 // begin learnset
                 if (!name.usesBaseFormLearnset)
                 {
@@ -498,6 +503,10 @@ namespace moveParser
                     }
                     sets += "    LEVEL_UP_END\n};\n";
                 }
+                if (name.CrossEvo != null && !crossEvoStart.Contains(name.SpeciesName) && name.SpeciesName != "Porygon2")
+                    sets += $"#endif //P_GEN_{name.CrossEvo}_CROSS_EVOS\n";
+                if (name.SpeciesName == "Porygon-Z")
+                    sets += $"#endif //P_GEN_2_CROSS_EVOS\n";
                 if (name.FormEnd)
                     sets += $"#endif //P_{currentForm}_FORMS\n";
                 if (name.FamilyEnd)
@@ -655,6 +664,9 @@ namespace moveParser
                         sets += $"\n#if P_{currentForm}_FORMS";
                 }
 
+                if (entry.CrossEvo != null && !crossEvoEnd.Contains(entry.SpeciesName))
+                    sets += $"\n#if P_GEN_{entry.CrossEvo}_CROSS_EVOS";
+
                 // begin learnset
                 if (!entry.usesBaseFormLearnset)
                 {
@@ -705,8 +717,12 @@ namespace moveParser
                             sets += $"    {move},\n";
                     }
                     sets += "    MOVE_UNAVAILABLE,\n};\n";
+                    if (entry.CrossEvo != null && !crossEvoStart.Contains(entry.SpeciesName) && entry.SpeciesName != "Porygon2")
+                        sets += $"#endif //P_GEN_{entry.CrossEvo}_CROSS_EVOS\n";
+                    if (entry.SpeciesName == "Porygon-Z")
+                        sets += $"#endif //P_GEN_2_CROSS_EVOS\n";
                     if (entry.FormEnd)
-                    sets += $"#endif //P_{currentForm}_FORMS\n";
+                        sets += $"#endif //P_{currentForm}_FORMS\n";
                     if (entry.FamilyEnd)
                         sets += $"#endif //P_FAMILY_{currentFamily}\n";
                 }

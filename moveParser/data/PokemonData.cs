@@ -35,6 +35,7 @@ namespace moveParser.data
         public string DefName;
         public string FamilyName;
         public bool FamilyEnd;
+        public int? CrossEvo;
         public int? minGameId;
         public string SerebiiFormName;
         public string SerebiiFormNameAlt;
