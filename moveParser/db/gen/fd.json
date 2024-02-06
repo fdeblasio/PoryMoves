@@ -2967,7 +2967,9 @@
   "ZANGOOSE": {
     "LevelMoves": [],
     "PreEvoMoves": [],
-    "TMMoves": [],
+    "TMMoves": [
+      "MOVE_CUT"
+    ],
     "EggMoves": [],
     "TutorMoves": []
   },

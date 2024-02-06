@@ -201,6 +201,9 @@ namespace moveParser
                             case "SCYTHER":
                             case "SCIZOR":
                             case "KLEAVOR":
+                            case "SHINX":
+                            case "LUXIO":
+                            case "LUXRAY":
                                 mon = PokemonData.DownloadMonData_Bulbapedia(monName, generation, MoveData);
                                 break;
                             default:
