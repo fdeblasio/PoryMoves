@@ -891,6 +891,7 @@ namespace moveParser
             string currentFamily = "";
             foreach (MonName name in nameList)
             {
+                string currentForm = getFormName(name.FormName);
                 if (chkVanillaMode.Checked)
                 {
                     switch (name.DefName)
@@ -911,6 +912,13 @@ namespace moveParser
                         currentFamily = name.FamilyName;
                         sets += $"#if P_FAMILY_{currentFamily}";
                     }
+
+                    if (validForms.Contains(currentForm))
+                        sets += $"\n#if P_{currentForm}_FORMS";
+
+                    if (name.CrossEvo != null)
+                        sets += $"\n#if P_GEN_{name.CrossEvo}_CROSS_EVOS";
+
                     // begin learnset
                     sets += $"\n    egg_moves({name.DefName},\n";
                     // hacky workaround for first move being on the same line
@@ -923,6 +931,10 @@ namespace moveParser
                         sets += ",\n";
                         eggm++;
                     }
+                    if (name.CrossEvo != null)
+                        sets += $"#endif //P_GEN_{name.CrossEvo}_CROSS_EVOS\n";
+                    if (validForms.Contains(currentForm))
+                        sets += $"#endif //P_{currentForm}_FORMS\n";
                 }
 
                 int percent = i * 100 / namecount;
