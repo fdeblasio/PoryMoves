@@ -34,7 +34,6 @@ namespace moveParser.data
         public string VarName;
         public string DefName;
         public string FamilyName;
-        public bool FamilyEnd;
         public int? CrossEvo;
         public int? minGameId;
 

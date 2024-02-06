@@ -488,6 +488,8 @@ namespace moveParser
 
                 if (currentFamily != name.FamilyName)
                 {
+                    if (currentFamily != "")
+                        sets += $"#endif //P_FAMILY_{currentFamily}\n";
                     currentFamily = name.FamilyName;
                     sets += $"\n#if P_FAMILY_{currentFamily}";
                 }
@@ -522,8 +524,6 @@ namespace moveParser
                     sets += $"#endif //P_GEN_2_CROSS_EVOS\n";
                 if (name.FormEnd)
                     sets += $"#endif //P_{currentForm}_FORMS\n";
-                if (name.FamilyEnd)
-                    sets += $"#endif //P_FAMILY_{currentFamily}\n";
 
                 int percent = i * 100 / namecount;
                 bwrkExportLvl.ReportProgress(percent);
@@ -664,6 +664,8 @@ namespace moveParser
 
                 if (currentFamily != name.FamilyName)
                 {
+                    if (currentFamily != "")
+                        sets += $"#endif //P_FAMILY_{currentFamily}\n";
                     currentFamily = name.FamilyName;
                     sets += $"\n#if P_FAMILY_{currentFamily}";
                 }
@@ -736,8 +738,6 @@ namespace moveParser
                         sets += $"#endif //P_GEN_2_CROSS_EVOS\n";
                     if (name.FormEnd)
                         sets += $"#endif //P_{currentForm}_FORMS\n";
-                    if (name.FamilyEnd)
-                        sets += $"#endif //P_FAMILY_{currentFamily}\n";
                 }
 
                 int percent = i * 100 / namecount;
@@ -906,11 +906,13 @@ namespace moveParser
                 {
                     if (currentFamily != name.FamilyName)
                     {
+                        if (currentFamily != "")
+                            sets += $"#endif //P_FAMILY_{currentFamily}\n\n";
                         currentFamily = name.FamilyName;
-                        sets += $"#if P_FAMILY_{currentFamily}\n";
+                        sets += $"#if P_FAMILY_{currentFamily}";
                     }
                     // begin learnset
-                    sets += $"    egg_moves({name.DefName},\n";
+                    sets += $"\n    egg_moves({name.DefName},\n";
                     // hacky workaround for first move being on the same line
                     int eggm = 1;
                     foreach (string move in data.EggMoves)
@@ -921,7 +923,6 @@ namespace moveParser
                         sets += ",\n";
                         eggm++;
                     }
-                    sets += $"#endif //P_FAMILY_{name.FamilyName}\n\n";
                 }
 
                 int percent = i * 100 / namecount;
