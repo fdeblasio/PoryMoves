@@ -37,6 +37,8 @@ namespace moveParser
         List<string> crossEvoStart = ["Espeon", "Leafeon", "Ursaluna", "Dipplin"];
         List<string> crossEvoEnd = ["Umbreon", "Glaceon", "UrsalunaBloodmoon", "Hydrapple"];
 
+        //Console.WriteLine($"Hello World!");
+
         public Form1()
         {
             InitializeComponent();
@@ -380,7 +382,7 @@ namespace moveParser
                 List<LevelUpMove> evoMoves = new List<LevelUpMove>();
                 List<LevelUpMove> lvl1Moves = new List<LevelUpMove>();
 
-                Dictionary<string, List<Tuple<int, int>>> OtherLvlMoves = new Dictionary<string, List<Tuple<int, int>>>();
+                Dictionary<string, int> OtherLvlMoves = new Dictionary<string, int>();
 
                 bool stopReading = false;
                 foreach (string item in cListLevelUp.CheckedItems)
@@ -392,18 +394,18 @@ namespace moveParser
                     {
                         if (move.Level == 0)
                         {
-                            if (AddMove(evoMoves, lvl1Moves, OtherLvlMoves, move.Move))
+                            if (AddLevelUpMove(evoMoves, lvl1Moves, OtherLvlMoves, move.Move))
                                 evoMoves.Add(move);
                         }
                         else if (move.Level == 1)
                         {
-                            if (AddMove(evoMoves, lvl1Moves, OtherLvlMoves, move.Move))
+                            if (AddLevelUpMove(evoMoves, lvl1Moves, OtherLvlMoves, move.Move))
                                 lvl1Moves.Add(move);
                         }
                         else
                         {
-                            if (AddMove(evoMoves, lvl1Moves, OtherLvlMoves, move.Move))
-                                OtherLvlMoves.Add(move.Move, new List<Tuple<int, int>> { new Tuple<int, int>(gen.genNumber, move.Level) });
+                            if (AddLevelUpMove(evoMoves, lvl1Moves, OtherLvlMoves, move.Move))
+                                OtherLvlMoves.Add(move.Move, move.Level);
                         }
                     }
                     foreach(string pem in mon.PreEvoMoves)
@@ -425,7 +427,7 @@ namespace moveParser
                 {
                     foreach (string move in preEvoMoves)
                     {
-                        if (AddMove(evoMoves, lvl1Moves, OtherLvlMoves, move))
+                        if (AddLevelUpMove(evoMoves, lvl1Moves, OtherLvlMoves, move))
                             monToAdd.LevelMoves.Add(new LevelUpMove(1, move));
                     }
                 }
@@ -433,22 +435,8 @@ namespace moveParser
                 foreach (LevelUpMove move in lvl1Moves)
                     monToAdd.LevelMoves.Add(move);
 
-                //monToAdd.LevelMoves.Add(new LevelUpMove(21, "MOVE_SKETCH"));
-                if (!name.SpeciesName.Equals("Smeargle"))
-                {
-                    foreach (KeyValuePair<string, List<Tuple<int, int>>> item in OtherLvlMoves)
-                    {
-                        int weightedSum = 0;
-                        int sum = 0;
-
-                        foreach (Tuple<int, int> l in item.Value)
-                        {
-                            weightedSum += l.Item1 * l.Item2;
-                            sum += l.Item1;
-                        }
-                        monToAdd.LevelMoves.Add(new LevelUpMove(Math.Max((int)(weightedSum / sum), 2), item.Key));
-                    }
-                }
+                foreach (KeyValuePair<string, int> item in OtherLvlMoves)
+                    monToAdd.LevelMoves.Add(new LevelUpMove(item.Value, item.Key));
                 monToAdd.LevelMoves = monToAdd.LevelMoves.OrderBy(o => o.Level).ToList();
 
                 customGenData.Add(name.DefName, monToAdd);
@@ -1054,7 +1042,7 @@ namespace moveParser
             }
         }
 
-        private bool AddMove(List<LevelUpMove> evoMoves, List<LevelUpMove> lvl1Moves, Dictionary<string, List<Tuple<int, int>>> OtherLvlMoves, string move)
+        private bool AddLevelUpMove(List<LevelUpMove> evoMoves, List<LevelUpMove> lvl1Moves, Dictionary<string, int> OtherLvlMoves, string move)
         {
             if(!evoMoves.Select(x => x.Move).Contains(move) 
             && !lvl1Moves.Select(x => x.Move).Contains(move)
