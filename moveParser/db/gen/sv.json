@@ -42993,7 +42993,11 @@
       "MOVE_ELECTRIC_TERRAIN",
       "MOVE_WILD_CHARGE",
       "MOVE_THUNDER",
-      "MOVE_TERA_BLAST"
+      "MOVE_TERA_BLAST",
+      "MOVE_ROAR",
+      "MOVE_CHARGE",
+      "MOVE_DOUBLE_EDGE",
+      "MOVE_ELECTROWEB"
     ],
     "EggMoves": [
       "MOVE_BABY_DOLL_EYES",
@@ -43100,7 +43104,11 @@
       "MOVE_ELECTRIC_TERRAIN",
       "MOVE_WILD_CHARGE",
       "MOVE_THUNDER",
-      "MOVE_TERA_BLAST"
+      "MOVE_TERA_BLAST",
+      "MOVE_ROAR",
+      "MOVE_CHARGE",
+      "MOVE_DOUBLE_EDGE",
+      "MOVE_ELECTROWEB"
     ],
     "EggMoves": [
       "MOVE_BABY_DOLL_EYES",
@@ -43215,7 +43223,13 @@
       "MOVE_GIGA_IMPACT",
       "MOVE_HYPER_BEAM",
       "MOVE_THUNDER",
-      "MOVE_TERA_BLAST"
+      "MOVE_TERA_BLAST",
+      "MOVE_ROAR",
+      "MOVE_CHARGE",
+      "MOVE_DOUBLE_EDGE",
+      "MOVE_SUPERCELL_SLAM",
+      "MOVE_ELECTROWEB",
+      "MOVE_THROAT_CHOP"
     ],
     "EggMoves": [
       "MOVE_BABY_DOLL_EYES",
