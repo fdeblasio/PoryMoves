@@ -389,6 +389,11 @@ namespace moveParser
                 {
                     GenerationData gen = GenData[item];
                     MonData mon = new MonData();
+                    try
+                    {
+                        mon = allGensData[item][name.DefName];
+                    }
+                    catch (KeyNotFoundException) { }
 
                     foreach (LevelUpMove move in mon.LevelMoves)
                     {
