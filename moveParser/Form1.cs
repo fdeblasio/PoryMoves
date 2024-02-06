@@ -204,6 +204,9 @@ namespace moveParser
                             case "SHINX":
                             case "LUXIO":
                             case "LUXRAY":
+                            case "TYNAMO":
+                            case "EELEKTRIK":
+                            case "EELEKTROSS":
                                 mon = PokemonData.DownloadMonData_Bulbapedia(monName, generation, MoveData);
                                 break;
                             default:
@@ -681,7 +684,7 @@ namespace moveParser
                     sets += $"\n#if P_GEN_{name.CrossEvo}_CROSS_EVOS";
 
                 // begin learnset
-                if (!name.usesBaseFormLearnset)
+                if (!name.usesBaseFormLearnset && name.FormName != "Black Kyurem" && name.FormName != "White Kyurem")
                 {
                     List<string> teachableLearnsets = new List<string>();
 

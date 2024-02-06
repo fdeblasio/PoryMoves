@@ -55641,7 +55641,9 @@
     "TMMoves": [
       "MOVE_CHARGE_BEAM",
       "MOVE_THUNDER_WAVE",
-      "MOVE_TERA_BLAST"
+      "MOVE_TERA_BLAST",
+      "MOVE_CHARGE",
+      "MOVE_KNOCK_OFF"
     ],
     "EggMoves": [],
     "TutorMoves": []
@@ -55738,7 +55740,13 @@
       "MOVE_ELECTRIC_TERRAIN",
       "MOVE_WILD_CHARGE",
       "MOVE_THUNDER",
-      "MOVE_TERA_BLAST"
+      "MOVE_TERA_BLAST",
+      "MOVE_CHARGE",
+      "MOVE_KNOCK_OFF",
+      "MOVE_SUPER_FANG",
+      "MOVE_LUNGE",
+      "MOVE_ELECTROWEB",
+      "MOVE_THROAT_CHOP"
     ],
     "EggMoves": [],
     "TutorMoves": []
@@ -55841,7 +55849,15 @@
       "MOVE_HYPER_BEAM",
       "MOVE_THUNDER",
       "MOVE_CLOSE_COMBAT",
-      "MOVE_TERA_BLAST"
+      "MOVE_TERA_BLAST",
+      "MOVE_CHARGE",
+      "MOVE_KNOCK_OFF",
+      "MOVE_SUPER_FANG",
+      "MOVE_LUNGE",
+      "MOVE_FOCUS_PUNCH",
+      "MOVE_SUPERCELL_SLAM",
+      "MOVE_ELECTROWEB",
+      "MOVE_THROAT_CHOP"
     ],
     "EggMoves": [],
     "TutorMoves": []
