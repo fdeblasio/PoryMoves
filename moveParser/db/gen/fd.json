@@ -602,7 +602,12 @@
     "TutorMoves": []
   },
   "KADABRA": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 0,
+        "Move": "MOVE_KINESIS"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
@@ -2364,7 +2369,12 @@
     "TutorMoves": []
   },
   "STANTLER": {
-    "LevelMoves": [],
+    "LevelMoves": [
+    {
+      "Level": 1,
+      "Move": "MOVE_PSYSHIELD_BASH"
+    }
+  ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
@@ -3187,6 +3197,10 @@
   },
   "LUNATONE": {
     "LevelMoves": [
+      {
+        "Level": 1,
+        "Move": "MOVE_POWER_GEM"
+      },
       {
         "Level": 5,
         "Move": "MOVE_ICY_WIND"

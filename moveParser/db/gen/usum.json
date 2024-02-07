@@ -1223,8 +1223,7 @@
     "PreEvoMoves": [
       "MOVE_BUG_BITE",
       "MOVE_STRING_SHOT",
-      "MOVE_TACKLE",
-      "MOVE_SNORE"
+      "MOVE_TACKLE"
     ],
     "TMMoves": [],
     "EggMoves": [],
@@ -4003,8 +4002,7 @@
       "MOVE_CHARM",
       "MOVE_COPYCAT",
       "MOVE_MAGICAL_LEAF",
-      "MOVE_SWEET_KISS",
-      "MOVE_UPROAR"
+      "MOVE_SWEET_KISS"
     ],
     "TMMoves": [
       "MOVE_WORK_UP",
@@ -4145,8 +4143,7 @@
       "MOVE_POUND",
       "MOVE_STORED_POWER",
       "MOVE_SWEET_KISS",
-      "MOVE_WAKE_UP_SLAP",
-      "MOVE_UPROAR"
+      "MOVE_WAKE_UP_SLAP"
     ],
     "TMMoves": [
       "MOVE_WORK_UP",
@@ -4572,8 +4569,7 @@
     "PreEvoMoves": [
       "MOVE_CHARM",
       "MOVE_COPYCAT",
-      "MOVE_SWEET_KISS",
-      "MOVE_UPROAR"
+      "MOVE_SWEET_KISS"
     ],
     "TMMoves": [
       "MOVE_WORK_UP",
@@ -4705,8 +4701,7 @@
       "MOVE_STOCKPILE",
       "MOVE_SWALLOW",
       "MOVE_SWEET_KISS",
-      "MOVE_WAKE_UP_SLAP",
-      "MOVE_UPROAR"
+      "MOVE_WAKE_UP_SLAP"
     ],
     "TMMoves": [
       "MOVE_WORK_UP",
@@ -13105,8 +13100,7 @@
       "MOVE_SOLAR_BEAM",
       "MOVE_STUN_SPORE",
       "MOVE_UPROAR",
-      "MOVE_WORRY_SEED",
-      "MOVE_UPROAR"
+      "MOVE_WORRY_SEED"
     ],
     "TMMoves": [
       "MOVE_PSYSHOCK",
@@ -13562,8 +13556,7 @@
     "PreEvoMoves": [
       "MOVE_FAKE_OUT",
       "MOVE_HELPING_HAND",
-      "MOVE_TACKLE",
-      "MOVE_UPROAR"
+      "MOVE_TACKLE"
     ],
     "TMMoves": [
       "MOVE_WORK_UP",
@@ -13730,8 +13723,7 @@
       "MOVE_FAKE_OUT",
       "MOVE_FORESIGHT",
       "MOVE_HELPING_HAND",
-      "MOVE_TACKLE",
-      "MOVE_UPROAR"
+      "MOVE_TACKLE"
     ],
     "TMMoves": [
       "MOVE_WORK_UP",
@@ -14577,8 +14569,7 @@
     "PreEvoMoves": [
       "MOVE_CHARM",
       "MOVE_COPYCAT",
-      "MOVE_SWEET_KISS",
-      "MOVE_UPROAR"
+      "MOVE_SWEET_KISS"
     ],
     "TMMoves": [
       "MOVE_WORK_UP",
@@ -15737,8 +15728,7 @@
       }
     ],
     "PreEvoMoves": [
-      "MOVE_TICKLE",
-      "MOVE_UPROAR"
+      "MOVE_TICKLE"
     ],
     "TMMoves": [
       "MOVE_PSYSHOCK",
@@ -16050,8 +16040,7 @@
       "MOVE_LUCKY_CHANT",
       "MOVE_PSYCHIC",
       "MOVE_SING",
-      "MOVE_SWEET_KISS",
-      "MOVE_UPROAR"
+      "MOVE_SWEET_KISS"
     ],
     "TMMoves": [
       "MOVE_PSYSHOCK",
@@ -18305,8 +18294,7 @@
       "MOVE_SCREECH",
       "MOVE_SNATCH",
       "MOVE_STOCKPILE",
-      "MOVE_SWALLOW",
-      "MOVE_UPROAR"
+      "MOVE_SWALLOW"
     ],
     "TMMoves": [
       "MOVE_WORK_UP",
@@ -23792,8 +23780,7 @@
       "MOVE_BOUNCE",
       "MOVE_CHARM",
       "MOVE_SLAM",
-      "MOVE_SPLASH",
-      "MOVE_UPROAR"
+      "MOVE_SPLASH"
     ],
     "TMMoves": [
       "MOVE_WORK_UP",
@@ -23940,8 +23927,7 @@
       "MOVE_BOUNCE",
       "MOVE_CHARM",
       "MOVE_SLAM",
-      "MOVE_SPLASH",
-      "MOVE_UPROAR"
+      "MOVE_SPLASH"
     ],
     "TMMoves": [
       "MOVE_WORK_UP",
@@ -24106,8 +24092,7 @@
       }
     ],
     "PreEvoMoves": [
-      "MOVE_FAKE_TEARS",
-      "MOVE_UPROAR"
+      "MOVE_FAKE_TEARS"
     ],
     "TMMoves": [
       "MOVE_CALM_MIND",
@@ -30875,8 +30860,7 @@
       "MOVE_FAKE_OUT",
       "MOVE_FORESIGHT",
       "MOVE_HELPING_HAND",
-      "MOVE_TACKLE",
-      "MOVE_UPROAR"
+      "MOVE_TACKLE"
     ],
     "TMMoves": [
       "MOVE_WORK_UP",
@@ -31504,8 +31488,7 @@
     "PreEvoMoves": [
       "MOVE_CHARM",
       "MOVE_COPYCAT",
-      "MOVE_SWEET_KISS",
-      "MOVE_UPROAR"
+      "MOVE_SWEET_KISS"
     ],
     "TMMoves": [
       "MOVE_WORK_UP",
@@ -37457,7 +37440,6 @@
       "MOVE_PLAY_ROUGH",
       "MOVE_REVERSAL",
       "MOVE_SLASH",
-      "MOVE_UPROAR",
       "MOVE_UPROAR"
     ],
     "TMMoves": [
@@ -41029,8 +41011,7 @@
     ],
     "PreEvoMoves": [
       "MOVE_WATER_SPORT",
-      "MOVE_WORRY_SEED",
-      "MOVE_UPROAR"
+      "MOVE_WORRY_SEED"
     ],
     "TMMoves": [
       "MOVE_TOXIC",
@@ -52867,8 +52848,7 @@
       "MOVE_TOXIC",
       "MOVE_TOXIC_SPIKES",
       "MOVE_WATER_SPORT",
-      "MOVE_WORRY_SEED",
-      "MOVE_UPROAR"
+      "MOVE_WORRY_SEED"
     ],
     "TMMoves": [
       "MOVE_TOXIC",
@@ -60718,8 +60698,7 @@
       "MOVE_SWEET_KISS",
       "MOVE_WISH",
       "MOVE_YAWN",
-      "MOVE_SMART_STRIKE",
-      "MOVE_UPROAR"
+      "MOVE_SMART_STRIKE"
     ],
     "TMMoves": [
       "MOVE_WORK_UP",
@@ -106789,8 +106768,7 @@
       "MOVE_SOLAR_BEAM",
       "MOVE_STUN_SPORE",
       "MOVE_UPROAR",
-      "MOVE_WORRY_SEED",
-      "MOVE_UPROAR"
+      "MOVE_WORRY_SEED"
     ],
     "TMMoves": [
       "MOVE_PSYSHOCK",
