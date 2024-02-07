@@ -679,19 +679,19 @@ namespace moveParser
                     sets += $"\nstatic const u16 s{name.VarName}TeachableLearnset[] = {{\n";
 
                     foreach (string move in lvlMoves[name.DefName])
-                        if (!teachableLearnsets.Contains(move) && !FrankDexit(move))
+                        if (AddTeachableMove(teachableLearnsets, move) && (tmMoves.Contains(move.Replace("MOVE_", "")) || tutorMoves.Contains(move)))
                             teachableLearnsets.Add(move);
 
                     foreach (string move in data.TMMoves)
-                        if (!teachableLearnsets.Contains(move) && !FrankDexit(move))
+                        if (AddTeachableMove(teachableLearnsets, move))
                             teachableLearnsets.Add(move);
 
                     foreach (string move in data.EggMoves)
-                        if (!teachableLearnsets.Contains(move) && !FrankDexit(move))
+                        if (AddTeachableMove(teachableLearnsets, move) && (tmMoves.Contains(move.Replace("MOVE_", "")) || tutorMoves.Contains(move)))
                             teachableLearnsets.Add(move);
 
                     foreach (string move in data.TutorMoves)
-                        if (!teachableLearnsets.Contains(move) && !FrankDexit(move))
+                        if (AddTeachableMove(teachableLearnsets, move))
                             teachableLearnsets.Add(move);
 
                     // Include universal TM moves
@@ -1058,10 +1058,18 @@ namespace moveParser
 
         private bool AddLevelUpMove(List<LevelUpMove> evoMoves, List<LevelUpMove> lvl1Moves, Dictionary<string, int> OtherLvlMoves, string move)
         {
-            if(!evoMoves.Select(x => x.Move).Contains(move) 
+            if(!evoMoves.Select(x => x.Move).Contains(move)
             && !lvl1Moves.Select(x => x.Move).Contains(move)
             && !OtherLvlMoves.ContainsKey(move)
             && !FrankDexit(move))
+                return true;
+            else
+                return false;
+        }
+
+        private bool AddTeachableMove(List<string> teachableLearnsets, string move)
+        {
+            if (!teachableLearnsets.Contains(move) && !FrankDexit(move))
                 return true;
             else
                 return false;

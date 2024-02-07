@@ -1,4 +1,7 @@
 {
+  "FD": {
+    "dbFilename": "fd"
+  },
   "SV": {
     "gameId": 20,
     "genNumber": 9,
@@ -196,8 +199,5 @@
     "serebiiMoveTutorTitle": null,
     "serebiiMoveTutorTitleAlt": null,
     "serebiiLocationsName": null
-  },
-  "FD": {
-    "dbFilename": "fd"
   }
 }
