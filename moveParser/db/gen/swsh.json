@@ -81109,6 +81109,11 @@
       "MOVE_FLARE_BLITZ",
       "MOVE_ZEN_HEADBUTT",
       "MOVE_GRASS_KNOT",
+      "MOVE_PROTECT",
+      "MOVE_ATTRACT",
+      "MOVE_FACADE",
+      "MOVE_TOXIC",
+      "MOVE_REST",
       "MOVE_WORK_UP"
     ],
     "EggMoves": [
@@ -81220,6 +81225,11 @@
       "MOVE_STONE_EDGE",
       "MOVE_GRASS_KNOT",
       "MOVE_WORK_UP",
+      "MOVE_PROTECT",
+      "MOVE_ATTRACT",
+      "MOVE_FACADE",
+      "MOVE_TOXIC",
+      "MOVE_REST",
       "MOVE_BODY_PRESS"
     ],
     "EggMoves": [
@@ -81322,6 +81332,9 @@
       "MOVE_EARTH_POWER",
       "MOVE_NASTY_PLOT",
       "MOVE_ZEN_HEADBUTT",
+      "MOVE_ATTRACT",
+      "MOVE_FACADE",
+      "MOVE_REST",
       "MOVE_ALLY_SWITCH"
     ],
     "EggMoves": [
@@ -81412,6 +81425,10 @@
       "MOVE_STEALTH_ROCK",
       "MOVE_SLUDGE_WAVE",
       "MOVE_FOUL_PLAY",
+      "MOVE_ATTRACT",
+      "MOVE_FACADE",
+      "MOVE_PROTECT",
+      "MOVE_REST",
       "MOVE_SCALD"
     ],
     "EggMoves": [

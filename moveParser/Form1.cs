@@ -527,6 +527,8 @@ namespace moveParser
                     sets += $"#endif //P_GEN_2_CROSS_EVOS\n";
                 if (name.FormEnd)
                     sets += $"#endif //P_{currentForm}_FORMS\n";
+                if (currentFamily == "PECHARUNT")
+                    sets += $"#endif //P_FAMILY_{currentFamily}\n";
 
                 int percent = i * 100 / namecount;
                 bwrkExportLvl.ReportProgress(percent);
@@ -741,6 +743,8 @@ namespace moveParser
                         sets += $"#endif //P_GEN_2_CROSS_EVOS\n";
                     if (name.FormEnd)
                         sets += $"#endif //P_{currentForm}_FORMS\n";
+                    if (currentFamily == "PECHARUNT")
+                        sets += $"#endif //P_FAMILY_{currentFamily}\n";
                 }
 
                 int percent = i * 100 / namecount;
