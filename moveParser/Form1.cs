@@ -78,6 +78,7 @@ namespace moveParser
                 cListEggMoves.Items.Add(item.Key);
                 switch (item.Key)
                 {
+                    case "FD":
                     case "SV":
                     case "SWSH":
                     case "USUM":
@@ -87,9 +88,7 @@ namespace moveParser
                         break;
                     case "RSE":
                     case "BDSP":
-                    case "FD":
                         cListTMMoves.SetItemChecked(count, true);
-                        cListEggMoves.SetItemChecked(count, true);
                         break;
                 }
 
