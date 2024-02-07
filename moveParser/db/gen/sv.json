@@ -427,6 +427,7 @@
       "MOVE_OVERHEAT",
       "MOVE_FOCUS_BLAST",
       "MOVE_FLARE_BLITZ",
+      "MOVE_ROAR",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -528,6 +529,7 @@
       "MOVE_OUTRAGE",
       "MOVE_OVERHEAT",
       "MOVE_FLARE_BLITZ",
+      "MOVE_ROAR",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -658,6 +660,7 @@
       "MOVE_HYPER_BEAM",
       "MOVE_FLARE_BLITZ",
       "MOVE_SOLAR_BEAM",
+      "MOVE_ROAR",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -6037,6 +6040,7 @@
       "MOVE_HYPER_BEAM",
       "MOVE_THUNDER",
       "MOVE_CLOSE_COMBAT",
+      "MOVE_FOCUS_PUNCH",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -8137,6 +8141,7 @@
       "MOVE_TERA_BLAST",
       "MOVE_ROAR",
       "MOVE_CHARGE",
+      "MOVE_SUPERCELL_SLAM",
       "MOVE_SMACK_DOWN",
       "MOVE_GYRO_BALL",
       "MOVE_FOCUS_PUNCH"
@@ -23785,6 +23790,7 @@
       "MOVE_STONE_EDGE",
       "MOVE_GIGA_IMPACT",
       "MOVE_HYPER_BEAM",
+      "MOVE_TOXIC",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -24503,6 +24509,7 @@
       "MOVE_TRICK_ROOM",
       "MOVE_HYPER_BEAM",
       "MOVE_THUNDER",
+      "MOVE_ROAR",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -25025,6 +25032,7 @@
       "MOVE_HYPER_BEAM",
       "MOVE_THUNDER",
       "MOVE_SOLAR_BEAM",
+      "MOVE_TOXIC",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -26565,6 +26573,7 @@
       "MOVE_FOCUS_BLAST",
       "MOVE_HYPER_BEAM",
       "MOVE_CLOSE_COMBAT",
+      "MOVE_TOXIC",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -26966,6 +26975,7 @@
       "MOVE_GIGA_IMPACT",
       "MOVE_HYPER_BEAM",
       "MOVE_CLOSE_COMBAT",
+      "MOVE_ROAR",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -27111,6 +27121,9 @@
       "MOVE_GIGA_IMPACT",
       "MOVE_HYPER_BEAM",
       "MOVE_CLOSE_COMBAT",
+      "MOVE_ROAR",
+      "MOVE_FOCUS_PUNCH",
+      "MOVE_CALM_MIND",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -44110,6 +44123,7 @@
       "MOVE_ICE_BEAM",
       "MOVE_HYDRO_PUMP",
       "MOVE_BLIZZARD",
+      "MOVE_ROAR",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -44235,6 +44249,7 @@
       "MOVE_GIGA_IMPACT",
       "MOVE_FOCUS_BLAST",
       "MOVE_HYPER_BEAM",
+      "MOVE_ROAR",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -75229,7 +75244,12 @@
       "MOVE_BUG_BITE",
       "MOVE_GRASSY_GLIDE"
     ],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_DEFENSE_CURL",
+      "MOVE_RECYCLE",
+      "MOVE_ROLLOUT",
+      "MOVE_SUCKER_PUNCH"
+    ],
     "TutorMoves": []
   },
   "HYDRAPPLE": {
@@ -75349,7 +75369,12 @@
       "MOVE_CURSE",
       "MOVE_DRAGON_CHEER"
     ],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_DEFENSE_CURL",
+      "MOVE_RECYCLE",
+      "MOVE_ROLLOUT",
+      "MOVE_SUCKER_PUNCH"
+    ],
     "TutorMoves": []
   },
   "SILICOBRA": {
@@ -77331,6 +77356,7 @@
       "MOVE_GIGA_IMPACT",
       "MOVE_HYPER_BEAM",
       "MOVE_THUNDER",
+      "MOVE_SUPERCELL_SLAM",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -82471,6 +82497,7 @@
       "MOVE_ELECTRIC_TERRAIN",
       "MOVE_WILD_CHARGE",
       "MOVE_THUNDER",
+      "MOVE_FOCUS_PUNCH",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -82609,6 +82636,8 @@
       "MOVE_HYPER_BEAM",
       "MOVE_THUNDER",
       "MOVE_CLOSE_COMBAT",
+      "MOVE_FOCUS_PUNCH",
+      "MOVE_SUPERCELL_SLAM",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -83776,6 +83805,7 @@
       "MOVE_STONE_EDGE",
       "MOVE_GIGA_IMPACT",
       "MOVE_HYPER_BEAM",
+      "MOVE_FOCUS_PUNCH",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -84285,6 +84315,7 @@
       "MOVE_GIGA_IMPACT",
       "MOVE_HYPER_BEAM",
       "MOVE_THUNDER",
+      "MOVE_TOXIC",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -84802,6 +84833,7 @@
       "MOVE_BATON_PASS",
       "MOVE_NASTY_PLOT",
       "MOVE_SLUDGE_BOMB",
+      "MOVE_TOXIC",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -84917,6 +84949,7 @@
       "MOVE_NASTY_PLOT",
       "MOVE_SLUDGE_BOMB",
       "MOVE_GIGA_IMPACT",
+      "MOVE_TOXIC",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -85239,6 +85272,7 @@
       "MOVE_LEAF_STORM",
       "MOVE_TRICK_ROOM",
       "MOVE_SOLAR_BEAM",
+      "MOVE_TOXIC",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -85367,6 +85401,7 @@
       "MOVE_TRICK_ROOM",
       "MOVE_HYPER_BEAM",
       "MOVE_SOLAR_BEAM",
+      "MOVE_TOXIC",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -87175,7 +87210,15 @@
       "MOVE_OVERHEAT",
       "MOVE_HYPER_BEAM",
       "MOVE_STEEL_BEAM",
-      "MOVE_TERA_BLAST"
+      "MOVE_TERA_BLAST",
+      "MOVE_HAZE",
+      "MOVE_TOXIC",
+      "MOVE_GYRO_BALL",
+      "MOVE_UPROAR",
+      "MOVE_DOUBLE_EDGE",
+      "MOVE_SLUDGE_WAVE",
+      "MOVE_METAL_SOUND",
+      "MOVE_CURSE"
     ],
     "EggMoves": [
       "MOVE_HAZE",
@@ -87480,6 +87523,7 @@
       "MOVE_STEALTH_ROCK",
       "MOVE_SLUDGE_BOMB",
       "MOVE_STONE_EDGE",
+      "MOVE_TOXIC",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -87595,6 +87639,7 @@
       "MOVE_GIGA_IMPACT",
       "MOVE_HYPER_BEAM",
       "MOVE_SOLAR_BEAM",
+      "MOVE_TOXIC",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [
@@ -88557,6 +88602,7 @@
       "MOVE_GIGA_IMPACT",
       "MOVE_HYPER_BEAM",
       "MOVE_CLOSE_COMBAT",
+      "MOVE_ROAR",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [],
@@ -88695,6 +88741,7 @@
       "MOVE_TRICK_ROOM",
       "MOVE_HYPER_BEAM",
       "MOVE_THUNDER",
+      "MOVE_ROAR",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [],
@@ -89479,6 +89526,7 @@
       "MOVE_HYPER_BEAM",
       "MOVE_THUNDER",
       "MOVE_CLOSE_COMBAT",
+      "MOVE_SUPERCELL_SLAM",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [],
@@ -89717,6 +89765,7 @@
       "MOVE_HYPER_BEAM",
       "MOVE_FLARE_BLITZ",
       "MOVE_SOLAR_BEAM",
+      "MOVE_TOXIC",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [],
@@ -89857,6 +89906,7 @@
       "MOVE_FOCUS_BLAST",
       "MOVE_HYPER_BEAM",
       "MOVE_THUNDER",
+      "MOVE_SUPERCELL_SLAM",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [],
@@ -90287,6 +90337,7 @@
       "MOVE_HYPER_BEAM",
       "MOVE_THUNDER",
       "MOVE_STEEL_BEAM",
+      "MOVE_FOCUS_PUNCH",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [],
@@ -90880,6 +90931,7 @@
       "MOVE_HURRICANE",
       "MOVE_HYPER_BEAM",
       "MOVE_DRACO_METEOR",
+      "MOVE_ROAR",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [],
@@ -91151,6 +91203,8 @@
       "MOVE_CLOSE_COMBAT",
       "MOVE_SOLAR_BEAM",
       "MOVE_DRACO_METEOR",
+      "MOVE_FOCUS_PUNCH",
+      "MOVE_ROAR",
       "MOVE_TERA_BLAST"
     ],
     "EggMoves": [],

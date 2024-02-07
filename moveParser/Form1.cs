@@ -192,32 +192,9 @@ namespace moveParser
                         if (existingMonData != null && existingMonData.ContainsKey(current))
                             currentData = existingMonData[current];
 
-                        switch(current)
-                        {
-                            case "TAUROS":
-                            case "TAUROS_PALDEAN_COMBAT_BREED":
-                            case "TAUROS_PALDEAN_BLAZE_BREED":
-                            case "TAUROS_PALDEAN_AQUA_BREED":
-                            case "SCYTHER":
-                            case "SCIZOR":
-                            case "KLEAVOR":
-                            case "SHINX":
-                            case "LUXIO":
-                            case "LUXRAY":
-                            case "TYNAMO":
-                            case "EELEKTRIK":
-                            case "EELEKTROSS":
-                                mon = PokemonData.DownloadMonData_Bulbapedia(monName, generation, MoveData);
-                                break;
-                            default:
-                                mon = PokemonData.DownloadMonData_PokemonDB(monName, generation, MoveData, currentData);
-                                break;
-                        }
-                        //mon = PokemonData.DownloadMonData_PokemonDB(monName, generation, MoveData, currentData);
+                        mon = PokemonData.DownloadMonData_PokemonDB(monName, generation, MoveData, currentData);
                         /*
-                        if (generation.genNumber > 7)
-                            mon = PokemonData.DownloadMonData_Serebii(item, generation, MoveData);
-                        else
+                        if (generation.genNumber <= 7)
                             mon = PokemonData.DownloadMonData_Bulbapedia(item, generation, MoveData);
                         //*/
 
@@ -507,6 +484,9 @@ namespace moveParser
                 if (name.CrossEvo != null && !crossEvoEnd.Contains(name.VarName))
                     sets += $"\n#if P_GEN_{name.CrossEvo}_CROSS_EVOS";
 
+                if (name.VarName == "KyuremBlack" || name.VarName == "CalyrexIceRider")
+                    sets += "\n#if P_FUSION_FORMS";
+
                 // begin learnset
                 if (!name.usesBaseFormLearnset)
                 {
@@ -521,6 +501,8 @@ namespace moveParser
                     }
                     sets += "    LEVEL_UP_END\n};\n";
                 }
+                if (name.VarName == "KyuremWhite" || name.VarName == "CalyrexShadowRider")
+                    sets += "#endif //P_FUSION_FORMS\n";
                 if (name.CrossEvo != null && !crossEvoStart.Contains(name.VarName) && name.SpeciesName != "Porygon2")
                     sets += $"#endif //P_GEN_{name.CrossEvo}_CROSS_EVOS\n";
                 if (name.SpeciesName == "Porygon-Z")
@@ -686,8 +668,11 @@ namespace moveParser
                     sets += $"\n#if P_GEN_{name.CrossEvo}_CROSS_EVOS";
 
                 // begin learnset
-                if (!name.usesBaseFormLearnset && name.FormName != "Black Kyurem" && name.FormName != "White Kyurem")
+                if (!name.usesBaseFormLearnset && name.VarName != "KyuremBlack" && name.VarName != "KyuremWhite")
                 {
+                    if (name.VarName == "CalyrexIceRider")
+                        sets += "\n#if P_FUSION_FORMS";
+
                     List<string> teachableLearnsets = new List<string>();
 
                     if (name.SpeciesName == "Mew")
@@ -737,6 +722,8 @@ namespace moveParser
                             sets += $"    {move},\n";
                     }
                     sets += "    MOVE_UNAVAILABLE,\n};\n";
+                    if (name.VarName == "CalyrexShadowRider")
+                        sets += "#endif //P_FUSION_FORMS\n";
                     if (name.CrossEvo != null && !crossEvoStart.Contains(name.VarName) && name.SpeciesName != "Porygon2")
                         sets += $"#endif //P_GEN_{name.CrossEvo}_CROSS_EVOS\n";
                     if (name.SpeciesName == "Porygon-Z")
