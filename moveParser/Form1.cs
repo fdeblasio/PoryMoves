@@ -676,7 +676,10 @@ namespace moveParser
 
                     if (name.SpeciesName == "Mew")
                         sets += "\n// Instead of reading this array for Mew, it checks for exceptions in CanLearnTeachableMove instead.";
-                    sets += $"\nstatic const u16 s{name.VarName}TeachableLearnset[] = {{\n";
+                    if (name.VarName == "OinkologneMale")
+                        sets += $"\nstatic const u16 s{name.SpeciesName}TeachableLearnset[] = {{\n";
+                    else if (name.VarName != "OinkologneFemale")
+                        sets += $"\nstatic const u16 s{name.VarName}TeachableLearnset[] = {{\n";
 
                     foreach (string move in lvlMoves[name.DefName])
                         if (AddTeachableMove(teachableLearnsets, move) && (tmMoves.Contains(move.Replace("MOVE_", "")) || tutorMoves.Contains(move)))
@@ -714,13 +717,15 @@ namespace moveParser
                     // Order alphabetically
                     teachableLearnsets = teachableLearnsets.OrderBy(x => x).ToList();
 
-                    foreach (string move in teachableLearnsets)
-                    {
-                        //Gender-unknown and Nincada's family shouldn't learn Attract.)
-                        if (!((name.isGenderless || name.NatDexNum == 290 || name.NatDexNum == 291) && move.Equals("MOVE_ATTRACT")) && !IsMoveUniversal(move))
-                            sets += $"    {move},\n";
+                    if (name.VarName != "OinkologneFemale"){
+                        foreach (string move in teachableLearnsets)
+                        {
+                            //Gender-unknown and Nincada's family shouldn't learn Attract.)
+                            if (!((name.isGenderless || name.SpeciesName == "Nincada" || name.SpeciesName == "Ninjask") && move.Equals("MOVE_ATTRACT")) && !IsMoveUniversal(move))
+                                sets += $"    {move},\n";
+                        }
+                        sets += "    MOVE_UNAVAILABLE,\n};\n";
                     }
-                    sets += "    MOVE_UNAVAILABLE,\n};\n";
                     if (name.VarName == "CalyrexShadowRider")
                         sets += "#endif //P_FUSION_FORMS\n";
                     if (name.CrossEvo != null && !crossEvoStart.Contains(name.VarName) && name.SpeciesName != "Porygon2")

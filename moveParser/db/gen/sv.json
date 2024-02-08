@@ -81788,55 +81788,55 @@
         "Move": "MOVE_TAIL_WHIP"
       },
       {
-        "Level": 5,
+        "Level": 3,
         "Move": "MOVE_DISARMING_VOICE"
       },
       {
-        "Level": 8,
+        "Level": 6,
         "Move": "MOVE_ECHOED_VOICE"
       },
       {
-        "Level": 12,
+        "Level": 9,
         "Move": "MOVE_MUD_SHOT"
       },
       {
-        "Level": 15,
+        "Level": 12,
         "Move": "MOVE_COVET"
       },
       {
-        "Level": 17,
+        "Level": 15,
         "Move": "MOVE_DIG"
       },
       {
-        "Level": 23,
+        "Level": 17,
         "Move": "MOVE_HEADBUTT"
       },
       {
-        "Level": 26,
-        "Move": "MOVE_TAKE_DOWN"
-      },
-      {
-        "Level": 27,
+        "Level": 23,
         "Move": "MOVE_YAWN"
       },
       {
-        "Level": 34,
+        "Level": 28,
+        "Move": "MOVE_TAKE_DOWN"
+      },
+      {
+        "Level": 30,
         "Move": "MOVE_WORK_UP"
       },
       {
-        "Level": 38,
+        "Level": 34,
         "Move": "MOVE_UPROAR"
       },
       {
-        "Level": 42,
+        "Level": 39,
         "Move": "MOVE_DOUBLE_EDGE"
       },
       {
-        "Level": 48,
+        "Level": 45,
         "Move": "MOVE_EARTH_POWER"
       },
       {
-        "Level": 54,
+        "Level": 51,
         "Move": "MOVE_BELCH"
       }
     ],
