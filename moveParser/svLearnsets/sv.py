@@ -1,8 +1,6 @@
 import json
 import re
-# from collections import OrderedDict
 
-#output = "{\n"
 output = {}
 mons = []
 
@@ -15,7 +13,6 @@ with open("sv.txt", "r+") as file:
 for mon in mons:
     lines = mon.split("\n")
     monName = lines[1]
-    monName = re.sub('( [A-Z]?#\d*)*', '', monName)
     monName = re.sub('\d* - ', '', monName)
     monName = re.sub('[ -]', '_', monName)
     output[monName.upper()] = {
@@ -49,11 +46,6 @@ for mon in mons:
                     output[monName.upper()]["EggMoves"].append(moveToJson(line[2:]))
                 elif "Egg Moves:" not in lines and "Reminder:" in lines:
                     output[monName.upper()]["PreEvoMoves"].append(moveToJson(line[2:]))
-
-    #output += "  " + monName.upper() + ": {\n"
-    #output += "  },\n"
-
-#output += "}"
 
 with open("sv.json", "w") as file:
     file.write(json.dumps(output, indent=2))
