@@ -588,15 +588,14 @@ namespace moveParser
 
             // load specified TM list
             List<string> tmMovesTemp = new List<string>();
-            if (Directory.Exists("input") && File.Exists("input/tm.txt"))
-                tmMovesTemp = File.ReadAllLines("input/tm.txt").ToList();
+            tmMovesTemp = File.ReadAllLines("\\\\wsl.localhost\\Ubuntu\\home\\frank\\pokeemerald-expansion\\include\\constants\\tms_hms.h").ToList();
             List<string> tmMoves = new List<string>();
             string writeText = "";
             foreach (string str in tmMovesTemp)
             {
                 writeText += str + "\n";    
-                if (!str.Trim().Equals("") && !str.Trim().StartsWith("//"))
-                    tmMoves.Add(str);
+                if (str.Trim().StartsWith("F("))
+                    tmMoves.Add("MOVE_" + str.Trim().Replace("F(", "").Replace(")", "").Replace(" \\", ""));
             }
             List<string> tutorMovesTemp = new List<string>();
             if (Directory.Exists("input") && File.Exists("input/tutor.txt"))
@@ -608,22 +607,6 @@ namespace moveParser
                 if (!str.Trim().Equals("") && !str.Trim().StartsWith("//"))
                     tutorMoves.Add(str);
             }
-#if DEBUG
-            File.WriteAllText("../../input/tm.txt", writeText);
-#endif
-
-            // build importable TM list
-            string tms = "#ifndef GUARD_CONSTANTS_TMS_HMS_H\n#define GUARD_CONSTANTS_TMS_HMS_H\n\n#define FOREACH_TM(F)";
-            foreach (string move in tmMoves)
-            {
-                tms += $" \\\n    F({move})";
-            }
-            //seperate out HMs
-            tms += "\n\n#define FOREACH_HM(F) \\\n\n#define FOREACH_TMHM(F) \\\n    FOREACH_TM(F) \\\n    FOREACH_HM(F)\n\n#endif\n";
-
-            if (!Directory.Exists("output"))
-                Directory.CreateDirectory("output");
-            File.WriteAllText("output/tms_hms.h", tms);
 
             // file header
             string sets = "static const u16 sNoneTeachableLearnset[] = {\n    MOVE_UNAVAILABLE,\n};\n";
@@ -680,7 +663,7 @@ namespace moveParser
                         sets += $"\nstatic const u16 s{name.VarName}TeachableLearnset[] = {{\n";
 
                     foreach (string move in lvlMoves[name.DefName])
-                        if (AddTeachableMove(teachableLearnsets, move) && (tmMoves.Contains(move.Replace("MOVE_", "")) || tutorMoves.Contains(move)))
+                        if (AddTeachableMove(teachableLearnsets, move) && (tmMoves.Contains(move) || tutorMoves.Contains(move)))
                             teachableLearnsets.Add(move);
 
                     foreach (string move in data.TMMoves)
@@ -688,7 +671,7 @@ namespace moveParser
                             teachableLearnsets.Add(move);
 
                     foreach (string move in data.EggMoves)
-                        if (AddTeachableMove(teachableLearnsets, move) && (tmMoves.Contains(move.Replace("MOVE_", "")) || tutorMoves.Contains(move)))
+                        if (AddTeachableMove(teachableLearnsets, move) && (tmMoves.Contains(move) || tutorMoves.Contains(move)))
                             teachableLearnsets.Add(move);
 
                     foreach (string move in data.TutorMoves)
@@ -698,11 +681,9 @@ namespace moveParser
                     // Include universal TM moves
                     foreach (string tmMove in tmMoves)
                     {
-                        string move = "MOVE_" + tmMove;
-
                         // Adds TM if it's Mew.
-                        if (!teachableLearnsets.Contains(move) && name.NatDexNum == 151)
-                            teachableLearnsets.Add(move);
+                        if (!teachableLearnsets.Contains(tmMove) && name.NatDexNum == 151)
+                            teachableLearnsets.Add(tmMove);
                     }
 
                     foreach (string tutorMove in tutorMoves)
@@ -748,7 +729,7 @@ namespace moveParser
 
             bwrkExportTM.ReportProgress(0);
 
-            MessageBox.Show("Teachable moves exported to \"output/teachable_learnsets.h\"\nTM list exported to \"output/tms_hms.h\"", "Success!", MessageBoxButtons.OK);
+            MessageBox.Show("Teachable moves exported to \"output/teachable_learnsets.h\"", "Success!", MessageBoxButtons.OK);
             SetEnableForAllElements(true);
         }
 
@@ -947,18 +928,6 @@ namespace moveParser
 
             MessageBox.Show("Egg moves exported to \"output/egg_moves.h\"", "Success!", MessageBoxButtons.OK);
             SetEnableForAllElements(true);
-        }
-
-        private string replaceOldDefines(string text)
-        {
-            text = text
-                .Replace("MOVE_FEINT_ATTACK", "MOVE_FEINT_ATTACK")
-                .Replace("MOVE_SMELLING_SALTS", "MOVE_SMELLING_SALTS")
-                .Replace("MOVE_VISE_GRIP", "MOVE_VISE_GRIP")
-                .Replace("MOVE_HIGH_JUMP_KICK", "MOVE_HIGH_JUMP_KICK")
-                ;
-
-            return text;
         }
 
         private void btnOpenInputFolder_Click(object sender, EventArgs e)

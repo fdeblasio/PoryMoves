@@ -1,5 +1,3 @@
-
-
 # PoryMoves
 
 PoryMoves is a program that allows Pokémon decompilation developers to quickly and easily generate the moves that a Pokémon can learn, based on their learnsets across the different [core series games](https://bulbapedia.bulbagarden.net/wiki/Core_series). As of right now, this tool is designed for use with the Pokémon Generation 3 decompilation projects.
@@ -12,11 +10,26 @@ PoryMoves is a program that allows Pokémon decompilation developers to quickly 
 - Define a game to be used for
 
   - Level Up Moves
-  - TM/HM/TR Moves
+  - Teachable Moves
   - Egg Moves
-  - Tutor Moves
 
 - Export files that be directly input into a decompilation fangame
+
+# TO DO
+{{learnlist/breed9|{{MSP/H|0051|Dugtrio}}{{MSP/H|0051|Dugtrio|form=-Alola}}{{MSP/H|0052|Meowth|form=-Alola}}{{MSP/H|0053|Persian|form=-Alola}}{{MSP/H|0461|Weavile}}{{MSP/H|0335|Zangoose}}{{MSP/H|0434|Stunky}}{{MSP/H|0435|Skuntank}}{{MSP/H|0571|Zoroark}}{{MSP/H|0908|Meowscarada}}|Night Slash|Dark|Physical|70|100|15}}
+
+Get tutor moves automatically updated (don't forget non-battle frontier ones)
+
+fd.json:
+- Lati@s changes
+- Kyogre:
+    - Remove Body Slam
+    - Remove Muddy Water
+    - Remove Double-Edge
+
+- Groudon:
+    - Remove Mud Shot
+    - Remove Solar Beam
 
 # [Changelog](CHANGELOG.md)
 
@@ -125,16 +138,6 @@ In our example, Rioluwott’s configuration is shown above.
 ## Export
 
 Once the selected games have been chosen for each Move type, click the Export button at the bottom of each row. This will generate a list that can be seen by clicking on "Open output folder".
-
-
-### Export Modes
-
-For TM/HM/TR moves and Tutor Moves, there are three different modes of exporting.
-
-- **RHH 1.0.0**: The developer is using pokeemerald-expansion.
-- **Vanilla Mode**: The developer is using pokeemerald, and has not made any changes to the formatting or method by which `src/data/pokemon/tmhm_learnsets.h` is read. If you are not sure which option to use, use this one.
-- **SBird’s TM Refactor**: The developer has merged [Sbird’s TM Refactor](https://github.com/LOuroboros/pokeemerald/tree/sbirds_tmhm_system) into pokeemerald.
-- **SBird’s Tutor Refactor**: The developer has merged [Sbird’s Tutor Refactor](https://github.com/AsparagusEduardo/pokeemerald/commit/42eb0f8dc225062ccb9b08980b568152e82a2757) into pokeemerald.
 
 
 ## Stacking Exports
