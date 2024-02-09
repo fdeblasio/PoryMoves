@@ -483,7 +483,7 @@ namespace moveParser
                 if (name.CrossEvo != null && !crossEvoEnd.Contains(name.VarName))
                     sets += $"\n#if P_GEN_{name.CrossEvo}_CROSS_EVOS";
 
-                if (name.VarName == "KyuremBlack" || name.VarName == "CalyrexIceRider")
+                if (name.VarName == "KyuremWhite" || name.VarName == "CalyrexIceRider")
                     sets += "\n#if P_FUSION_FORMS";
 
                 // begin learnset
@@ -500,7 +500,7 @@ namespace moveParser
                     }
                     sets += "    LEVEL_UP_END\n};\n";
                 }
-                if (name.VarName == "KyuremWhite" || name.VarName == "CalyrexShadowRider")
+                if (name.VarName == "KyuremBlack" || name.VarName == "CalyrexShadowRider")
                     sets += "#endif //P_FUSION_FORMS\n";
                 if (name.CrossEvo != null && !crossEvoStart.Contains(name.VarName) && name.SpeciesName != "Porygon2")
                     sets += $"#endif //P_GEN_{name.CrossEvo}_CROSS_EVOS\n";
@@ -667,7 +667,7 @@ namespace moveParser
                     sets += $"\n#if P_GEN_{name.CrossEvo}_CROSS_EVOS";
 
                 // begin learnset
-                if (!name.usesBaseFormLearnset && name.VarName != "KyuremBlack" && name.VarName != "KyuremWhite")
+                if (!name.usesBaseFormLearnset && name.VarName != "KyuremWhite" && name.VarName != "KyuremBlack")
                 {
                     if (name.VarName == "CalyrexIceRider")
                         sets += "\n#if P_FUSION_FORMS";
