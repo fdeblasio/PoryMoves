@@ -34664,8 +34664,7 @@
       "MOVE_BUG_BITE",
       "MOVE_POISON_STING",
       "MOVE_STRING_SHOT",
-      "MOVE_TACKLE",
-      "MOVE_SNORE"
+      "MOVE_TACKLE"
     ],
     "TMMoves": [],
     "EggMoves": [],
@@ -34801,8 +34800,7 @@
       "MOVE_BUG_BITE",
       "MOVE_POISON_STING",
       "MOVE_STRING_SHOT",
-      "MOVE_TACKLE",
-      "MOVE_SNORE"
+      "MOVE_TACKLE"
     ],
     "TMMoves": [],
     "EggMoves": [],

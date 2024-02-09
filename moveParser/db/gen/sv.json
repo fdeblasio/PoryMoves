@@ -2088,7 +2088,9 @@
         "Move": "MOVE_EARTHQUAKE"
       }
     ],
-    "PreEvoMoves": [],
+    "PreEvoMoves": [
+      "MOVE_AGILITY"
+    ],
     "TMMoves": [
       "MOVE_TAKE_DOWN",
       "MOVE_AGILITY",
@@ -33081,7 +33083,9 @@
         "Move": "MOVE_FOCUS_PUNCH"
       }
     ],
-    "PreEvoMoves": [],
+    "PreEvoMoves": [
+      "MOVE_SPORE"
+    ],
     "TMMoves": [
       "MOVE_TAKE_DOWN",
       "MOVE_CHARM",
