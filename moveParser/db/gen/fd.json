@@ -3101,7 +3101,7 @@
     "LevelMoves": [
       {
         "Level": 1,
-        "Move": "MOVE_GRASS_WHISTLE",
+        "Move": "MOVE_GRASS_WHISTLE"
       }
     ],
     "PreEvoMoves": [],
