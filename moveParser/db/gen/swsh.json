@@ -8597,7 +8597,7 @@
       },
       {
         "Level": 44,
-        "Move": "MOVE_HI_JUMP_KICK"
+        "Move": "MOVE_HIGH_JUMP_KICK"
       }
     ],
     "PreEvoMoves": [],
@@ -8650,7 +8650,7 @@
       "MOVE_BULLET_PUNCH",
       "MOVE_COUNTER",
       "MOVE_FEINT",
-      "MOVE_HI_JUMP_KICK",
+      "MOVE_HIGH_JUMP_KICK",
       "MOVE_MACH_PUNCH",
       "MOVE_MIND_READER",
       "MOVE_RAPID_SPIN",
@@ -8800,7 +8800,7 @@
       "MOVE_BULLET_PUNCH",
       "MOVE_COUNTER",
       "MOVE_FEINT",
-      "MOVE_HI_JUMP_KICK",
+      "MOVE_HIGH_JUMP_KICK",
       "MOVE_MACH_PUNCH",
       "MOVE_MIND_READER",
       "MOVE_RAPID_SPIN",
@@ -11123,7 +11123,7 @@
     "LevelMoves": [
       {
         "Level": 1,
-        "Move": "MOVE_VICE_GRIP"
+        "Move": "MOVE_VISE_GRIP"
       },
       {
         "Level": 1,
@@ -19188,7 +19188,7 @@
       "MOVE_BULLET_PUNCH",
       "MOVE_COUNTER",
       "MOVE_FEINT",
-      "MOVE_HI_JUMP_KICK",
+      "MOVE_HIGH_JUMP_KICK",
       "MOVE_MACH_PUNCH",
       "MOVE_MIND_READER",
       "MOVE_RAPID_SPIN",
@@ -19324,7 +19324,7 @@
       "MOVE_BULLET_PUNCH",
       "MOVE_COUNTER",
       "MOVE_FEINT",
-      "MOVE_HI_JUMP_KICK",
+      "MOVE_HIGH_JUMP_KICK",
       "MOVE_MACH_PUNCH",
       "MOVE_MIND_READER",
       "MOVE_RAPID_SPIN",
@@ -33077,7 +33077,7 @@
       },
       {
         "Level": 56,
-        "Move": "MOVE_HI_JUMP_KICK"
+        "Move": "MOVE_HIGH_JUMP_KICK"
       }
     ],
     "PreEvoMoves": [],
@@ -34645,7 +34645,7 @@
       "MOVE_CIRCLE_THROW",
       "MOVE_CROSS_CHOP",
       "MOVE_DETECT",
-      "MOVE_HI_JUMP_KICK",
+      "MOVE_HIGH_JUMP_KICK",
       "MOVE_HOWL",
       "MOVE_MIND_READER",
       "MOVE_VACUUM_WAVE"
@@ -34840,7 +34840,7 @@
       "MOVE_CIRCLE_THROW",
       "MOVE_CROSS_CHOP",
       "MOVE_DETECT",
-      "MOVE_HI_JUMP_KICK",
+      "MOVE_HIGH_JUMP_KICK",
       "MOVE_HOWL",
       "MOVE_MIND_READER",
       "MOVE_VACUUM_WAVE"
@@ -44196,7 +44196,7 @@
       },
       {
         "Level": 44,
-        "Move": "MOVE_HI_JUMP_KICK"
+        "Move": "MOVE_HIGH_JUMP_KICK"
       },
       {
         "Level": 48,
@@ -44327,7 +44327,7 @@
       },
       {
         "Level": 48,
-        "Move": "MOVE_HI_JUMP_KICK"
+        "Move": "MOVE_HIGH_JUMP_KICK"
       },
       {
         "Level": 54,
@@ -48228,7 +48228,7 @@
       },
       {
         "Level": 1,
-        "Move": "MOVE_VICE_GRIP"
+        "Move": "MOVE_VISE_GRIP"
       },
       {
         "Level": 4,
@@ -48317,7 +48317,7 @@
       },
       {
         "Level": 1,
-        "Move": "MOVE_VICE_GRIP"
+        "Move": "MOVE_VISE_GRIP"
       },
       {
         "Level": 1,
@@ -48415,7 +48415,7 @@
       },
       {
         "Level": 1,
-        "Move": "MOVE_VICE_GRIP"
+        "Move": "MOVE_VISE_GRIP"
       },
       {
         "Level": 1,
@@ -50240,7 +50240,7 @@
       },
       {
         "Level": 60,
-        "Move": "MOVE_HI_JUMP_KICK"
+        "Move": "MOVE_HIGH_JUMP_KICK"
       }
     ],
     "PreEvoMoves": [],
@@ -50362,7 +50362,7 @@
       },
       {
         "Level": 66,
-        "Move": "MOVE_HI_JUMP_KICK"
+        "Move": "MOVE_HIGH_JUMP_KICK"
       }
     ],
     "PreEvoMoves": [],
@@ -51740,7 +51740,7 @@
       },
       {
         "Level": 4,
-        "Move": "MOVE_VICE_GRIP"
+        "Move": "MOVE_VISE_GRIP"
       },
       {
         "Level": 8,
@@ -56269,7 +56269,7 @@
       },
       {
         "Level": 5,
-        "Move": "MOVE_VICE_GRIP"
+        "Move": "MOVE_VISE_GRIP"
       },
       {
         "Level": 10,
@@ -56378,7 +56378,7 @@
       },
       {
         "Level": 1,
-        "Move": "MOVE_VICE_GRIP"
+        "Move": "MOVE_VISE_GRIP"
       },
       {
         "Level": 1,
@@ -57412,7 +57412,7 @@
       },
       {
         "Level": 48,
-        "Move": "MOVE_HI_JUMP_KICK"
+        "Move": "MOVE_HIGH_JUMP_KICK"
       },
       {
         "Level": 52,
@@ -60787,7 +60787,7 @@
     "LevelMoves": [
       {
         "Level": 1,
-        "Move": "MOVE_VICE_GRIP"
+        "Move": "MOVE_VISE_GRIP"
       },
       {
         "Level": 1,
@@ -60873,7 +60873,7 @@
       },
       {
         "Level": 1,
-        "Move": "MOVE_VICE_GRIP"
+        "Move": "MOVE_VISE_GRIP"
       },
       {
         "Level": 1,
@@ -60994,7 +60994,7 @@
       },
       {
         "Level": 1,
-        "Move": "MOVE_VICE_GRIP"
+        "Move": "MOVE_VISE_GRIP"
       },
       {
         "Level": 1,
@@ -63354,7 +63354,7 @@
       },
       {
         "Level": 58,
-        "Move": "MOVE_HI_JUMP_KICK"
+        "Move": "MOVE_HIGH_JUMP_KICK"
       }
     ],
     "PreEvoMoves": [],
@@ -66625,7 +66625,7 @@
       },
       {
         "Level": 70,
-        "Move": "MOVE_HI_JUMP_KICK"
+        "Move": "MOVE_HIGH_JUMP_KICK"
       }
     ],
     "PreEvoMoves": [],
@@ -68698,7 +68698,7 @@
       "MOVE_WORK_UP"
     ],
     "EggMoves": [
-      "MOVE_HI_JUMP_KICK",
+      "MOVE_HIGH_JUMP_KICK",
       "MOVE_SAND_ATTACK",
       "MOVE_SUCKER_PUNCH",
       "MOVE_SUPER_FANG"
@@ -68794,7 +68794,7 @@
       "MOVE_WORK_UP"
     ],
     "EggMoves": [
-      "MOVE_HI_JUMP_KICK",
+      "MOVE_HIGH_JUMP_KICK",
       "MOVE_SAND_ATTACK",
       "MOVE_SUCKER_PUNCH",
       "MOVE_SUPER_FANG"
@@ -68917,7 +68917,7 @@
       "MOVE_WORK_UP"
     ],
     "EggMoves": [
-      "MOVE_HI_JUMP_KICK",
+      "MOVE_HIGH_JUMP_KICK",
       "MOVE_SAND_ATTACK",
       "MOVE_SUCKER_PUNCH",
       "MOVE_SUPER_FANG"
@@ -77174,7 +77174,7 @@
       },
       {
         "Level": 1,
-        "Move": "MOVE_VICE_GRIP"
+        "Move": "MOVE_VISE_GRIP"
       },
       {
         "Level": 6,

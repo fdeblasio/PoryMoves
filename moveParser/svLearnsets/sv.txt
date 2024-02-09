@@ -37886,7 +37886,7 @@ Level Up Moves:
 - [40] Ingrain
 - [44] Wood Hammer
 - [48] Destiny Bond
-- [52] Forest's Curse
+- [52] Forests Curse
 TM Learn:
 - [TM007] Protect
 - [TM017] Confuse Ray
@@ -37957,7 +37957,7 @@ Level Up Moves:
 - [40] Ingrain
 - [44] Wood Hammer
 - [48] Destiny Bond
-- [52] Forest's Curse
+- [52] Forests Curse
 TM Learn:
 - [TM001] Take Down
 - [TM006] Scary Face

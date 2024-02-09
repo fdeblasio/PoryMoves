@@ -518,8 +518,6 @@ namespace moveParser
                 i++;
             }
 
-            sets = replaceOldDefines(sets);
-
             // write to file
             File.WriteAllText("output/level_up_learnsets.h", sets);
 
@@ -745,8 +743,6 @@ namespace moveParser
                 i++;
             }
 
-            sets = replaceOldDefines(sets);
-
             // write to file
             File.WriteAllText("output/teachable_learnsets.h", sets);
 
@@ -943,7 +939,6 @@ namespace moveParser
             }
 
             sets += "    EGG_MOVES_TERMINATOR\n};\n";
-            sets = replaceOldDefines(sets);
 
             // write to file
             File.WriteAllText("output/egg_moves.h", sets);
@@ -957,10 +952,10 @@ namespace moveParser
         private string replaceOldDefines(string text)
         {
             text = text
-                .Replace("MOVE_FAINT_ATTACK", "MOVE_FEINT_ATTACK")
-                .Replace("MOVE_SMELLING_SALT", "MOVE_SMELLING_SALTS")
-                .Replace("MOVE_VICE_GRIP", "MOVE_VISE_GRIP")
-                .Replace("MOVE_HI_JUMP_KICK", "MOVE_HIGH_JUMP_KICK")
+                .Replace("MOVE_FEINT_ATTACK", "MOVE_FEINT_ATTACK")
+                .Replace("MOVE_SMELLING_SALTS", "MOVE_SMELLING_SALTS")
+                .Replace("MOVE_VISE_GRIP", "MOVE_VISE_GRIP")
+                .Replace("MOVE_HIGH_JUMP_KICK", "MOVE_HIGH_JUMP_KICK")
                 ;
 
             return text;

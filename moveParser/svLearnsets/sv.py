@@ -47,5 +47,5 @@ for mon in mons:
                 elif "Egg Moves:" not in lines and "Reminder:" in lines:
                     output[monName.upper()]["PreEvoMoves"].append(moveToJson(line[2:]))
 
-with open("/mnt/c/users/fdebl/Documents/Stuff - Pokemon 202X/porymoves/moveParser/db/gen/sv.json", "w") as file:
+with open("../db/gen/sv.json", "w") as file:
     file.write(json.dumps(output, indent=2))

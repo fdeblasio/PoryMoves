@@ -708,6 +708,7 @@ namespace moveParser.data
 
             return mon;
         }
+
         public static bool isIncenseBaby(string name)
         {
             switch (name)
