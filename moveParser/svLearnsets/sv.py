@@ -19,9 +19,7 @@ for mon in mons:
         "LevelMoves": [],
         "PreEvoMoves": [],
         "TMMoves": [],
-        "EggMoves": [],
-        "TutorMoves": []
-        # "EggMoves": []
+        "EggMoves": []
     }
     for line in lines:
         if line != "" and line[0] == "-":
