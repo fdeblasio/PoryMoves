@@ -663,19 +663,19 @@ namespace moveParser
                         sets += $"\nstatic const u16 s{name.VarName}TeachableLearnset[] = {{\n";
 
                     foreach (string move in lvlMoves[name.DefName])
-                        if (AddTeachableMove(teachableLearnsets, move) && (tmMoves.Contains(move) || tutorMoves.Contains(move)))
+                        if (AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, move))
                             teachableLearnsets.Add(move);
 
                     foreach (string move in data.TMMoves)
-                        if (AddTeachableMove(teachableLearnsets, move))
+                        if (AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, move))
                             teachableLearnsets.Add(move);
 
                     foreach (string move in data.EggMoves)
-                        if (AddTeachableMove(teachableLearnsets, move) && (tmMoves.Contains(move) || tutorMoves.Contains(move)))
+                        if (AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, move))
                             teachableLearnsets.Add(move);
 
                     foreach (string move in data.TutorMoves)
-                        if (AddTeachableMove(teachableLearnsets, move))
+                        if (AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, move))
                             teachableLearnsets.Add(move);
 
                     // Include universal TM moves
@@ -1036,9 +1036,9 @@ namespace moveParser
                 return false;
         }
 
-        private bool AddTeachableMove(List<string> teachableLearnsets, string move)
+        private bool AddTeachableMove(List<string> teachableLearnsets, List<string> tmMoves, List<string> tutorMoves, string move)
         {
-            if (!teachableLearnsets.Contains(move) && !FrankDexit(move))
+            if (!teachableLearnsets.Contains(move)  && (tmMoves.Contains(move) || tutorMoves.Contains(move)) && !FrankDexit(move))
                 return true;
             else
                 return false;
