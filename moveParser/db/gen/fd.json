@@ -2214,7 +2214,9 @@
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_TAIL_GLOW"
+    ],
     "TutorMoves": []
   },
   "FLAAFFY": {
@@ -2225,7 +2227,12 @@
     "TutorMoves": []
   },
   "AMPHAROS": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 1,
+        "Move": "MOVE_TAIL_GLOW"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
