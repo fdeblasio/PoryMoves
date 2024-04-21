@@ -156,21 +156,40 @@
     "TutorMoves": []
   },
   "PIDGEY": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 1,
+        "Move": "MOVE_PECK"
+      }
+    ],
     "PreEvoMoves": [],
-    "TMMoves": [],
+    "TMMoves": [
+      "MOVE_ACROBATICS"
+    ],
     "EggMoves": [],
     "TutorMoves": []
   },
   "PIDGEOTTO": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 1,
+        "Move": "MOVE_PECK"
+      }
+    ],
     "PreEvoMoves": [],
-    "TMMoves": [],
+    "TMMoves": [
+      "MOVE_ACROBATICS"
+    ],
     "EggMoves": [],
     "TutorMoves": []
   },
   "PIDGEOT": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 1,
+        "Move": "MOVE_PECK"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [
       "MOVE_ACROBATICS"
@@ -1250,14 +1269,24 @@
     "TutorMoves": []
   },
   "DROWZEE": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 49,
+        "Move": "MOVE_DREAM_EATER"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
     "TutorMoves": []
   },
   "HYPNO": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 56,
+        "Move": "MOVE_DREAM_EATER"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
@@ -2876,6 +2905,10 @@
       {
         "Level": 3,
         "Move": "MOVE_QUICK_ATTACK"
+      },
+      {
+        "Level": 6,
+        "Move": "MOVE_ABSORB"
       },
       {
         "Level": 6,
@@ -5088,7 +5121,9 @@
   "UNFEZANT": {
     "LevelMoves": [],
     "PreEvoMoves": [],
-    "TMMoves": [],
+    "TMMoves": [
+      "MOVE_ACROBATICS"
+    ],
     "EggMoves": [],
     "TutorMoves": []
   },
@@ -6750,7 +6785,9 @@
   "GOURGEIST": {
     "LevelMoves": [],
     "PreEvoMoves": [],
-    "TMMoves": [],
+    "TMMoves": [
+      "MOVE_SHADOW_CLAW"
+    ],
     "EggMoves": [],
     "TutorMoves": []
   },
