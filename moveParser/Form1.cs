@@ -856,10 +856,9 @@ namespace moveParser
 
             // file header
             string sets = "#include \"constants/moves.h\"\n\n" +
-                            "#define EGG_MOVES_SPECIES_OFFSET 20000\n" +
-                            "#define EGG_MOVES_TERMINATOR 0xFFFF\n" +
-                            "#define egg_moves(species, moves...) (SPECIES_##species + EGG_MOVES_SPECIES_OFFSET), moves\n\n" +
-                            "const u16 gEggMoves[] = {\n";
+                          "static const u16 sNoneEggMoveLearnset[] = {\n" + 
+                          "    MOVE_UNAVAILABLE,\n" + 
+                          "};\n\n";
 
             // iterate over mons
             i = 1;
@@ -895,17 +894,14 @@ namespace moveParser
                         sets += $"\n#if P_GEN_{name.CrossEvo}_CROSS_EVOS";
 
                     // begin learnset
-                    sets += $"\n    egg_moves({name.DefName},\n";
-                    // hacky workaround for first move being on the same line
-                    int eggm = 1;
+                    sets += $"\nstatic const u16 s{name.VarName}EggMoveLearnset[] = {{\n";
                     foreach (string move in data.EggMoves)
                     {
-                        sets += $"        {move}";
-                        if (eggm == data.EggMoves.Count)
-                            sets += ")";
+                        sets += $"    {move}";
                         sets += ",\n";
-                        eggm++;
                     }
+                    sets += "    MOVE_UNAVAILABLE,\n";
+                    sets += "};\n";
                     if (name.CrossEvo != null)
                         sets += $"#endif //P_GEN_{name.CrossEvo}_CROSS_EVOS\n";
                     if (validForms.Contains(currentForm))
@@ -918,8 +914,6 @@ namespace moveParser
                 UpdateLoadingMessage(i.ToString() + "/" + namecount + " Egg movesets exported.");
                 i++;
             }
-
-            sets += "    EGG_MOVES_TERMINATOR\n};\n";
 
             // write to file
             File.WriteAllText("output/egg_moves.h", sets);
