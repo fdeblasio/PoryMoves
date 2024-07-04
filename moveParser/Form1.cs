@@ -1009,6 +1009,7 @@ namespace moveParser
         {
             switch(move)
             {
+                case "MOVE_EMBARGO":
                 case "MOVE_LUCKY_CHANT":
                 case "MOVE_NATURAL_GIFT":
                 case "MOVE_SYNCHRONOISE":
