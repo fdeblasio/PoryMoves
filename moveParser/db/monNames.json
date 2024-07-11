@@ -10849,7 +10849,7 @@
     "NatDexNum": 561,
     "SpeciesName": "Sigilyph",
     "IsBaseForm": true,
-    "CanHatchFromEgg": false,
+    "CanHatchFromEgg": true,
     "FormName": "Sigilyph",
     "FormEnd": false,
     "VarName": "Sigilyph",

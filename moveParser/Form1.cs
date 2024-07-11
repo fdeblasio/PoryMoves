@@ -907,6 +907,9 @@ namespace moveParser
                         sets += $"#endif //P_GEN_{name.CrossEvo}_CROSS_EVOS\n";
                     if (validForms.Contains(currentForm))
                         sets += $"#endif //P_{currentForm}_FORMS\n";
+                    //Final family
+                    if (currentFamily == "FRIGIBAX")
+                        sets += $"#endif //P_FAMILY_{currentFamily}\n";
                 }
 
                 int percent = i * 100 / namecount;
