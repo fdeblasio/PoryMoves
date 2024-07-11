@@ -829,7 +829,8 @@ namespace moveParser
                         mon = new MonData();
                     }
                     foreach (string move in mon.EggMoves)
-                        monToAdd.EggMoves.Add(move);
+                        if (AddEggMove(move))
+                            monToAdd.EggMoves.Add(move);
                     if (chkEgg_IncludeLvl.Checked)
                     {
                         foreach (LevelUpMove move in mon.LevelMoves)
@@ -1033,7 +1034,15 @@ namespace moveParser
 
         private bool AddTeachableMove(List<string> teachableLearnsets, List<string> tmMoves, List<string> tutorMoves, string move)
         {
-            if (!teachableLearnsets.Contains(move)  && (tmMoves.Contains(move) || tutorMoves.Contains(move)) && !FrankDexit(move))
+            if (!teachableLearnsets.Contains(move) && (tmMoves.Contains(move) || tutorMoves.Contains(move)) && !FrankDexit(move))
+                return true;
+            else
+                return false;
+        }
+
+        private bool AddEggMove(string move)
+        {
+            if (!FrankDexit(move))
                 return true;
             else
                 return false;
