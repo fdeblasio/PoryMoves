@@ -18448,7 +18448,7 @@
     "NatDexNum": 999,
     "SpeciesName": "Gimmighoul",
     "IsBaseForm": true,
-    "CanHatchFromEgg": true,
+    "CanHatchFromEgg": false,
     "FormName": "Chest Form",
     "FormEnd": false,
     "VarName": "Gimmighoul",

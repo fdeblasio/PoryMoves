@@ -588,7 +588,7 @@ namespace moveParser
 
             // load specified TM list
             List<string> tmMovesTemp = new List<string>();
-            tmMovesTemp = File.ReadAllLines("\\\\wsl.localhost\\Ubuntu\\home\\frank\\pokeemerald-expansion\\include\\constants\\tms_hms.h").ToList();
+            tmMovesTemp = File.ReadAllLines("\\\\wsl.localhost\\Ubuntu\\home\\frank\\pokeemerald-expansion\\include\\constants\\tms.h").ToList();
             List<string> tmMoves = new List<string>();
             string writeText = "";
             foreach (string str in tmMovesTemp)
@@ -816,6 +816,28 @@ namespace moveParser
                 monToAdd.EggMoves = new List<string>();
                 lvlMoves.Add(name.DefName, new List<string>());
 
+                // load specified TM list
+                List<string> tmMovesTemp = new List<string>();
+                tmMovesTemp = File.ReadAllLines("\\\\wsl.localhost\\Ubuntu\\home\\frank\\pokeemerald-expansion\\include\\constants\\tms.h").ToList();
+                List<string> tmMoves = new List<string>();
+                string writeText = "";
+                foreach (string str in tmMovesTemp)
+                {
+                    writeText += str + "\n";    
+                    if (str.Trim().StartsWith("F("))
+                        tmMoves.Add("MOVE_" + str.Trim().Replace("F(", "").Replace(")", "").Replace(" \\", ""));
+                }
+                List<string> tutorMovesTemp = new List<string>();
+                if (Directory.Exists("input") && File.Exists("input/tutor.txt"))
+                    tutorMovesTemp = File.ReadAllLines("input/tutor.txt").ToList();
+                List<string> tutorMoves = new List<string>();
+
+                foreach (string str in tutorMovesTemp)
+                {
+                    if (!str.Trim().Equals("") && !str.Trim().StartsWith("//"))
+                        tutorMoves.Add(str);
+                }
+
                 foreach (string item in cListEggMoves.CheckedItems)
                 {
                     GenerationData gen = GenData[item];
@@ -829,7 +851,7 @@ namespace moveParser
                         mon = new MonData();
                     }
                     foreach (string move in mon.EggMoves)
-                        if (AddEggMove(move))
+                        if (AddEggMove(monToAdd.EggMoves, tmMoves, tutorMoves, move))
                             monToAdd.EggMoves.Add(move);
                     if (chkEgg_IncludeLvl.Checked)
                     {
@@ -839,9 +861,11 @@ namespace moveParser
                     if (chkEgg_IncludeTeach.Checked)
                     {
                         foreach (string move in mon.TMMoves)
-                            monToAdd.EggMoves.Add(move);
+                            if (AddEggMove(monToAdd.EggMoves, tmMoves, tutorMoves, move))
+                                monToAdd.EggMoves.Add(move);
                         foreach (string move in mon.TutorMoves)
-                            monToAdd.EggMoves.Add(move);
+                            if (AddEggMove(monToAdd.EggMoves, tmMoves, tutorMoves, move))
+                                monToAdd.EggMoves.Add(move);
                     }
 
 
@@ -908,7 +932,7 @@ namespace moveParser
                     if (validForms.Contains(currentForm))
                         sets += $"#endif //P_{currentForm}_FORMS\n";
                     //Final family
-                    if (currentFamily == "FRIGIBAX")
+                    if (currentFamily == "POLTCHAGEIST")
                         sets += $"#endif //P_FAMILY_{currentFamily}\n";
                 }
 
@@ -1043,9 +1067,9 @@ namespace moveParser
                 return false;
         }
 
-        private bool AddEggMove(string move)
+        private bool AddEggMove(List<string> eggMoves, List<string> tmMoves, List<string> tutorMoves, string move)
         {
-            if (!FrankDexit(move))
+            if (!eggMoves.Contains(move) && !tmMoves.Contains(move) && !tutorMoves.Contains(move) && !FrankDexit(move))
                 return true;
             else
                 return false;

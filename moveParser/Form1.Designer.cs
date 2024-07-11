@@ -391,6 +391,7 @@
             // chkEgg_IncludeTeach
             //
             this.chkEgg_IncludeTeach.AutoSize = true;
+            this.chkEgg_IncludeTeach.Checked = true;
             this.chkEgg_IncludeTeach.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkEgg_IncludeTeach.Location = new System.Drawing.Point(5, secondCheckY);
             this.chkEgg_IncludeTeach.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
