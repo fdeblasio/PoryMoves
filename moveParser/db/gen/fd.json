@@ -2002,7 +2002,10 @@
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_GASTRO_ACID",
+      "MOVE_POWER_UP_PUNCH"
+    ],
     "TutorMoves": []
   },
   "SNORLAX": {
@@ -2325,7 +2328,11 @@
     ],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_AMNESIA",
+      "MOVE_FUTURE_SIGHT",
+      "MOVE_SUPERPOWER"
+    ],
     "TutorMoves": []
   },
   "MARILL": {
@@ -3601,7 +3608,7 @@
       {
         "Level": 10,
         "Move": "MOVE_DISARMING_VOICE"
-      },
+      }
     ],
     "PreEvoMoves": [],
     "TMMoves": [],
@@ -3825,7 +3832,9 @@
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_POWER_WHIP"
+    ],
     "TutorMoves": []
   },
   "ROSELIA": {
@@ -4214,9 +4223,7 @@
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [
-      "MOVE_SPITE"
-    ],
+    "EggMoves": [],
     "TutorMoves": []
   },
   "DUSKNOIR": {
@@ -4225,9 +4232,7 @@
     "TMMoves": [
       "MOVE_DRAIN_PUNCH"
     ],
-    "EggMoves": [
-      "MOVE_SPITE"
-    ],
+    "EggMoves": [],
     "TutorMoves": []
   },
   "TROPIUS": {
@@ -4241,7 +4246,10 @@
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_CRAFTY_SHIELD",
+      "MOVE_PERISH_SONG"
+    ],
     "TutorMoves": []
   },
   "CHIMECHO": {
