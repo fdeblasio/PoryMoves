@@ -771,7 +771,20 @@
     "TutorMoves": []
   },
   "PSYDUCK": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 18,
+        "Move": "MOVE_PSYBEAM"
+      },
+      {
+        "Level": 24,
+        "Move": "MOVE_EXTRASENSORY"
+      },
+      {
+        "Level": 36,
+        "Move": "MOVE_PSYCHIC"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
@@ -782,6 +795,18 @@
       {
         "Level": 0,
         "Move": "MOVE_POWER_GEM"
+      },
+      {
+        "Level": 18,
+        "Move": "MOVE_PSYBEAM"
+      },
+      {
+        "Level": 24,
+        "Move": "MOVE_EXTRASENSORY"
+      },
+      {
+        "Level": 40,
+        "Move": "MOVE_PSYCHIC"
       }
     ],
     "PreEvoMoves": [],
@@ -2278,14 +2303,32 @@
     "TutorMoves": []
   },
   "NATU": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 20,
+        "Move": "MOVE_CONFUSION"
+      },
+      {
+        "Level": 26,
+        "Move": "MOVE_PSYBEAM"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
     "TutorMoves": []
   },
   "XATU": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 20,
+        "Move": "MOVE_CONFUSION"
+      },
+      {
+        "Level": 28,
+        "Move": "MOVE_PSYBEAM"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
@@ -2541,14 +2584,24 @@
     "TutorMoves": []
   },
   "GIRAFARIG": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 10,
+        "Move": "MOVE_SWIFT"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
     "TutorMoves": []
   },
   "FARIGIRAF": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 10,
+        "Move": "MOVE_SWIFT"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
@@ -2843,14 +2896,24 @@
     "TutorMoves": []
   },
   "HOUNDOUR": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 28,
+        "Move": "MOVE_SNARL"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
     "TutorMoves": []
   },
   "HOUNDOOM": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 30,
+        "Move": "MOVE_SNARL"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
@@ -8885,7 +8948,12 @@
     "TutorMoves": []
   },
   "TINKATON": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 1,
+        "Move": "MOVE_SMACK_DOWN"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
