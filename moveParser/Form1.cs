@@ -663,19 +663,35 @@ namespace moveParser
                         sets += $"\nstatic const u16 s{name.VarName}TeachableLearnset[] = {{\n";
 
                     foreach (string move in lvlMoves[name.DefName])
-                        if (AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, move))
+                        if (move == "MOVE_HAIL" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, "MOVE_SNOWSCAPE"))
+                            teachableLearnsets.Add("MOVE_SNOWSCAPE");
+                        else if (move == "MOVE_SNOWSCAPE" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, "MOVE_HAIL"))
+                            teachableLearnsets.Add("MOVE_HAIL");
+                        else if (AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, move))
                             teachableLearnsets.Add(move);
 
                     foreach (string move in data.TMMoves)
-                        if (AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, move))
+                        if (move == "MOVE_HAIL" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, "MOVE_SNOWSCAPE"))
+                            teachableLearnsets.Add("MOVE_SNOWSCAPE");
+                        else if (move == "MOVE_SNOWSCAPE" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, "MOVE_HAIL"))
+                            teachableLearnsets.Add("MOVE_HAIL");
+                        else if (AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, move))
                             teachableLearnsets.Add(move);
 
                     foreach (string move in data.EggMoves)
-                        if (AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, move))
+                        if (move == "MOVE_HAIL" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, "MOVE_SNOWSCAPE"))
+                            teachableLearnsets.Add("MOVE_SNOWSCAPE");
+                        else if (move == "MOVE_SNOWSCAPE" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, "MOVE_HAIL"))
+                            teachableLearnsets.Add("MOVE_HAIL");
+                        else if (AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, move))
                             teachableLearnsets.Add(move);
 
                     foreach (string move in data.TutorMoves)
-                        if (AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, move))
+                        if (move == "MOVE_HAIL" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, "MOVE_SNOWSCAPE"))
+                            teachableLearnsets.Add("MOVE_SNOWSCAPE");
+                        else if (move == "MOVE_SNOWSCAPE" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, "MOVE_HAIL"))
+                            teachableLearnsets.Add("MOVE_HAIL");
+                        else if (AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, move))
                             teachableLearnsets.Add(move);
 
                     // Include universal TM moves
