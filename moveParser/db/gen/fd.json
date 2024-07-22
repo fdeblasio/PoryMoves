@@ -254,7 +254,9 @@
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_DRAGON_BREATH"
+    ],
     "TutorMoves": []
   },
   "ARBOK": {
@@ -1665,7 +1667,9 @@
       }
     ],
     "PreEvoMoves": [],
-    "TMMoves": [],
+    "TMMoves": [
+      "MOVE_LIQUIDATION"
+    ],
     "EggMoves": [],
     "TutorMoves": []
   },
@@ -3567,6 +3571,10 @@
   "SLAKING": {
     "LevelMoves": [
       {
+        "Level": 60,
+        "Move": "MOVE_FOCUS_PUNCH"
+      },
+      {
         "Level": 63,
         "Move": "MOVE_GIGA_IMPACT"
       }
@@ -4088,7 +4096,9 @@
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_DRAGON_BREATH"
+    ],
     "TutorMoves": []
   },
   "LUNATONE": {
@@ -4397,7 +4407,12 @@
     "TutorMoves": []
   },
   "RELICANTH": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 30,
+        "Move": "MOVE_ROCK_SLIDE"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
@@ -5846,7 +5861,9 @@
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_DRAGON_BREATH"
+    ],
     "TutorMoves": []
   },
   "SCRAFTY": {
@@ -6284,7 +6301,9 @@
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_DRAGON_BREATH"
+    ],
     "TutorMoves": []
   },
   "FRAXURE": {
@@ -6377,7 +6396,9 @@
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_DRAGON_BREATH"
+    ],
     "TutorMoves": []
   },
   "GOLETT": {
@@ -6975,7 +6996,9 @@
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_DRAGON_BREATH"
+    ],
     "TutorMoves": []
   },
   "DRAGALGE": {
@@ -7003,7 +7026,9 @@
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_DRAGON_BREATH"
+    ],
     "TutorMoves": []
   },
   "HELIOLISK": {
@@ -7034,7 +7059,9 @@
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_DRAGON_BREATH"
+    ],
     "TutorMoves": []
   },
   "TYRANTRUM": {
@@ -7176,7 +7203,9 @@
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_DRAGON_BREATH"
+    ],
     "TutorMoves": []
   },
   "NOIVERN": {
@@ -7539,7 +7568,9 @@
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_DRAGON_BREATH"
+    ],
     "TutorMoves": []
   },
   "SALAZZLE": {
@@ -7672,7 +7703,9 @@
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_DRAGON_BREATH"
+    ],
     "TutorMoves": []
   },
   "TOGEDEMARU": {
@@ -8129,7 +8162,9 @@
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_DRAGON_BREATH"
+    ],
     "TutorMoves": []
   },
   "FLAPPLE": {
@@ -8157,7 +8192,9 @@
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_DRAGON_BREATH"
+    ],
     "TutorMoves": []
   },
   "SANDACONDA": {
@@ -8416,14 +8453,18 @@
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_DRAGON_BREATH"
+    ],
     "TutorMoves": []
   },
   "DREEPY": {
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_DRAGON_BREATH"
+    ],
     "TutorMoves": []
   },
   "DRAKLOAK": {

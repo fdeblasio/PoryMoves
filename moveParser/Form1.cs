@@ -867,7 +867,7 @@ namespace moveParser
                         mon = new MonData();
                     }
                     foreach (string move in mon.EggMoves)
-                        if (AddEggMove(monToAdd.EggMoves, tmMoves, tutorMoves, move))
+                        if (AddEggMove(monToAdd.EggMoves, (from levelMove in mon.LevelMoves select levelMove.Move).ToList(), tmMoves, tutorMoves, move))
                             monToAdd.EggMoves.Add(move);
                     if (chkEgg_IncludeLvl.Checked)
                     {
@@ -877,10 +877,10 @@ namespace moveParser
                     if (chkEgg_IncludeTeach.Checked)
                     {
                         foreach (string move in mon.TMMoves)
-                            if (AddEggMove(monToAdd.EggMoves, tmMoves, tutorMoves, move))
+                            if (AddEggMove(monToAdd.EggMoves, (from levelMove in mon.LevelMoves select levelMove.Move).ToList(), tmMoves, tutorMoves, move))
                                 monToAdd.EggMoves.Add(move);
                         foreach (string move in mon.TutorMoves)
-                            if (AddEggMove(monToAdd.EggMoves, tmMoves, tutorMoves, move))
+                            if (AddEggMove(monToAdd.EggMoves, (from levelMove in mon.LevelMoves select levelMove.Move).ToList(), tmMoves, tutorMoves, move))
                                 monToAdd.EggMoves.Add(move);
                     }
 
@@ -1083,9 +1083,9 @@ namespace moveParser
                 return false;
         }
 
-        private bool AddEggMove(List<string> eggMoves, List<string> tmMoves, List<string> tutorMoves, string move)
+        private bool AddEggMove(List<string> eggMoves, List<string> levelUpMoves, List<string> tmMoves, List<string> tutorMoves, string move)
         {
-            if (!eggMoves.Contains(move) && !tmMoves.Contains(move) && !tutorMoves.Contains(move) && !FrankDexit(move))
+            if (!eggMoves.Contains(move) && !levelUpMoves.Contains(move) && !tmMoves.Contains(move) && !tutorMoves.Contains(move) && !FrankDexit(move))
                 return true;
             else
                 return false;
