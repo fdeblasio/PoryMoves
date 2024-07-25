@@ -4097,6 +4097,23 @@
     "isGenderless": false
   },
   {
+    "NatDexNum": 166,
+    "SpeciesName": "Ledybulk",
+    "IsBaseForm": true,
+    "CanHatchFromEgg": false,
+    "FormName": "Ledybulk",
+    "FormEnd": false,
+    "VarName": "Ledybulk",
+    "DefName": "LEDYBULK",
+    "FamilyName": "LEDYBA",
+    "CrossEvo": null,
+    "minGameId": null,
+    "PokemonDBURL": null,
+    "PokemonDBFormName": null,
+    "usesBaseFormLearnset": false,
+    "isGenderless": false
+  },
+  {
     "NatDexNum": 167,
     "SpeciesName": "Spinarak",
     "IsBaseForm": true,
