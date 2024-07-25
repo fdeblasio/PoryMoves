@@ -153,10 +153,6 @@
       {
         "Level": 47,
         "Move": "MOVE_LEECH_LIFE"
-      },
-      {
-        "Level": 47,
-        "Move": "MOVE_DRILL_RUN"
       }
     ],
     "PreEvoMoves": [],
@@ -1213,10 +1209,6 @@
       {
         "Level": 1,
         "Move": "MOVE_BODY_SLAM"
-      },
-      {
-        "Level": 1,
-        "Move": "MOVE_DRILL_RUN"
       }
     ],
     "PreEvoMoves": [],
@@ -1660,10 +1652,6 @@
       {
         "Level": 1,
         "Move": "MOVE_AQUA_JET"
-      },
-      {
-        "Level": 51,
-        "Move": "MOVE_DRILL_RUN"
       }
     ],
     "PreEvoMoves": [],
@@ -1920,7 +1908,12 @@
     "TutorMoves": []
   },
   "ESPEON": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 1,
+        "Move": "MOVE_POWER_GEM"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
