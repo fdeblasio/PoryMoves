@@ -9032,16 +9032,72 @@
     "TutorMoves": []
   },
   "WATTREL": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 1,
+        "Move": "MOVE_GUST"
+      },
+      {
+        "Level": 15,
+        "Move": "MOVE_SHOCK_WAVE"
+      },
+      {
+        "Level": 19,
+        "Move": "MOVE_AIR_CUTTER"
+      },
+      {
+        "Level": 32,
+        "Move": "MOVE_TAILWIND"
+      },
+      {
+        "Level": 43,
+        "Move": "MOVE_AIR_SLASH"
+      },
+      {
+        "Level": 50,
+        "Move": "MOVE_THUNDER"
+      }
+    ],
     "PreEvoMoves": [],
-    "TMMoves": [],
-    "EggMoves": [],
+    "TMMoves": [
+      "MOVE_RAIN_DANCE"
+    ],
+    "EggMoves": [
+      "MOVE_HEAT_WAVE"
+    ],
     "TutorMoves": []
   },
   "KILOWATTREL": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 1,
+        "Move": "MOVE_GUST"
+      },
+      {
+        "Level": 15,
+        "Move": "MOVE_SHOCK_WAVE"
+      },
+      {
+        "Level": 19,
+        "Move": "MOVE_AIR_CUTTER"
+      },
+      {
+        "Level": 36,
+        "Move": "MOVE_TAILWIND"
+      },
+      {
+        "Level": 48,
+        "Move": "MOVE_AIR_SLASH"
+      },
+      {
+        "Level": 55,
+        "Move": "MOVE_THUNDER"
+      }
+    ],
     "PreEvoMoves": [],
-    "TMMoves": [],
+    "TMMoves": [
+      "MOVE_RAIN_DANCE"
+    ],
     "EggMoves": [],
     "TutorMoves": []
   },
