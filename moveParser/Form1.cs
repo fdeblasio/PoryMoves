@@ -196,6 +196,7 @@ namespace moveParser
                         cListEggMoves.SetItemChecked(count, true);
                         break;
                     case "RSE":
+                    case "FRLG":
                     case "BDSP":
                         cListTMMoves.SetItemChecked(count, true);
                         break;
