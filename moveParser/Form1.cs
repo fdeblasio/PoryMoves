@@ -28,6 +28,8 @@ namespace moveParser
         private static string dbpath = "db";
 #endif
 
+        private static string jsonPath = "\\\\wsl.localhost\\Ubuntu\\home\\frank\\pokeemerald-expansion\\tools\\learnset_helpers\\porymoves_files\\";
+
         private Dictionary<string, Dictionary<string, MonData>> allGensData = new Dictionary<string, Dictionary<string, MonData>>();
         Dictionary<string, MonData> customGenData = new Dictionary<string, MonData>();
         protected Dictionary<string, GenerationData> GenData;
@@ -64,7 +66,7 @@ namespace moveParser
         }
 
         public Dictionary<string, MonData> getLevelUpMoves(List<MonName> names){
-            int i = 1;
+            //int i = 1;
             Dictionary<string, MonData> levelUpList = new Dictionary<string, MonData>();
             foreach (MonName name in names)
             {
@@ -139,9 +141,9 @@ namespace moveParser
 
                 levelUpList.Add(name.DefName, monToAdd);
 
-                i++;
-                int percent = i * 100 / names.Count;
-                bwrkExportLvl.ReportProgress(percent);
+                //i++;
+                //int percent = i * 100 / names.Count;
+                //bwrkExportLvl.ReportProgress(percent);
             }
             return levelUpList;
         }
@@ -202,7 +204,7 @@ namespace moveParser
                         break;
                 }
 
-                Dictionary<string, MonData> gen = PokemonData.GetMonDataFromFile(dbpath + "/gen/" + item.Value.dbFilename + ".json");
+                Dictionary<string, MonData> gen = PokemonData.GetMonDataFromFile(jsonPath + item.Value.dbFilename + ".json");
                 allGensData.Add(item.Key, gen);
 
                 count++;
@@ -289,7 +291,7 @@ namespace moveParser
                         namecount++;
                 }
 
-                Dictionary<string, MonData> existingMonData = PokemonData.GetMonDataFromFile(dbpath + "/gen/" + generation.dbFilename + ".json");
+                Dictionary<string, MonData> existingMonData = PokemonData.GetMonDataFromFile(jsonPath + generation.dbFilename + ".json");
                 int i = 0;
                 foreach (MonName monName in nameList)
                 {
@@ -330,7 +332,7 @@ namespace moveParser
                 if (!Directory.Exists(dbpath + "/gen"))
                     Directory.CreateDirectory(dbpath + "/gen");
 
-                File.WriteAllText(dbpath + "/gen/" + generation.dbFilename + ".json", JsonConvert.SerializeObject(Database, Formatting.Indented));
+                File.WriteAllText(jsonPath + generation.dbFilename + ".json", JsonConvert.SerializeObject(Database, Formatting.Indented));
 #if DEBUG
                 if (!Directory.Exists("db"))
                     Directory.CreateDirectory("db");
@@ -338,7 +340,7 @@ namespace moveParser
 #endif
 
                 allGensData.Remove(generation.dbFilename.ToUpper());
-                allGensData.Add(generation.dbFilename.ToUpper(), PokemonData.GetMonDataFromFile(dbpath + "/gen/" + generation.dbFilename + ".json"));
+                allGensData.Add(generation.dbFilename.ToUpper(), PokemonData.GetMonDataFromFile(jsonPath + generation.dbFilename + ".json"));
 
                 UpdateLoadingMessage("Pokémon data loaded.");
             }
