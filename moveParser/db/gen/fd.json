@@ -1862,7 +1862,9 @@
     ],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_DRAGON_BREATH"
+    ],
     "TutorMoves": []
   },
   "GYARADOS": {
@@ -4124,7 +4126,9 @@
     "LevelMoves": [],
     "PreEvoMoves": [],
     "TMMoves": [],
-    "EggMoves": [],
+    "EggMoves": [
+      "MOVE_DRAGON_BREATH"
+    ],
     "TutorMoves": []
   },
   "VIBRAVA": {

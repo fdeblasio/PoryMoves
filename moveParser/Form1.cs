@@ -37,7 +37,116 @@ namespace moveParser
         List<string> crossEvoStart = ["Espeon", "Leafeon", "Ursaluna", "Dipplin"];
         List<string> crossEvoEnd = ["Umbreon", "Glaceon", "UrsalunaBloodmoon", "Hydrapple"];
 
-        //Console.WriteLine($"Hello World!");
+        public List<string> getTmMoves(){
+            List<string> tmMovesTemp = new List<string>();
+            tmMovesTemp = File.ReadAllLines("\\\\wsl.localhost\\Ubuntu\\home\\frank\\pokeemerald-expansion\\include\\constants\\tms.h").ToList();
+            List<string> tmMoves = new List<string>();
+            foreach (string str in tmMovesTemp)
+            {
+                if (str.Trim().StartsWith("F("))
+                    tmMoves.Add("MOVE_" + str.Trim().Replace("F(", "").Replace(")", "").Replace(" \\", ""));
+            }
+            return tmMoves;
+        }
+
+        public List<string> getTutorMoves(){
+            List<string> tutorMovesTemp = new List<string>();
+            if (Directory.Exists("input") && File.Exists("input/tutor.txt"))
+                tutorMovesTemp = File.ReadAllLines("input/tutor.txt").ToList();
+            List<string> tutorMoves = new List<string>();
+
+            foreach (string str in tutorMovesTemp)
+            {
+                if (!str.Trim().Equals("") && !str.Trim().StartsWith("//"))
+                    tutorMoves.Add(str);
+            }
+            return tutorMoves;
+        }
+
+        public Dictionary<string, MonData> getLevelUpMoves(List<MonName> names){
+            int i = 1;
+            Dictionary<string, MonData> levelUpList = new Dictionary<string, MonData>();
+            foreach (MonName name in names)
+            {
+                MonData monToAdd = new MonData();
+                monToAdd.LevelMoves = new List<LevelUpMove>();
+
+                List<string> preEvoMoves = new List<string>();
+                List<LevelUpMove> evoMoves = new List<LevelUpMove>();
+                List<LevelUpMove> lvl1Moves = new List<LevelUpMove>();
+
+                Dictionary<string, int> OtherLvlMoves = new Dictionary<string, int>();
+
+                bool stopReading = false;
+                foreach (string item in cListLevelUp.CheckedItems)
+                {
+                    GenerationData gen = GenData[item];
+                    MonData mon = new MonData();
+                    try
+                    {
+                        mon = allGensData[item][name.DefName];
+                    }
+                    catch (KeyNotFoundException) { }
+
+                    foreach (LevelUpMove move in mon.LevelMoves)
+                    {
+                        if (move.Level == 0)
+                        {
+                            if (AddLevelUpMove(evoMoves, lvl1Moves, OtherLvlMoves, move.Move))
+                                evoMoves.Add(move);
+                        }
+                        else if (move.Level == 1)
+                        {
+                            if (AddLevelUpMove(evoMoves, lvl1Moves, OtherLvlMoves, move.Move))
+                                lvl1Moves.Add(move);
+                        }
+                        else
+                        {
+                            if (AddLevelUpMove(evoMoves, lvl1Moves, OtherLvlMoves, move.Move))
+                                OtherLvlMoves.Add(move.Move, move.Level);
+                        }
+                    }
+                    foreach(string pem in mon.PreEvoMoves)
+                    {
+                        if (!preEvoMoves.Contains(pem))
+                            preEvoMoves.Add(pem);
+                    }
+                    if (stopReading)
+                        break;
+                }
+
+                evoMoves = evoMoves.GroupBy(elem => elem.Move).Select(group => group.First()).ToList();
+                lvl1Moves = lvl1Moves.GroupBy(elem => elem.Move).Select(group => group.First()).ToList();
+
+                foreach (LevelUpMove move in evoMoves)
+                    monToAdd.LevelMoves.Add(move);
+
+                if (chkLvl_PreEvo.Checked)
+                {
+                    foreach (string move in preEvoMoves)
+                    {
+                        if (AddLevelUpMove(evoMoves, lvl1Moves, OtherLvlMoves, move))
+                            monToAdd.LevelMoves.Add(new LevelUpMove(1, move));
+                    }
+                }
+
+                foreach (LevelUpMove move in lvl1Moves)
+                    monToAdd.LevelMoves.Add(move);
+
+                foreach (KeyValuePair<string, int> item in OtherLvlMoves)
+                    monToAdd.LevelMoves.Add(new LevelUpMove(item.Value, item.Key));
+                monToAdd.LevelMoves = monToAdd.LevelMoves.OrderBy(o => o.Level).ToList();
+
+                levelUpList.Add(name.DefName, monToAdd);
+
+                i++;
+                int percent = i * 100 / names.Count;
+                bwrkExportLvl.ReportProgress(percent);
+            }
+            return levelUpList;
+        }
+
+        //Console.WriteLine($"Hello {variable} World!");
 
         public Form1()
         {
@@ -353,85 +462,7 @@ namespace moveParser
 
             customGenData.Clear();
 
-            int i = 1;
-            int namecount = nameList.Count;
-            foreach (MonName name in nameList)
-            {
-                MonData monToAdd = new MonData();
-                monToAdd.LevelMoves = new List<LevelUpMove>();
-
-                List<string> preEvoMoves = new List<string>();
-                List<LevelUpMove> evoMoves = new List<LevelUpMove>();
-                List<LevelUpMove> lvl1Moves = new List<LevelUpMove>();
-
-                Dictionary<string, int> OtherLvlMoves = new Dictionary<string, int>();
-
-                bool stopReading = false;
-                foreach (string item in cListLevelUp.CheckedItems)
-                {
-                    GenerationData gen = GenData[item];
-                    MonData mon = new MonData();
-                    try
-                    {
-                        mon = allGensData[item][name.DefName];
-                    }
-                    catch (KeyNotFoundException) { }
-
-                    foreach (LevelUpMove move in mon.LevelMoves)
-                    {
-                        if (move.Level == 0)
-                        {
-                            if (AddLevelUpMove(evoMoves, lvl1Moves, OtherLvlMoves, move.Move))
-                                evoMoves.Add(move);
-                        }
-                        else if (move.Level == 1)
-                        {
-                            if (AddLevelUpMove(evoMoves, lvl1Moves, OtherLvlMoves, move.Move))
-                                lvl1Moves.Add(move);
-                        }
-                        else
-                        {
-                            if (AddLevelUpMove(evoMoves, lvl1Moves, OtherLvlMoves, move.Move))
-                                OtherLvlMoves.Add(move.Move, move.Level);
-                        }
-                    }
-                    foreach(string pem in mon.PreEvoMoves)
-                    {
-                        if (!preEvoMoves.Contains(pem))
-                            preEvoMoves.Add(pem);
-                    }
-                    if (stopReading)
-                        break;
-                }
-
-                evoMoves = evoMoves.GroupBy(elem => elem.Move).Select(group => group.First()).ToList();
-                lvl1Moves = lvl1Moves.GroupBy(elem => elem.Move).Select(group => group.First()).ToList();
-
-                foreach (LevelUpMove move in evoMoves)
-                    monToAdd.LevelMoves.Add(move);
-
-                if (chkLvl_PreEvo.Checked)
-                {
-                    foreach (string move in preEvoMoves)
-                    {
-                        if (AddLevelUpMove(evoMoves, lvl1Moves, OtherLvlMoves, move))
-                            monToAdd.LevelMoves.Add(new LevelUpMove(1, move));
-                    }
-                }
-
-                foreach (LevelUpMove move in lvl1Moves)
-                    monToAdd.LevelMoves.Add(move);
-
-                foreach (KeyValuePair<string, int> item in OtherLvlMoves)
-                    monToAdd.LevelMoves.Add(new LevelUpMove(item.Value, item.Key));
-                monToAdd.LevelMoves = monToAdd.LevelMoves.OrderBy(o => o.Level).ToList();
-
-                customGenData.Add(name.DefName, monToAdd);
-
-                i++;
-                int percent = i * 100 / namecount;
-                bwrkExportLvl.ReportProgress(percent);
-            }
+            Dictionary<string, MonData> levelUpMoves = getLevelUpMoves(nameList);
 
             if (!Directory.Exists("output"))
                 Directory.CreateDirectory("output");
@@ -440,7 +471,7 @@ namespace moveParser
             string sets = "#define LEVEL_UP_MOVE(lvl, moveLearned) {.move = moveLearned, .level = lvl}\n";
             sets += "#define LEVEL_UP_END {.move = LEVEL_UP_MOVE_END, .level = 0}\n\nstatic const struct LevelUpMove sNoneLevelUpLearnset[] = {\n    LEVEL_UP_MOVE(1, MOVE_POUND),\n    LEVEL_UP_END\n};\n";
 
-            i = 1;
+            int i = 1;
             string currentFamily = "";
             string currentForm = "";
             // iterate over mons
@@ -449,8 +480,7 @@ namespace moveParser
                 MonData mon = new MonData();
                 try
                 {
-                    mon = customGenData[name.DefName];
-                    //mon = CustomData[name.DefName];
+                    mon = levelUpMoves[name.DefName];
                 }
                 catch (KeyNotFoundException) { }
 
@@ -511,6 +541,7 @@ namespace moveParser
                 if (currentFamily == "PECHARUNT")
                     sets += $"#endif //P_FAMILY_{currentFamily}\n";
 
+                int namecount = nameList.Count;
                 int percent = i * 100 / namecount;
                 bwrkExportLvl.ReportProgress(percent);
                 // Set the text.
@@ -586,28 +617,8 @@ namespace moveParser
                 bwrkExportTM.ReportProgress(percent);
             }
 
-            // load specified TM list
-            List<string> tmMovesTemp = new List<string>();
-            tmMovesTemp = File.ReadAllLines("\\\\wsl.localhost\\Ubuntu\\home\\frank\\pokeemerald-expansion\\include\\constants\\tms.h").ToList();
-            List<string> tmMoves = new List<string>();
-            string writeText = "";
-            foreach (string str in tmMovesTemp)
-            {
-                writeText += str + "\n";    
-                if (str.Trim().StartsWith("F("))
-                    tmMoves.Add("MOVE_" + str.Trim().Replace("F(", "").Replace(")", "").Replace(" \\", ""));
-            }
-            List<string> tutorMovesTemp = new List<string>();
-            if (Directory.Exists("input") && File.Exists("input/tutor.txt"))
-                tutorMovesTemp = File.ReadAllLines("input/tutor.txt").ToList();
-            List<string> tutorMoves = new List<string>();
-
-            foreach (string str in tutorMovesTemp)
-            {
-                if (!str.Trim().Equals("") && !str.Trim().StartsWith("//"))
-                    tutorMoves.Add(str);
-            }
-
+            List<string> tmMoves = getTmMoves();
+            List<string> tutorMoves = getTutorMoves();
             // file header
             string sets = "static const u16 sNoneTeachableLearnset[] = {\n    MOVE_UNAVAILABLE,\n};\n";
 
@@ -824,6 +835,8 @@ namespace moveParser
 
             customGenData.Clear();
 
+            Dictionary<string, MonData> allLevelUpMoves = getLevelUpMoves(nameList);
+
             int i = 0;
             int namecount = nameList.Count;
             foreach (MonName name in nameList)
@@ -832,27 +845,9 @@ namespace moveParser
                 monToAdd.EggMoves = new List<string>();
                 lvlMoves.Add(name.DefName, new List<string>());
 
-                // load specified TM list
-                List<string> tmMovesTemp = new List<string>();
-                tmMovesTemp = File.ReadAllLines("\\\\wsl.localhost\\Ubuntu\\home\\frank\\pokeemerald-expansion\\include\\constants\\tms.h").ToList();
-                List<string> tmMoves = new List<string>();
-                string writeText = "";
-                foreach (string str in tmMovesTemp)
-                {
-                    writeText += str + "\n";    
-                    if (str.Trim().StartsWith("F("))
-                        tmMoves.Add("MOVE_" + str.Trim().Replace("F(", "").Replace(")", "").Replace(" \\", ""));
-                }
-                List<string> tutorMovesTemp = new List<string>();
-                if (Directory.Exists("input") && File.Exists("input/tutor.txt"))
-                    tutorMovesTemp = File.ReadAllLines("input/tutor.txt").ToList();
-                List<string> tutorMoves = new List<string>();
-
-                foreach (string str in tutorMovesTemp)
-                {
-                    if (!str.Trim().Equals("") && !str.Trim().StartsWith("//"))
-                        tutorMoves.Add(str);
-                }
+                List<string> tmMoves = getTmMoves();
+                List<string> tutorMoves = getTutorMoves();
+                List<string> levelUpMoves = (from levelMove in allLevelUpMoves[name.DefName].LevelMoves select levelMove.Move).ToList();
 
                 foreach (string item in cListEggMoves.CheckedItems)
                 {
@@ -867,7 +862,7 @@ namespace moveParser
                         mon = new MonData();
                     }
                     foreach (string move in mon.EggMoves)
-                        if (AddEggMove(monToAdd.EggMoves, (from levelMove in mon.LevelMoves select levelMove.Move).ToList(), tmMoves, tutorMoves, move))
+                        if (AddEggMove(monToAdd.EggMoves, levelUpMoves, tmMoves, tutorMoves, move))
                             monToAdd.EggMoves.Add(move);
                     if (chkEgg_IncludeLvl.Checked)
                     {
@@ -877,14 +872,12 @@ namespace moveParser
                     if (chkEgg_IncludeTeach.Checked)
                     {
                         foreach (string move in mon.TMMoves)
-                            if (AddEggMove(monToAdd.EggMoves, (from levelMove in mon.LevelMoves select levelMove.Move).ToList(), tmMoves, tutorMoves, move))
+                            if (AddEggMove(monToAdd.EggMoves, levelUpMoves, tmMoves, tutorMoves, move))
                                 monToAdd.EggMoves.Add(move);
                         foreach (string move in mon.TutorMoves)
-                            if (AddEggMove(monToAdd.EggMoves, (from levelMove in mon.LevelMoves select levelMove.Move).ToList(), tmMoves, tutorMoves, move))
+                            if (AddEggMove(monToAdd.EggMoves, levelUpMoves, tmMoves, tutorMoves, move))
                                 monToAdd.EggMoves.Add(move);
                     }
-
-
                 }
                 monToAdd.EggMoves = monToAdd.EggMoves.GroupBy(elem => elem).Select(group => group.First()).OrderBy(x => x).ToList();
 
