@@ -54119,6 +54119,130 @@
       "MOVE_UPROAR"
     ]
   },
+  "PACHIRIKKU": {
+    "LevelMoves": [
+      {
+        "Level": 1,
+        "Move": "MOVE_GROWL"
+      },
+      {
+        "Level": 1,
+        "Move": "MOVE_BIDE"
+      },
+      {
+        "Level": 5,
+        "Move": "MOVE_QUICK_ATTACK"
+      },
+      {
+        "Level": 9,
+        "Move": "MOVE_CHARM"
+      },
+      {
+        "Level": 13,
+        "Move": "MOVE_SPARK"
+      },
+      {
+        "Level": 17,
+        "Move": "MOVE_ENDURE"
+      },
+      {
+        "Level": 19,
+        "Move": "MOVE_NUZZLE"
+      },
+      {
+        "Level": 21,
+        "Move": "MOVE_SWIFT"
+      },
+      {
+        "Level": 25,
+        "Move": "MOVE_ELECTRO_BALL"
+      },
+      {
+        "Level": 29,
+        "Move": "MOVE_SWEET_KISS"
+      },
+      {
+        "Level": 33,
+        "Move": "MOVE_THUNDER_WAVE"
+      },
+      {
+        "Level": 37,
+        "Move": "MOVE_SUPER_FANG"
+      },
+      {
+        "Level": 41,
+        "Move": "MOVE_DISCHARGE"
+      },
+      {
+        "Level": 45,
+        "Move": "MOVE_LAST_RESORT"
+      },
+      {
+        "Level": 49,
+        "Move": "MOVE_HYPER_FANG"
+      }
+    ],
+    "PreEvoMoves": [],
+    "TMMoves": [
+      "MOVE_TOXIC",
+      "MOVE_HIDDEN_POWER",
+      "MOVE_LIGHT_SCREEN",
+      "MOVE_PROTECT",
+      "MOVE_RAIN_DANCE",
+      "MOVE_FRUSTRATION",
+      "MOVE_THUNDERBOLT",
+      "MOVE_THUNDER",
+      "MOVE_RETURN",
+      "MOVE_DOUBLE_TEAM",
+      "MOVE_FACADE",
+      "MOVE_REST",
+      "MOVE_ATTRACT",
+      "MOVE_ROUND",
+      "MOVE_ECHOED_VOICE",
+      "MOVE_FLING",
+      "MOVE_CHARGE_BEAM",
+      "MOVE_VOLT_SWITCH",
+      "MOVE_THUNDER_WAVE",
+      "MOVE_GRASS_KNOT",
+      "MOVE_SWAGGER",
+      "MOVE_SLEEP_TALK",
+      "MOVE_U_TURN",
+      "MOVE_SUBSTITUTE",
+      "MOVE_CONFIDE"
+    ],
+    "EggMoves": [
+      "MOVE_BABY_DOLL_EYES",
+      "MOVE_BESTOW",
+      "MOVE_BITE",
+      "MOVE_CHARGE",
+      "MOVE_COVET",
+      "MOVE_DEFENSE_CURL",
+      "MOVE_FAKE_TEARS",
+      "MOVE_FLAIL",
+      "MOVE_FLATTER",
+      "MOVE_FOLLOW_ME",
+      "MOVE_ION_DELUGE",
+      "MOVE_IRON_TAIL",
+      "MOVE_ROLLOUT",
+      "MOVE_TAIL_WHIP"
+    ],
+    "TutorMoves": [
+      "MOVE_COVET",
+      "MOVE_ELECTROWEB",
+      "MOVE_GUNK_SHOT",
+      "MOVE_HELPING_HAND",
+      "MOVE_IRON_TAIL",
+      "MOVE_LASER_FOCUS",
+      "MOVE_LAST_RESORT",
+      "MOVE_MAGNET_RISE",
+      "MOVE_SEED_BOMB",
+      "MOVE_SHOCK_WAVE",
+      "MOVE_SNORE",
+      "MOVE_SUPER_FANG",
+      "MOVE_THUNDER_PUNCH",
+      "MOVE_UPROAR"
+    ]
+  },
   "BUIZEL": {
     "LevelMoves": [
       {

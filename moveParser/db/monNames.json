@@ -4097,7 +4097,7 @@
     "isGenderless": false
   },
   {
-    "NatDexNum": 166,
+    "NatDexNum": 2000,
     "SpeciesName": "Ledybulk",
     "IsBaseForm": true,
     "CanHatchFromEgg": false,
@@ -8661,6 +8661,23 @@
     "FormEnd": false,
     "VarName": "Pachirisu",
     "DefName": "PACHIRISU",
+    "FamilyName": "PACHIRISU",
+    "CrossEvo": null,
+    "minGameId": null,
+    "PokemonDBURL": null,
+    "PokemonDBFormName": null,
+    "usesBaseFormLearnset": false,
+    "isGenderless": false
+  },
+  {
+    "NatDexNum": 2001,
+    "SpeciesName": "Pachirikku",
+    "IsBaseForm": true,
+    "CanHatchFromEgg": false,
+    "FormName": "Pachirikku",
+    "FormEnd": false,
+    "VarName": "Pachirikku",
+    "DefName": "PACHIRIKKU",
     "FamilyName": "PACHIRISU",
     "CrossEvo": null,
     "minGameId": null,

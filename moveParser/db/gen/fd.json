@@ -2235,6 +2235,10 @@
         "Move": "MOVE_GUST"
       },
       {
+        "Level": 1,
+        "Move": "MOVE_TACKLE"
+      },
+      {
         "Level": 5,
         "Move": "MOVE_STRUGGLE_BUG"
       },
@@ -4920,9 +4924,40 @@
     "TutorMoves": []
   },
   "PACHIRISU": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 21,
+        "Move": "MOVE_SHOCK_WAVE"
+      },
+      {
+        "Level": 25,
+        "Move": "MOVE_THUNDER_FANG"
+      }
+    ],
     "PreEvoMoves": [],
-    "TMMoves": [],
+    "TMMoves": [
+      "MOVE_SIGNAL_BEAM"
+    ],
+    "EggMoves": [
+      "MOVE_TAIL_SLAP"
+    ],
+    "TutorMoves": []
+  },
+  "PACHIRIKKU": {
+    "LevelMoves": [
+      {
+        "Level": 21,
+        "Move": "MOVE_SHOCK_WAVE"
+      },
+      {
+        "Level": 25,
+        "Move": "MOVE_THUNDER_FANG"
+      }
+    ],
+    "PreEvoMoves": [],
+    "TMMoves": [
+      "MOVE_SIGNAL_BEAM"
+    ],
     "EggMoves": [],
     "TutorMoves": []
   },
@@ -6242,14 +6277,36 @@
     "TutorMoves": []
   },
   "KARRABLAST": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 20,
+        "Move": "MOVE_BUG_BITE"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
     "TutorMoves": []
   },
   "ESCAVALIER": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 0,
+        "Move": "MOVE_METAL_CLAW"
+      },
+      {
+        "Level": 0,
+        "Move": "MOVE_TWINEEDLE"
+      },
+      {
+        "Level": 20,
+        "Move": "MOVE_BUG_BITE"
+      },
+      {
+        "Level": 32,
+        "Move": "MOVE_SMART_STRIKE"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
@@ -6478,14 +6535,28 @@
     "TutorMoves": []
   },
   "SHELMET": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 32,
+        "Move": "MOVE_SIGNAL_BEAM"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
     "TutorMoves": []
   },
   "ACCELGOR": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 0,
+        "Move": "MOVE_WATER_SHURIKEN"
+      },
+      {
+        "Level": 32,
+        "Move": "MOVE_SIGNAL_BEAM"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
