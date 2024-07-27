@@ -9005,14 +9005,28 @@
     "TutorMoves": []
   },
   "FIDOUGH": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 3,
+        "Move": "MOVE_FAIRY_WIND"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
     "TutorMoves": []
   },
   "DACHSBUN": {
-    "LevelMoves": [],
+    "LevelMoves": [
+      {
+        "Level": 0,
+        "Move": "MOVE_BODY_PRESS"
+      },
+      {
+        "Level": 3,
+        "Move": "MOVE_FAIRY_WIND"
+      }
+    ],
     "PreEvoMoves": [],
     "TMMoves": [],
     "EggMoves": [],
