@@ -39,9 +39,11 @@
             int listHeight = 220;
             int metaY = 14;
             int labelY = 153;
+            int selectAllX = 5;
             int selectAllY = 240;
             int firstCheckY = 275;
             int secondCheckY = 300;
+            int exportX = 13;
             int exportY = 325;
 
             this.components = new System.ComponentModel.Container();
@@ -76,6 +78,8 @@
             this.chkVanillaMode = new System.Windows.Forms.CheckBox();
             this.btnOpenOutputFolder = new System.Windows.Forms.Button();
             this.btnOpenInputFolder = new System.Windows.Forms.Button();
+            this.btnExportAll = new System.Windows.Forms.Button();
+            this.bwrkExportAll = new System.ComponentModel.BackgroundWorker();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.gBoxOptionsTM.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -223,7 +227,7 @@
             // btnLvl_All
             //
             this.btnLvl_All.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLvl_All.Location = new System.Drawing.Point(5, selectAllY);
+            this.btnLvl_All.Location = new System.Drawing.Point(selectAllX, selectAllY);
             this.btnLvl_All.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnLvl_All.Name = "btnLvl_All";
             this.btnLvl_All.Size = new System.Drawing.Size(columnWidth, btnHeight);
@@ -250,7 +254,7 @@
             // btnWriteLvlLearnsets
             //
             this.btnWriteLvlLearnsets.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnWriteLvlLearnsets.Location = new System.Drawing.Point(13, exportY);
+            this.btnWriteLvlLearnsets.Location = new System.Drawing.Point(exportX, exportY);
             this.btnWriteLvlLearnsets.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnWriteLvlLearnsets.Name = "btnWriteLvlLearnsets";
             this.btnWriteLvlLearnsets.Size = new System.Drawing.Size(columnWidth, btnHeight);
@@ -300,7 +304,7 @@
             // btnTM_All
             //
             this.btnTM_All.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTM_All.Location = new System.Drawing.Point(5, selectAllY);
+            this.btnTM_All.Location = new System.Drawing.Point(selectAllX, selectAllY);
             this.btnTM_All.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnTM_All.Name = "btnTM_All";
             this.btnTM_All.Size = new System.Drawing.Size(columnWidth, btnHeight);
@@ -338,7 +342,7 @@
             // btnExportTM
             //
             this.btnExportTM.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExportTM.Location = new System.Drawing.Point(7, exportY);
+            this.btnExportTM.Location = new System.Drawing.Point(exportX, exportY);
             this.btnExportTM.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnExportTM.Name = "btnExportTM";
             this.btnExportTM.Size = new System.Drawing.Size(columnWidth, btnHeight);
@@ -367,7 +371,7 @@
             // btnEgg_All
             //
             this.btnEgg_All.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEgg_All.Location = new System.Drawing.Point(6, selectAllY);
+            this.btnEgg_All.Location = new System.Drawing.Point(selectAllX, selectAllY);
             this.btnEgg_All.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnEgg_All.Name = "btnEgg_All";
             this.btnEgg_All.Size = new System.Drawing.Size(columnWidth, btnHeight);
@@ -404,7 +408,7 @@
             // btnExportEgg
             //
             this.btnExportEgg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExportEgg.Location = new System.Drawing.Point(5, exportY);
+            this.btnExportEgg.Location = new System.Drawing.Point(exportX, exportY);
             this.btnExportEgg.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnExportEgg.Name = "btnExportEgg";
             this.btnExportEgg.Size = new System.Drawing.Size(columnWidth, btnHeight);
@@ -440,6 +444,18 @@
             this.bwrkExportEgg.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwrkExportEgg_DoWork);
             this.bwrkExportEgg.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             //
+            // btnExportAll
+            //
+            this.btnExportAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExportAll.Location = new System.Drawing.Point(575, labelY + exportY);
+            this.btnOpenOutputFolder.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnExportAll.Name = "btnExportAll";
+            this.btnExportAll.Size = new System.Drawing.Size(100, btnHeight);
+            this.btnExportAll.TabIndex = 14;
+            this.btnExportAll.Text = "Export All";
+            this.btnExportAll.UseVisualStyleBackColor = true;
+            this.btnExportAll.Click += new System.EventHandler(this.btnExportAll_Click);
+            //
             // Form1
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -453,6 +469,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.gBoxOptionsTM);
+            this.Controls.Add(this.btnExportAll);
             this.Controls.Add(this.lblLoading);
             this.Controls.Add(this.pbar1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -504,5 +521,7 @@
         private System.Windows.Forms.CheckBox chkGeneral_MewExclusiveTutor;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.CheckBox chkLvl_PreEvo;
+        private System.Windows.Forms.Button btnExportAll;
+        private System.ComponentModel.BackgroundWorker bwrkExportAll;
     }
 }

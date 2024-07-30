@@ -32,6 +32,7 @@ namespace moveParser
 
         private Dictionary<string, Dictionary<string, MonData>> allGensData = new Dictionary<string, Dictionary<string, MonData>>();
         Dictionary<string, MonData> customGenData = new Dictionary<string, MonData>();
+        Dictionary<string, MonData> eggMoveData = new Dictionary<string, MonData>();
         protected Dictionary<string, GenerationData> GenData;
         protected Dictionary<string, Move> MoveData;
 
@@ -834,9 +835,7 @@ namespace moveParser
             string namesFile = dbpath + "/monNames.json";
             List<MonName> nameList = PokemonData.GetMonNamesFromFile(namesFile);
 
-            Dictionary<string, List<string>> lvlMoves = new Dictionary<string, List<string>>();
-
-            customGenData.Clear();
+            eggMoveData.Clear();
 
             Dictionary<string, MonData> allLevelUpMoves = getLevelUpMoves(nameList);
 
@@ -846,7 +845,6 @@ namespace moveParser
             {
                 MonData monToAdd = new MonData();
                 monToAdd.EggMoves = new List<string>();
-                lvlMoves.Add(name.DefName, new List<string>());
 
                 List<string> tmMoves = getTmMoves();
                 List<string> tutorMoves = getTutorMoves();
@@ -884,7 +882,7 @@ namespace moveParser
                 }
                 monToAdd.EggMoves = monToAdd.EggMoves.GroupBy(elem => elem).Select(group => group.First()).OrderBy(x => x).ToList();
 
-                customGenData.Add(name.DefName, monToAdd);
+                eggMoveData.Add(name.DefName, monToAdd);
 
                 i++;
                 int percent = i * 100 / namecount;
@@ -913,7 +911,7 @@ namespace moveParser
                             break;
                     }
                 }
-                MonData data = customGenData[name.DefName];
+                MonData data = eggMoveData[name.DefName];
                 if (name.CanHatchFromEgg && data.EggMoves.Count > 0)
                 {
                     if (currentFamily != name.FamilyName)
@@ -962,6 +960,14 @@ namespace moveParser
 
             MessageBox.Show("Egg moves exported to \"output/egg_moves.h\"", "Success!", MessageBoxButtons.OK);
             SetEnableForAllElements(true);
+        }
+
+        private void btnExportAll_Click(object sender, EventArgs e)
+        {
+            SetEnableForAllElements(false);
+            bwrkExportLvl.RunWorkerAsync();
+            bwrkExportTM.RunWorkerAsync();
+            bwrkExportEgg.RunWorkerAsync();
         }
 
         private void btnOpenInputFolder_Click(object sender, EventArgs e)
