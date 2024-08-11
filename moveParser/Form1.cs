@@ -558,7 +558,7 @@ namespace moveParser
 
             bwrkExportLvl.ReportProgress(0);
 
-            MessageBox.Show("Level Up moves exported to \"output/level_up_learnsets.h\"", "Success!", MessageBoxButtons.OK);
+            //MessageBox.Show("Level Up moves exported to \"output/level_up_learnsets.h\"", "Success!", MessageBoxButtons.OK);
             SetEnableForAllElements(true);
         }
 
@@ -760,7 +760,7 @@ namespace moveParser
 
             bwrkExportTM.ReportProgress(0);
 
-            MessageBox.Show("Teachable moves exported to \"output/teachable_learnsets.h\"", "Success!", MessageBoxButtons.OK);
+            //MessageBox.Show("Teachable moves exported to \"output/teachable_learnsets.h\"", "Success!", MessageBoxButtons.OK);
             SetEnableForAllElements(true);
         }
 
@@ -958,7 +958,7 @@ namespace moveParser
 
             bwrkExportEgg.ReportProgress(0);
 
-            MessageBox.Show("Egg moves exported to \"output/egg_moves.h\"", "Success!", MessageBoxButtons.OK);
+            //MessageBox.Show("Egg moves exported to \"output/egg_moves.h\"", "Success!", MessageBoxButtons.OK);
             SetEnableForAllElements(true);
         }
 
