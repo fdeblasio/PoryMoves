@@ -517,11 +517,11 @@ namespace moveParser
                 if (name.CrossEvo != null && !crossEvoEnd.Contains(name.VarName))
                     sets += $"\n#if P_GEN_{name.CrossEvo}_CROSS_EVOS";
 
-                if (name.VarName == "KyuremWhite" || name.VarName == "CalyrexIceRider")
+                if (name.VarName == "KyuremWhite" || name.VarName == "CalyrexIce")
                     sets += "\n#if P_FUSION_FORMS";
 
                 // begin learnset
-                if (!name.usesBaseFormLearnset)
+                if (!name.usesBaseFormLearnset && name.VarName != "Oinkologne")
                 {
                     sets += $"\nstatic const struct LevelUpMove s{name.VarName}LevelUpLearnset[] = {{\n";
 
@@ -534,7 +534,7 @@ namespace moveParser
                     }
                     sets += "    LEVEL_UP_END\n};\n";
                 }
-                if (name.VarName == "KyuremBlack" || name.VarName == "CalyrexShadowRider")
+                if (name.VarName == "KyuremBlack" || name.VarName == "CalyrexShadow")
                     sets += "#endif //P_FUSION_FORMS\n";
                 if (name.CrossEvo != null && !crossEvoStart.Contains(name.VarName) && name.SpeciesName != "Porygon2")
                     sets += $"#endif //P_GEN_{name.CrossEvo}_CROSS_EVOS\n";
@@ -663,19 +663,12 @@ namespace moveParser
                     sets += $"\n#if P_GEN_{name.CrossEvo}_CROSS_EVOS";
 
                 // begin learnset
-                if (!name.usesBaseFormLearnset && name.VarName != "KyuremWhite" && name.VarName != "KyuremBlack")
+                if (!name.usesBaseFormLearnset && name.VarName != "KyuremWhite" && name.VarName != "KyuremBlack" && name.VarName != "OinkologneM" && name.VarName != "OinkologneF")
                 {
-                    if (name.VarName == "CalyrexIceRider")
+                    if (name.VarName == "CalyrexIce")
                         sets += "\n#if P_FUSION_FORMS";
 
                     List<string> teachableLearnsets = new List<string>();
-
-                    if (name.SpeciesName == "Mew")
-                        sets += "\n// Instead of reading this array for Mew, it checks for exceptions in CanLearnTeachableMove instead.";
-                    if (name.VarName == "OinkologneMale")
-                        sets += $"\nstatic const u16 s{name.SpeciesName}TeachableLearnset[] = {{\n";
-                    else if (name.VarName != "OinkologneFemale")
-                        sets += $"\nstatic const u16 s{name.VarName}TeachableLearnset[] = {{\n";
 
                     foreach (string move in lvlMoves[name.DefName])
                         if (move == "MOVE_HAIL" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, "MOVE_SNOWSCAPE"))
@@ -727,16 +720,18 @@ namespace moveParser
                     // Order alphabetically
                     teachableLearnsets = teachableLearnsets.OrderBy(x => x).ToList();
 
-                    if (name.VarName != "OinkologneFemale"){
-                        foreach (string move in teachableLearnsets)
-                        {
-                            //Gender-unknown and Nincada's family shouldn't learn Attract.)
-                            if (!((name.isGenderless || name.SpeciesName == "Nincada" || name.SpeciesName == "Ninjask") && move.Equals("MOVE_ATTRACT")) && !IsMoveUniversal(move))
-                                sets += $"    {move},\n";
-                        }
-                        sets += "    MOVE_UNAVAILABLE,\n};\n";
+                    if (name.SpeciesName == "Mew")
+                        sets += "\n// Instead of reading this array for Mew, it checks for exceptions in CanLearnTeachableMove instead.";
+                    sets += $"\nstatic const u16 s{name.VarName}TeachableLearnset[] = {{\n";
+                    foreach (string move in teachableLearnsets)
+                    {
+                        //Gender-unknown and Nincada's family shouldn't learn Attract.)
+                        if (!((name.isGenderless || name.SpeciesName == "Nincada" || name.SpeciesName == "Ninjask") && move.Equals("MOVE_ATTRACT")) && !IsMoveUniversal(move))
+                            sets += $"    {move},\n";
                     }
-                    if (name.VarName == "CalyrexShadowRider")
+                    sets += "    MOVE_UNAVAILABLE,\n};\n";
+
+                    if (name.VarName == "CalyrexShadow")
                         sets += "#endif //P_FUSION_FORMS\n";
                     if (name.CrossEvo != null && !crossEvoStart.Contains(name.VarName) && name.SpeciesName != "Porygon2")
                         sets += $"#endif //P_GEN_{name.CrossEvo}_CROSS_EVOS\n";
@@ -922,7 +917,7 @@ namespace moveParser
                         sets += $"#if P_FAMILY_{currentFamily}";
                     }
 
-                    if (validForms.Contains(currentForm))
+                    if (validForms.Contains(currentForm) && name.VarName != "TaurosPaldeaBlaze" && name.VarName != "TaurosPaldeaAqua")
                         sets += $"\n#if P_{currentForm}_FORMS";
 
                     if (name.CrossEvo != null)
@@ -939,7 +934,7 @@ namespace moveParser
                     sets += "};\n";
                     if (name.CrossEvo != null)
                         sets += $"#endif //P_GEN_{name.CrossEvo}_CROSS_EVOS\n";
-                    if (validForms.Contains(currentForm))
+                    if (validForms.Contains(currentForm) && name.VarName != "TaurosPaldeaCombat" && name.VarName != "TaurosPaldeaBlaze")
                         sets += $"#endif //P_{currentForm}_FORMS\n";
                     //Final family
                     if (currentFamily == "POLTCHAGEIST")
