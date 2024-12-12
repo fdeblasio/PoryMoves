@@ -8558,7 +8558,7 @@
     "FormName": "Plant Cloak",
     "FormEnd": false,
     "VarName": "WormadamPlantCloak",
-    "DefName": "WORMADAM",
+    "DefName": "WORMADAM_PLANT",
     "FamilyName": "BURMY",
     "CrossEvo": null,
     "minGameId": null,
