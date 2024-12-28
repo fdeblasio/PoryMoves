@@ -8557,7 +8557,7 @@
     "CanHatchFromEgg": false,
     "FormName": "Plant Cloak",
     "FormEnd": false,
-    "VarName": "WormadamPlantCloak",
+    "VarName": "WormadamPlant",
     "DefName": "WORMADAM_PLANT",
     "FamilyName": "BURMY",
     "CrossEvo": null,
