@@ -460,7 +460,7 @@ namespace moveParser
                 {
                     nameList.Add(new MonName(0, "OldUnown", false, "Old", "Species" + number, "SPECIES_OLD_UNOWN_" + c));
                     number++;
-                    //do something with letter 
+                    //do something with letter
                 }
             }
 
@@ -476,6 +476,7 @@ namespace moveParser
             sets += "#define LEVEL_UP_END {.move = LEVEL_UP_MOVE_END, .level = 0}\n\nstatic const struct LevelUpMove sNoneLevelUpLearnset[] = {\n    LEVEL_UP_MOVE(1, MOVE_POUND),\n    LEVEL_UP_END\n};\n";
 
             int i = 1;
+            int movesetSize = 0;
             string currentFamily = "";
             string currentForm = "";
             // iterate over mons
@@ -487,6 +488,8 @@ namespace moveParser
                     mon = levelUpMoves[name.DefName];
                 }
                 catch (KeyNotFoundException) { }
+
+                movesetSize = Math.Max(movesetSize, mon.LevelMoves.Count);
 
                 if (chkVanillaMode.Checked)
                 {
@@ -555,6 +558,8 @@ namespace moveParser
 
             // write to file
             File.WriteAllText("output/level_up_learnsets.h", sets);
+
+            //MessageBox.Show($"Largest moveset: {movesetSize}", "Success!", MessageBoxButtons.OK);
 
             bwrkExportLvl.ReportProgress(0);
 
@@ -886,8 +891,8 @@ namespace moveParser
 
             // file header
             string sets = "#include \"constants/moves.h\"\n\n" +
-                          "static const u16 sNoneEggMoveLearnset[] = {\n" + 
-                          "    MOVE_UNAVAILABLE,\n" + 
+                          "static const u16 sNoneEggMoveLearnset[] = {\n" +
+                          "    MOVE_UNAVAILABLE,\n" +
                           "};\n\n";
 
             // iterate over mons
