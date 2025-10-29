@@ -39,6 +39,7 @@ namespace moveParser
         List<string> validForms = ["ALOLAN", "GALARIAN", "HISUIAN", "PALDEAN"];
         List<string> crossEvoStart = ["Espeon", "Leafeon", "Ursaluna", "Dipplin"];
         List<string> crossEvoEnd = ["Umbreon", "Glaceon", "UrsalunaBloodmoon", "Hydrapple"];
+        List<string> universalMoves = ["MOVE_BIDE", "MOVE_FRUSTRATION", "MOVE_HIDDEN_POWER", "MOVE_MIMIC", "MOVE_NATURAL_GIFT", "MOVE_RAGE", "MOVE_RETURN", "MOVE_SECRET_POWER", "MOVE_SUBSTITUTE", "MOVE_TERA_BLAST"];
 
         public List<string> getTmMoves(){
             List<string> tmMovesTemp = new List<string>();
@@ -628,8 +629,29 @@ namespace moveParser
 
             List<string> tmMoves = getTmMoves();
             List<string> tutorMoves = getTutorMoves();
+
             // file header
-            string sets = "static const u16 sNoneTeachableLearnset[] = {\n    MOVE_UNAVAILABLE,\n};\n";
+            string sets = "// *************************************************** //\n// TM/HM moves found in \"include/constants/tms.h\":     //";
+            foreach (string tmMove in tmMoves) {
+                sets += $"\n// - {tmMove.PadRight(50)}//";
+            }
+
+            sets += "\n// *************************************************** //\n// Tutor moves found in map scripts:                   //";
+            foreach (string tutorMove in tutorMoves) {
+                sets += $"\n// - {tutorMove.PadRight(50)}//";
+            }
+
+            sets += "\n// *************************************************** //\n// Near-universal moves found in sUniversalMoves:      //";
+            foreach (string universalMove in universalMoves) {
+                sets += $"\n// - {universalMove.PadRight(50)}//";
+            }
+            sets += @"
+// *************************************************** //
+
+static const u16 sNoneTeachableLearnset[] = {
+    MOVE_UNAVAILABLE,
+};
+";
 
             i = 1;
             string currentFamily = "";
@@ -731,7 +753,7 @@ namespace moveParser
                     foreach (string move in teachableLearnsets)
                     {
                         //Gender-unknown and Nincada's family shouldn't learn Attract.)
-                        if (!((name.isGenderless || name.SpeciesName == "Nincada" || name.SpeciesName == "Ninjask") && move.Equals("MOVE_ATTRACT")) && !IsMoveUniversal(move))
+                        if (!((name.isGenderless || name.SpeciesName == "Nincada") && move.Equals("MOVE_ATTRACT")) && !IsMoveUniversal(move))
                             sets += $"    {move},\n";
                     }
                     sets += "    MOVE_UNAVAILABLE,\n};\n";
@@ -1033,22 +1055,7 @@ namespace moveParser
 
         private bool IsMoveUniversal(string move)
         {
-            switch(move)
-            {
-                case "MOVE_BIDE":
-                case "MOVE_FRUSTRATION":
-                case "MOVE_HIDDEN_POWER":
-                case "MOVE_MIMIC":
-                case "MOVE_NATURAL_GIFT":
-                case "MOVE_RAGE":
-                case "MOVE_RETURN":
-                case "MOVE_SECRET_POWER":
-                case "MOVE_SUBSTITUTE":
-                case "MOVE_TERA_BLAST":
-                    return true;
-                default:
-                    return false;
-            }
+            return universalMoves.Contains(move);
         }
 
         private bool FrankDexit(string move)
