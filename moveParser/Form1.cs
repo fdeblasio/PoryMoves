@@ -43,7 +43,7 @@ namespace moveParser
 
         public List<string> getTmMoves(){
             List<string> tmMovesTemp = new List<string>();
-            tmMovesTemp = File.ReadAllLines("\\\\wsl.localhost\\Ubuntu\\home\\frank\\pokeemerald-expansion\\include\\constants\\tms.h").ToList();
+            tmMovesTemp = File.ReadAllLines("\\\\wsl.localhost\\Ubuntu\\home\\frank\\pokeemerald-expansion\\include\\constants\\tms_hms.h").ToList();
             List<string> tmMoves = new List<string>();
             foreach (string str in tmMovesTemp)
             {
