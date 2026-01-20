@@ -647,7 +647,7 @@ namespace moveParser
 
             int padding = 50;
             // file header
-            string sets = "// *************************************************** //\n// TM/HM moves found in \"include/constants/tms.h\":     //";
+            string sets = "// *************************************************** //\n// TM/HM moves                                         //";
             foreach (string tmMove in tmMoves) {
                 sets += $"\n// - {tmMove.PadRight(padding)}//";
             }
