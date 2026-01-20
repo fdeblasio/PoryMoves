@@ -39,7 +39,186 @@ namespace moveParser
         List<string> validForms = ["ALOLAN", "GALARIAN", "HISUIAN", "PALDEAN"];
         List<string> crossEvoStart = ["Espeon", "Leafeon", "Ursaluna", "Dipplin"];
         List<string> crossEvoEnd = ["Umbreon", "Glaceon", "UrsalunaBloodmoon", "Hydrapple"];
-        List<string> universalMoves = ["MOVE_BIDE", "MOVE_FRUSTRATION", "MOVE_HIDDEN_POWER", "MOVE_MIMIC", "MOVE_NATURAL_GIFT", "MOVE_RAGE", "MOVE_RETURN", "MOVE_SECRET_POWER", "MOVE_SUBSTITUTE", "MOVE_TERA_BLAST"];
+
+        List<string> tutorMoves = [
+            "MOVE_AQUA_TAIL",
+            "MOVE_COUNTER",
+            "MOVE_DEFENSE_CURL",
+            "MOVE_DOUBLE_EDGE",
+            "MOVE_DRAGON_DANCE",
+            "MOVE_DREAM_EATER",
+            "MOVE_DRILL_RUN",
+            "MOVE_DUAL_WINGBEAT",
+            "MOVE_DYNAMIC_PUNCH",
+            "MOVE_ELECTRIC_TERRAIN",
+            "MOVE_ENDURE",
+            "MOVE_EXPANDING_FORCE",
+            "MOVE_EXPLOSION",
+            "MOVE_FURY_CUTTER",
+            "MOVE_GRASSY_GLIDE",
+            "MOVE_GRASSY_TERRAIN",
+            "MOVE_HIGH_HORSEPOWER",
+            "MOVE_HYPER_VOICE",
+            "MOVE_ICE_SPINNER",
+            "MOVE_ICY_WIND",
+            "MOVE_IRON_DEFENSE",
+            "MOVE_KNOCK_OFF",
+            "MOVE_LUNGE",
+            "MOVE_MEGA_KICK",
+            "MOVE_MEGA_PUNCH",
+            "MOVE_METRONOME",
+            "MOVE_MIMIC",
+            "MOVE_MISTY_TERRAIN",
+            "MOVE_PSYCHIC_TERRAIN",
+            "MOVE_PSYCHO_CUT",
+            "MOVE_RISING_VOLTAGE",
+            "MOVE_ROLLOUT",
+            "MOVE_SCALD",
+            "MOVE_SCORCHING_SANDS",
+            "MOVE_SEISMIC_TOSS",
+            "MOVE_SLEEP_TALK",
+            "MOVE_SOLAR_BLADE",
+            "MOVE_SUBSTITUTE",
+            "MOVE_SWAGGER",
+            "MOVE_SWIFT",
+            "MOVE_TEMPER_FLARE",
+            "MOVE_THROAT_CHOP",
+            "MOVE_ZEN_HEADBUTT",
+            "MOVE_ZING_ZAP",
+        ];
+
+        List<string> relearnerMoves = [
+            "MOVE_ACID_SPRAY",
+            "MOVE_AGILITY",
+            "MOVE_AIR_CUTTER",
+            "MOVE_ALLURING_VOICE",
+            "MOVE_AMNESIA",
+            "MOVE_AVALANCHE",
+            "MOVE_BATON_PASS",
+            "MOVE_BLAST_BURN",
+            "MOVE_BRAVE_BIRD",
+            "MOVE_BREAKING_SWIPE",
+            "MOVE_BUG_BITE",
+            "MOVE_BULLDOZE",
+            "MOVE_BURNING_JEALOUSY",
+            "MOVE_CHARGE",
+            "MOVE_CHARGE_BEAM",
+            "MOVE_CHARM",
+            "MOVE_CHILLING_WATER",
+            "MOVE_CLOSE_COMBAT",
+            "MOVE_COACHING",
+            "MOVE_CONFUSE_RAY",
+            "MOVE_CURSE",
+            "MOVE_DISARMING_VOICE",
+            "MOVE_DRACO_METEOR",
+            "MOVE_DRAGON_CHEER",
+            "MOVE_DRAGON_TAIL",
+            "MOVE_DRAINING_KISS",
+            "MOVE_EERIE_IMPULSE",
+            "MOVE_ELECTRO_BALL",
+            "MOVE_ELECTROWEB",
+            "MOVE_ENCORE",
+            "MOVE_ENDEAVOR",
+            "MOVE_FAKE_TEARS",
+            "MOVE_FEATHER_DANCE",
+            "MOVE_FIRE_FANG",
+            "MOVE_FIRE_PLEDGE",
+            "MOVE_FIRE_SPIN",
+            "MOVE_FLAME_CHARGE",
+            "MOVE_FLARE_BLITZ",
+            "MOVE_FLING",
+            "MOVE_FLIP_TURN",
+            "MOVE_FOUL_PLAY",
+            "MOVE_FRENZY_PLANT",
+            "MOVE_FUTURE_SIGHT",
+            "MOVE_GRASS_PLEDGE",
+            "MOVE_GRAVITY",
+            "MOVE_GUNK_SHOT",
+            "MOVE_GYRO_BALL",
+            "MOVE_HARD_PRESS",
+            "MOVE_HAZE",
+            "MOVE_HEAT_CRASH",
+            "MOVE_HEAT_WAVE",
+            "MOVE_HEAVY_SLAM",
+            "MOVE_HELPING_HAND",
+            "MOVE_HEX",
+            "MOVE_HURRICANE",
+            "MOVE_HYDRO_CANNON",
+            "MOVE_HYDRO_PUMP",
+            "MOVE_ICE_FANG",
+            "MOVE_ICICLE_SPEAR",
+            "MOVE_IMPRISON",
+            "MOVE_LASH_OUT",
+            "MOVE_LEAF_STORM",
+            "MOVE_LOW_KICK",
+            "MOVE_LOW_SWEEP",
+            "MOVE_MAGICAL_LEAF",
+            "MOVE_METAL_CLAW",
+            "MOVE_METAL_SOUND",
+            "MOVE_METEOR_BEAM",
+            "MOVE_MISTY_EXPLOSION",
+            "MOVE_MUD_SHOT",
+            "MOVE_MUDDY_WATER",
+            "MOVE_MUD_SLAP",
+            "MOVE_NIGHT_SHADE",
+            "MOVE_OUTRAGE",
+            "MOVE_PAIN_SPLIT",
+            "MOVE_PETAL_BLIZZARD",
+            "MOVE_PHANTOM_FORCE",
+            "MOVE_POISON_TAIL",
+            "MOVE_POLLEN_PUFF",
+            "MOVE_POLTERGEIST",
+            "MOVE_POUNCE",
+            "MOVE_PSYBEAM",
+            "MOVE_PSYCHIC_NOISE",
+            "MOVE_PSYSHOCK",
+            "MOVE_REVERSAL",
+            "MOVE_ROCK_BLAST",
+            "MOVE_SAND_TOMB",
+            "MOVE_SCALE_SHOT",
+            "MOVE_SCARY_FACE",
+            "MOVE_SKITTER_SMACK",
+            "MOVE_SLUDGE_WAVE",
+            "MOVE_SMACK_DOWN",
+            "MOVE_SMART_STRIKE",
+            "MOVE_SNARL",
+            "MOVE_SPIKES",
+            "MOVE_SPITE",
+            "MOVE_STEEL_BEAM",
+            "MOVE_STOMPING_TANTRUM",
+            "MOVE_STORED_POWER",
+            "MOVE_STRUGGLE_BUG",
+            "MOVE_SUPER_FANG",
+            "MOVE_TAILWIND",
+            "MOVE_TAKE_DOWN",
+            "MOVE_THUNDER_FANG",
+            "MOVE_TOXIC_SPIKES",
+            "MOVE_TRAILBLAZE",
+            "MOVE_TRICK",
+            "MOVE_TRIPLE_AXEL",
+            "MOVE_UPPER_HAND",
+            "MOVE_UPROAR",
+            "MOVE_VACUUM_WAVE",
+            "MOVE_VENOSHOCK",
+            "MOVE_VOLT_SWITCH",
+            "MOVE_WATER_PLEDGE",
+            "MOVE_WEATHER_BALL",
+            "MOVE_WHIRLPOOL",
+            "MOVE_WILD_CHARGE",
+        ];
+
+        List<string> universalMoves = [
+            "MOVE_BIDE",
+            "MOVE_FRUSTRATION",
+            "MOVE_HIDDEN_POWER",
+            "MOVE_MIMIC",
+            "MOVE_NATURAL_GIFT",
+            "MOVE_RAGE",
+            "MOVE_RETURN",
+            "MOVE_SECRET_POWER",
+            "MOVE_SUBSTITUTE",
+            "MOVE_TERA_BLAST"
+        ];
 
         public List<string> getTmMoves(){
             List<string> tmMovesTemp = new List<string>();
@@ -51,34 +230,6 @@ namespace moveParser
                     tmMoves.Add("MOVE_" + str.Trim().Replace("F(", "").Replace(")", "").Replace(" \\", ""));
             }
             return tmMoves;
-        }
-
-        public List<string> getTutorMoves(){
-            List<string> tutorMovesTemp = new List<string>();
-            if (Directory.Exists("input") && File.Exists("input/tutor.txt"))
-                tutorMovesTemp = File.ReadAllLines("input/tutor.txt").ToList();
-            List<string> tutorMoves = new List<string>();
-
-            foreach (string str in tutorMovesTemp)
-            {
-                if (!str.Trim().Equals("") && !str.Trim().StartsWith("//"))
-                    tutorMoves.Add(str);
-            }
-            return tutorMoves;
-        }
-
-        public List<string> getRelearnerMoves(){
-            List<string> relearnerMovesTemp = new List<string>();
-            if (Directory.Exists("input") && File.Exists("input/relearner.txt"))
-                relearnerMovesTemp = File.ReadAllLines("input/relearner.txt").ToList();
-            List<string> relearnerMoves = new List<string>();
-
-            foreach (string str in relearnerMovesTemp)
-            {
-                if (!str.Trim().Equals("") && !str.Trim().StartsWith("//"))
-                    relearnerMoves.Add(str);
-            }
-            return relearnerMoves;
         }
 
         public Dictionary<string, MonData> getLevelUpMoves(List<MonName> names){
@@ -574,11 +725,8 @@ namespace moveParser
             // write to file
             File.WriteAllText("output/level_up_learnsets.h", sets);
 
-            //MessageBox.Show($"Largest moveset: {movesetSize}", "Success!", MessageBoxButtons.OK);
-
             bwrkExportLvl.ReportProgress(0);
 
-            //MessageBox.Show("Level Up moves exported to \"output/level_up_learnsets.h\"", "Success!", MessageBoxButtons.OK);
             SetEnableForAllElements(true);
         }
 
@@ -642,8 +790,16 @@ namespace moveParser
             }
 
             List<string> tmMoves = getTmMoves();
-            List<string> tutorMoves = getTutorMoves();
-            List<string> relearnerMoves = getRelearnerMoves();
+
+            string tutorH = "const u16 gTutorMoves[] = {\n";
+            foreach (string tutorMove in tutorMoves) {
+                tutorH += $"    {tutorMove},\n";
+            }
+            foreach (string relearnerMove in relearnerMoves) {
+                tutorH += $"    {relearnerMove},\n";
+            }
+            tutorH += "    MOVE_UNAVAILABLE\n};\n";
+            File.WriteAllText("output/tutor_moves.h", tutorH);
 
             int padding = 50;
             // file header
@@ -892,8 +1048,6 @@ static const u16 sNoneTeachableLearnset[] = {
                 monToAdd.EggMoves = new List<string>();
 
                 List<string> tmMoves = getTmMoves();
-                List<string> tutorMoves = getTutorMoves();
-                List<string> relearnerMoves = getRelearnerMoves();
                 List<string> levelUpMoves = (from levelMove in allLevelUpMoves[name.DefName].LevelMoves select levelMove.Move).ToList();
 
                 foreach (string item in cListEggMoves.CheckedItems)
