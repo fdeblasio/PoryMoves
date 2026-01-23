@@ -96,6 +96,7 @@ namespace moveParser
             "MOVE_AVALANCHE",
             "MOVE_BATON_PASS",
             "MOVE_BLAST_BURN",
+            "MOVE_BLAZE_KICK",
             "MOVE_BRAVE_BIRD",
             "MOVE_BREAKING_SWIPE",
             "MOVE_BUG_BITE",
