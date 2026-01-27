@@ -42,50 +42,28 @@ namespace moveParser
         List<string> crossEvoEnd = ["Umbreon", "Glaceon", "UrsalunaBloodmoon", "Hydrapple"];
 
         List<string> tutorMoves = [
-            "MOVE_AQUA_TAIL",
-            "MOVE_COUNTER",
             "MOVE_DEFENSE_CURL",
             "MOVE_DOUBLE_EDGE",
-            "MOVE_DRAGON_DANCE",
-            "MOVE_DREAM_EATER",
-            "MOVE_DRILL_RUN",
-            "MOVE_DUAL_WINGBEAT",
             "MOVE_DYNAMIC_PUNCH",
-            "MOVE_ELECTRIC_TERRAIN",
             "MOVE_ENDURE",
-            "MOVE_EXPANDING_FORCE",
             "MOVE_EXPLOSION",
             "MOVE_FURY_CUTTER",
-            "MOVE_GRASSY_GLIDE",
-            "MOVE_GRASSY_TERRAIN",
-            "MOVE_HIGH_HORSEPOWER",
-            "MOVE_HYPER_VOICE",
-            "MOVE_ICE_SPINNER",
-            "MOVE_ICY_WIND",
-            "MOVE_IRON_DEFENSE",
-            "MOVE_KNOCK_OFF",
-            "MOVE_LUNGE",
+            "MOVE_IMPRISON",
+            "MOVE_LOW_KICK",
+            "MOVE_LOW_SWEEP",
             "MOVE_MEGA_KICK",
             "MOVE_MEGA_PUNCH",
             "MOVE_METRONOME",
             "MOVE_MIMIC",
-            "MOVE_MISTY_TERRAIN",
-            "MOVE_PSYCHIC_TERRAIN",
-            "MOVE_PSYCHO_CUT",
-            "MOVE_RISING_VOLTAGE",
+            "MOVE_MUD_SLAP",
+            "MOVE_ROCK_BLAST",
             "MOVE_ROLLOUT",
-            "MOVE_SCALD",
-            "MOVE_SCORCHING_SANDS",
-            "MOVE_SEISMIC_TOSS",
+            "MOVE_SCARY_FACE",
             "MOVE_SLEEP_TALK",
-            "MOVE_SOLAR_BLADE",
+            "MOVE_STORED_POWER",
             "MOVE_SUBSTITUTE",
             "MOVE_SWAGGER",
-            "MOVE_SWIFT",
-            "MOVE_TEMPER_FLARE",
-            "MOVE_THROAT_CHOP",
-            "MOVE_ZEN_HEADBUTT",
-            "MOVE_ZING_ZAP",
+            "MOVE_TAKE_DOWN",
         ];
 
         public static Dictionary<string, List<string>> GetTeachMoveDataFromFile()
@@ -97,7 +75,6 @@ namespace moveParser
         }
         Dictionary<string, List<string>> special_movesets = GetTeachMoveDataFromFile();
         List<string> universalMoves = GetTeachMoveDataFromFile()["universalMoves"];
-        List<string> relearnerMoves = GetTeachMoveDataFromFile()["extraTutors"];
 
         public List<string> getTmMoves(){
             List<string> tmMovesTemp = new List<string>();
@@ -112,7 +89,6 @@ namespace moveParser
         }
 
         public Dictionary<string, MonData> getLevelUpMoves(List<MonName> names){
-            //int i = 1;
             Dictionary<string, MonData> levelUpList = new Dictionary<string, MonData>();
             foreach (MonName name in names)
             {
@@ -186,15 +162,9 @@ namespace moveParser
                 monToAdd.LevelMoves = monToAdd.LevelMoves.OrderBy(o => o.Level).ToList();
 
                 levelUpList.Add(name.DefName, monToAdd);
-
-                //i++;
-                //int percent = i * 100 / names.Count;
-                //bwrkExportLvl.ReportProgress(percent);
             }
             return levelUpList;
         }
-
-        //Console.WriteLine($"Hello {variable} World!");
 
         public Form1()
         {
@@ -255,7 +225,6 @@ namespace moveParser
 
                 count++;
             }
-            //cListLevelUp.SetItemChecked(0, true);
         }
         private string NameToDefineFormat(string oldname)
         {
@@ -342,7 +311,6 @@ namespace moveParser
                 foreach (MonName monName in nameList)
                 {
                     current = monName.DefName;
-                    //if (i < 31)
                     {
                         MonData mon = null;
                         MonData currentData = null;
@@ -350,10 +318,6 @@ namespace moveParser
                             currentData = existingMonData[current];
 
                         mon = PokemonData.DownloadMonData_PokemonDB(monName, generation, MoveData, currentData);
-                        /*
-                        if (generation.genNumber <= 7)
-                            mon = PokemonData.DownloadMonData_Bulbapedia(item, generation, MoveData);
-                        //*/
 
                         if (mon != null)
                         {
@@ -674,10 +638,6 @@ namespace moveParser
             foreach (string tutorMove in tutorMoves) {
                 tutorH += $"    {tutorMove},\n";
             }
-            tutorH += "    //Relearner moves\n";
-            foreach (string relearnerMove in relearnerMoves) {
-                tutorH += $"    {relearnerMove},\n";
-            }
             tutorH += "    MOVE_UNAVAILABLE\n};\n";
             File.WriteAllText("output/tutor_moves.h", tutorH);
 
@@ -691,11 +651,6 @@ namespace moveParser
             sets += "\n// *************************************************** //\n// Tutor moves:                                        //";
             foreach (string tutorMove in tutorMoves) {
                 sets += $"\n// - {tutorMove.PadRight(padding)}//";
-            }
-
-            sets += "\n// *************************************************** //\n// Relearner moves:                                    //";
-            foreach (string relearnerMove in relearnerMoves) {
-                sets += $"\n// - {relearnerMove.PadRight(padding)}//";
             }
 
             sets += "\n// *************************************************** //\n// Near-universal moves found in sUniversalMoves:      //";
@@ -756,36 +711,35 @@ static const u16 sNoneTeachableLearnset[] = {
 
                     //Condense?
                     foreach (string move in lvlMoves[name.DefName])
-                        if (move == "MOVE_HAIL" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, relearnerMoves, "MOVE_SNOWSCAPE"))
+                        if (move == "MOVE_HAIL" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, "MOVE_SNOWSCAPE"))
                             teachableLearnsets.Add("MOVE_SNOWSCAPE");
-                        else if (move == "MOVE_SNOWSCAPE" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, relearnerMoves, "MOVE_HAIL"))
+                        else if (move == "MOVE_SNOWSCAPE" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, "MOVE_HAIL"))
                             teachableLearnsets.Add("MOVE_HAIL");
-                        else if (AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, relearnerMoves, move))
+                        else if (AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, move))
                             teachableLearnsets.Add(move);
 
                     foreach (string move in data.TMMoves)
-                        if (move == "MOVE_HAIL" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, relearnerMoves, "MOVE_SNOWSCAPE"))
+                        if (move == "MOVE_HAIL" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, "MOVE_SNOWSCAPE"))
                             teachableLearnsets.Add("MOVE_SNOWSCAPE");
-                        else if (move == "MOVE_SNOWSCAPE" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, relearnerMoves, "MOVE_HAIL"))
+                        else if (move == "MOVE_SNOWSCAPE" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, "MOVE_HAIL"))
                             teachableLearnsets.Add("MOVE_HAIL");
-                        else if (AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, relearnerMoves, move))
+                        else if (AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, move))
                             teachableLearnsets.Add(move);
 
                     foreach (string move in data.EggMoves)
-                        if (move == "MOVE_HAIL" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, relearnerMoves, "MOVE_SNOWSCAPE"))
+                        if (move == "MOVE_HAIL" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, "MOVE_SNOWSCAPE"))
                             teachableLearnsets.Add("MOVE_SNOWSCAPE");
-                        else if (move == "MOVE_SNOWSCAPE" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, relearnerMoves, "MOVE_HAIL"))
+                        else if (move == "MOVE_SNOWSCAPE" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, "MOVE_HAIL"))
                             teachableLearnsets.Add("MOVE_HAIL");
-                        else if (AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, relearnerMoves, move))
+                        else if (AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, move))
                             teachableLearnsets.Add(move);
 
-                    //Relearner moves would go in TutorMoves as well
                     foreach (string move in data.TutorMoves)
-                        if (move == "MOVE_HAIL" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, relearnerMoves, "MOVE_SNOWSCAPE"))
+                        if (move == "MOVE_HAIL" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, "MOVE_SNOWSCAPE"))
                             teachableLearnsets.Add("MOVE_SNOWSCAPE");
-                        else if (move == "MOVE_SNOWSCAPE" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, relearnerMoves, "MOVE_HAIL"))
+                        else if (move == "MOVE_SNOWSCAPE" && AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, "MOVE_HAIL"))
                             teachableLearnsets.Add("MOVE_HAIL");
-                        else if (AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, relearnerMoves, move))
+                        else if (AddTeachableMove(teachableLearnsets, tmMoves, tutorMoves, move))
                             teachableLearnsets.Add(move);
 
                     // Include universal TM moves
@@ -943,7 +897,7 @@ static const u16 sNoneTeachableLearnset[] = {
                         mon = new MonData();
                     }
                     foreach (string move in mon.EggMoves)
-                        if (AddEggMove(monToAdd.EggMoves, levelUpMoves, tmMoves, tutorMoves, relearnerMoves, move))
+                        if (AddEggMove(monToAdd.EggMoves, levelUpMoves, tmMoves, tutorMoves, move))
                             monToAdd.EggMoves.Add(move);
                     if (chkEgg_IncludeLvl.Checked)
                     {
@@ -953,10 +907,10 @@ static const u16 sNoneTeachableLearnset[] = {
                     if (chkEgg_IncludeTeach.Checked)
                     {
                         foreach (string move in mon.TMMoves)
-                            if (AddEggMove(monToAdd.EggMoves, levelUpMoves, tmMoves, tutorMoves, relearnerMoves, move))
+                            if (AddEggMove(monToAdd.EggMoves, levelUpMoves, tmMoves, tutorMoves, move))
                                 monToAdd.EggMoves.Add(move);
                         foreach (string move in mon.TutorMoves)
-                            if (AddEggMove(monToAdd.EggMoves, levelUpMoves, tmMoves, tutorMoves, relearnerMoves, move))
+                            if (AddEggMove(monToAdd.EggMoves, levelUpMoves, tmMoves, tutorMoves, move))
                                 monToAdd.EggMoves.Add(move);
                     }
                 }
@@ -1038,7 +992,6 @@ static const u16 sNoneTeachableLearnset[] = {
 
             bwrkExportEgg.ReportProgress(0);
 
-            //MessageBox.Show("Egg moves exported to \"output/egg_moves.h\"", "Success!", MessageBoxButtons.OK);
             SetEnableForAllElements(true);
         }
 
@@ -1142,17 +1095,17 @@ static const u16 sNoneTeachableLearnset[] = {
                 return false;
         }
 
-        private bool AddTeachableMove(List<string> teachableLearnsets, List<string> tmMoves, List<string> tutorMoves, List<string> relearnerMoves, string move)
+        private bool AddTeachableMove(List<string> teachableLearnsets, List<string> tmMoves, List<string> tutorMoves, string move)
         {
-            if (!teachableLearnsets.Contains(move) && (tmMoves.Contains(move) || tutorMoves.Contains(move) || relearnerMoves.Contains(move)) && !FrankDexit(move))
+            if (!teachableLearnsets.Contains(move) && (tmMoves.Contains(move) || tutorMoves.Contains(move)) && !FrankDexit(move))
                 return true;
             else
                 return false;
         }
 
-        private bool AddEggMove(List<string> eggMoves, List<string> levelUpMoves, List<string> tmMoves, List<string> tutorMoves, List<string> relearnerMoves, string move)
+        private bool AddEggMove(List<string> eggMoves, List<string> levelUpMoves, List<string> tmMoves, List<string> tutorMoves, string move)
         {
-            if (!eggMoves.Contains(move) && !levelUpMoves.Contains(move) && !tmMoves.Contains(move) && !tutorMoves.Contains(move) && !relearnerMoves.Contains(move) && !FrankDexit(move))
+            if (!eggMoves.Contains(move) && !levelUpMoves.Contains(move) && !tmMoves.Contains(move) && !tutorMoves.Contains(move) && !FrankDexit(move))
                 return true;
             else
                 return false;
