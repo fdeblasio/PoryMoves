@@ -42,8 +42,11 @@ namespace moveParser
         List<string> crossEvoEnd = ["Umbreon", "Glaceon", "UrsalunaBloodmoon", "Hydrapple"];
 
         List<string> tutorMoves = [
+            "MOVE_COUNTER",
             "MOVE_DEFENSE_CURL",
             "MOVE_DOUBLE_EDGE",
+            "MOVE_DRAGON_BREATH",
+            "MOVE_DREAM_EATER",
             "MOVE_DYNAMIC_PUNCH",
             "MOVE_ENDURE",
             "MOVE_EXPLOSION",
@@ -56,7 +59,9 @@ namespace moveParser
             "MOVE_METRONOME",
             "MOVE_MIMIC",
             "MOVE_MUD_SLAP",
+            "MOVE_MYSTICAL_FIRE",
             "MOVE_ROCK_BLAST",
+            "MOVE_ROCK_CLIMB",
             "MOVE_ROLLOUT",
             "MOVE_SCARY_FACE",
             "MOVE_SLEEP_TALK",
@@ -64,6 +69,7 @@ namespace moveParser
             "MOVE_SUBSTITUTE",
             "MOVE_SWAGGER",
             "MOVE_TAKE_DOWN",
+            "MOVE_TERRAIN_PULSE",
         ];
 
         public static Dictionary<string, List<string>> GetTeachMoveDataFromFile()
